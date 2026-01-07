@@ -30,20 +30,16 @@ async function getAllVideos(folder) {
 async function main() {
   console.log('Fetching all b-roll videos from Cloudinary...\n');
 
-  // Fetch from all folders
+  // Fetch from all folders (excluding videos folder - that's for homepage)
   const brollsVideos = await getAllVideos('darwin-education/b-rolls');
-  const winsVideos = await getAllVideos('darwin-education/wins');
   const anatomyVideos = await getAllVideos('darwin-education/anatomy');
   const foodsVideos = await getAllVideos('darwin-education/foods');
   const peopleVideos = await getAllVideos('darwin-education/raw_people');
-  const othersVideos = await getAllVideos('darwin-education/videos');
 
   console.log(`Found ${brollsVideos.length} videos in darwin-education/b-rolls`);
-  console.log(`Found ${winsVideos.length} videos in darwin-education/wins`);
   console.log(`Found ${anatomyVideos.length} videos in darwin-education/anatomy`);
   console.log(`Found ${foodsVideos.length} videos in darwin-education/foods`);
   console.log(`Found ${peopleVideos.length} videos in darwin-education/raw_people`);
-  console.log(`Found ${othersVideos.length} videos in darwin-education/videos`);
 
   let id = 1;
   const allVideos = [];
@@ -87,19 +83,6 @@ async function main() {
     });
   });
 
-  // Add wins
-  winsVideos.forEach(video => {
-    const filename = video.public_id.split('/').pop();
-    const title = 'Win ' + filename.replace('.mp4', '');
-    allVideos.push({
-      id: id++,
-      title: title,
-      filename: filename + '.mp4',
-      url: video.secure_url,
-      category: 'others'
-    });
-  });
-
   // Add foods
   foodsVideos.forEach(video => {
     const filename = video.public_id.split('/').pop();
@@ -110,19 +93,6 @@ async function main() {
       filename: filename + '.mp4',
       url: video.secure_url,
       category: 'foods'
-    });
-  });
-
-  // Add others/overlay videos
-  othersVideos.forEach(video => {
-    const filename = video.public_id.split('/').pop();
-    const title = filename.replace(/-/g, ' ').replace('.mp4', '').replace(/\b\w/g, l => l.toUpperCase());
-    allVideos.push({
-      id: id++,
-      title: title,
-      filename: filename + '.mp4',
-      url: video.secure_url,
-      category: 'others'
     });
   });
 
@@ -139,7 +109,6 @@ async function main() {
   console.log(`- Anatomy: ${brollsVideos.length + anatomyVideos.length}`);
   console.log(`- People: ${peopleVideos.length}`);
   console.log(`- Foods: ${foodsVideos.length}`);
-  console.log(`- Others: ${winsVideos.length + othersVideos.length}`);
 }
 
 main().catch(console.error);
