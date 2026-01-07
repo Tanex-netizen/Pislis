@@ -74,7 +74,7 @@ const CLOUDINARY_SOURCES: CloudinarySource[] = [
 function toCloudinaryUrl(cloudinaryFolder: string, filename: string) {
   // Remove .mp4 extension and replace spaces with underscores
   const publicId = filename.replace('.mp4', '').replace(/ /g, '_');
-  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/darwin-education/${cloudinaryFolder}/${encodeURIComponent(publicId)}.mp4`;
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/darwin-videos/${cloudinaryFolder}/${encodeURIComponent(publicId)}.mp4`;
 }
 
 function titleFromFilename(filename: string) {

@@ -80,7 +80,7 @@ const getLessonVideoUrl = (filename: string) => {
     const filenameWithoutExt = filename.replace('.mp4', '');
     // URL encode the public_id properly
     const publicId = encodeURIComponent(filenameWithoutExt);
-    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-education/lessons/${publicId}.mp4`;
+    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-videos/lessons/${publicId}.mp4`;
     console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
     return url;
   }
