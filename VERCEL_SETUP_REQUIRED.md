@@ -8,12 +8,16 @@ Go to: **https://vercel.com/dashboard** → Select your project → Settings →
 
 ### Add These Variables (REQUIRED):
 
-#### 1. Backend API URL
+#### 1. Backend API URL ⚠️ MUST INCLUDE /api
 ```
 Key: NEXT_PUBLIC_API_URL
 Value: https://pislis-backend.onrender.com/api
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+       IMPORTANT: Must end with /api
 Environment: ✓ Production  ✓ Preview  ✓ Development
 ```
+
+**⚠️ COMMON MISTAKE:** Do NOT use `https://pislis-backend.onrender.com` (missing `/api`)
 
 #### 2. Cloudinary Cloud Name
 ```

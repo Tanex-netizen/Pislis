@@ -30,6 +30,10 @@ export const metadata: Metadata = {
   authors: [{ name: 'Darwin Education' }],
   creator: 'Darwin Education',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://darwin.education'),
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
