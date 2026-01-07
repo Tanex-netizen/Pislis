@@ -24,6 +24,11 @@ const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '
 const R2_ACCOUNT_ID = '6979f6d58b951631b6a5585a10376a27';
 const R2_BUCKET = 'darwin-videos';
 
+// Debug: Log Cloudinary config
+if (typeof window !== 'undefined' && CLOUDINARY_CLOUD_NAME === 'demo') {
+  console.warn('⚠️ CLOUDINARY_CLOUD_NAME is set to "demo". Videos may not load. Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME in Vercel.');
+}
+
 // Video source mapping - which videos are in Cloudinary vs R2
 const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = {
   '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4': 'cloudinary',
@@ -90,11 +95,15 @@ const getLessonVideoUrl = (filename: string) => {
   
   if (source === 'r2') {
     // R2 URL - videos are stored with original filename
-    return `https://${R2_BUCKET}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/lessons/${encodeURIComponent(filename)}`;
+    const url = `https://${R2_BUCKET}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/lessons/${encodeURIComponent(filename)}`;
+    console.log('R2 Video URL:', url);
+    return url;
   } else {
     // Cloudinary URL - uses underscore-separated public_id
     const publicId = filename.replace('.mp4', '').replace(/ /g, '_');
-    return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/darwin-education/lessons/${encodeURIComponent(publicId)}.mp4`;
+    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-education/lessons/${publicId}`;
+    console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
+    return url;
   }
 };
 
