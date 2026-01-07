@@ -33,6 +33,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Wake up backend on mount (for Render.com free tier)
+  useEffect(() => {
+    const wakeUpBackend = async () => {
+      try {
+        // Ping health endpoint to wake up sleeping backend
+        await fetch(`${API_BASE_URL}/health`, { 
+          method: 'GET',
+          mode: 'cors'
+        });
+      } catch (error) {
+        console.log('Backend wake-up ping sent');
+      }
+    };
+    
+    wakeUpBackend();
+  }, []);
+
   // Initialize auth state from localStorage
   useEffect(() => {
     const storedToken = localStorage.getItem('auth_token');
@@ -44,7 +61,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const fetchUser = async (authToken: string) => {
+  const fetchUser = async (authToken: string, retryCount = 0) => {
+    const maxRetries = 3;
+    const retryDelay = 2000; // 2 seconds
+
     try {
       const response = await fetch(`${API_BASE_URL}/auth/me`, {
         headers: {
@@ -63,11 +83,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error('Failed to fetch user:', error);
+      
+      // Retry if backend might be sleeping (Render.com free tier)
+      if (retryCount < maxRetries) {
+        console.log(`Retrying... (${retryCount + 1}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+        return fetchUser(authToken, retryCount + 1);
+      }
+      
       localStorage.removeItem('auth_token');
       setToken(null);
       setUser(null);
     } finally {
-      setIsLoading(false);
+      if (retryCount === 0 || retryCount >= maxRetries) {
+        setIsLoading(false);
+      }
     }
   };
 

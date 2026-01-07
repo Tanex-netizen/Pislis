@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Image optimization with modern formats
+  // Static export configuration for Render
+  output: 'export',
+  
+  // Image optimization with modern formats (unoptimized for static export)
   images: {
+    unoptimized: true, // Required for static export
     remotePatterns: [
       {
         protocol: 'https',
