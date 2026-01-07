@@ -61,17 +61,12 @@ async function getCourse(slug: string): Promise<Course | null> {
 
 // Generate static paths for known courses
 export async function generateStaticParams() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/courses`);
-    if (!response.ok) return [];
-    
-    const data = await response.json();
-    return (data.courses || []).map((course: { slug: string }) => ({
-      slug: course.slug,
-    }));
-  } catch {
-    return [];
-  }
+  // Return all known course slugs
+  return [
+    { slug: 'fb-automation' },
+    { slug: 'fb-automation-mastery' },
+    { slug: 'facebook-automation' },
+  ];
 }
 
 // Generate metadata for SEO
