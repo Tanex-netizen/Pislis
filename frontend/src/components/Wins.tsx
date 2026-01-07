@@ -113,191 +113,43 @@ for (let i = 0; i < maxLength; i++) {
   if (i < monetizedData.length) allData.push(monetizedData[i]);
 }
 
-// Video testimonials data for the second row
-const R2_BASE_URL = 'https://darwin-videos.6979f6d58b951631b6a5585a10376a27.r2.cloudflarestorage.com/wins';
+// Video testimonials data for the second row - Using Cloudinary
+import homepageVideos from '../../../public/data/homepage-videos.json';
 
-const videoTestimonialsData = [
-  {
-    id: 101,
-    title: 'Student Success Story',
-    description: 'From zero to 50K followers',
-    icon: Video,
-    color: 'from-purple-500 to-pink-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1349.mp4`,
-  },
-  {
-    id: 102,
-    title: 'Revenue Growth',
-    description: 'First ₱100K milestone achieved',
-    icon: Video,
-    color: 'from-blue-500 to-purple-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1351.mp4`,
-  },
-  {
-    id: 103,
-    title: 'Automation Success',
-    description: 'Managing 500+ pages effortlessly',
-    icon: Video,
-    color: 'from-green-500 to-blue-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1352.mp4`,
-  },
-  {
-    id: 104,
-    title: 'Organic Growth',
-    description: '100% organic, zero ad spend',
-    icon: Video,
-    color: 'from-yellow-500 to-green-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1353.mp4`,
-  },
-  {
-    id: 105,
-    title: 'Community Impact',
-    description: 'Building a thriving community',
-    icon: Video,
-    color: 'from-pink-500 to-red-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1354.mp4`,
-  },
-  {
-    id: 106,
-    title: 'Monthly Earnings',
-    description: 'Consistent ₱80K+ per month',
-    icon: Video,
-    color: 'from-orange-500 to-pink-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1355.mp4`,
-  },
-  {
-    id: 107,
-    title: 'Business Scaling',
-    description: 'From side hustle to full-time',
-    icon: Video,
-    color: 'from-cyan-500 to-blue-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1356.mp4`,
-  },
-  {
-    id: 108,
-    title: 'Time Freedom',
-    description: 'Working 2 hours a day',
-    icon: Video,
-    color: 'from-indigo-500 to-purple-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1357.mp4`,
-  },
-  {
-    id: 109,
-    title: 'Financial Freedom',
-    description: 'Breaking income barriers',
-    icon: Video,
-    color: 'from-emerald-500 to-teal-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1359.mp4`,
-  },
-  {
-    id: 110,
-    title: 'Digital Success',
-    description: 'Mastering social media',
-    icon: Video,
-    color: 'from-violet-500 to-purple-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1361.mp4`,
-  },
-  {
-    id: 111,
-    title: 'Growth Journey',
-    description: 'Transforming businesses',
-    icon: Video,
-    color: 'from-rose-500 to-pink-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1362.mp4`,
-  },
-  {
-    id: 112,
-    title: 'Success Story',
-    description: 'Achieving the impossible',
-    icon: Video,
-    color: 'from-amber-500 to-orange-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1365.mp4`,
-  },
-  {
-    id: 113,
-    title: 'Business Growth',
-    description: 'Scaling to new heights',
-    icon: Video,
-    color: 'from-lime-500 to-green-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1366.mp4`,
-  },
-  {
-    id: 114,
-    title: 'Student Win',
-    description: 'First major breakthrough',
-    icon: Video,
-    color: 'from-teal-500 to-cyan-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1367.mp4`,
-  },
-  {
-    id: 115,
-    title: 'Massive Results',
-    description: 'Beyond expectations',
-    icon: Video,
-    color: 'from-sky-500 to-blue-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1368.mp4`,
-  },
-  {
-    id: 116,
-    title: 'Page Automation',
-    description: 'Effortless management',
-    icon: Video,
-    color: 'from-fuchsia-500 to-purple-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1369.mp4`,
-  },
-  {
-    id: 117,
-    title: 'Revenue Milestone',
-    description: 'Breaking records',
-    icon: Video,
-    color: 'from-red-500 to-rose-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1370.mp4`,
-  },
-  {
-    id: 118,
-    title: 'Organic Reach',
-    description: 'Natural growth strategies',
-    icon: Video,
-    color: 'from-green-500 to-emerald-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1371.mp4`,
-  },
-  {
-    id: 119,
-    title: 'Student Achievement',
-    description: 'Making it happen',
-    icon: Video,
-    color: 'from-blue-500 to-indigo-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_1372.mp4`,
-  },
-  {
-    id: 120,
-    title: 'Ultimate Success',
-    description: 'Living the dream',
-    icon: Video,
-    color: 'from-purple-500 to-violet-600',
-    category: 'Testimonial',
-    videoUrl: `${R2_BASE_URL}/IMG_4325.mp4`,
-  },
+const CLOUDINARY_CLOUD_NAME = 'dwcxvaswf';
+
+const colorGradients = [
+  'from-purple-500 to-pink-600',
+  'from-blue-500 to-purple-600',
+  'from-green-500 to-blue-600',
+  'from-yellow-500 to-green-600',
+  'from-pink-500 to-red-600',
+  'from-orange-500 to-pink-600',
+  'from-cyan-500 to-blue-600',
+  'from-indigo-500 to-purple-600',
+  'from-emerald-500 to-teal-600',
+  'from-violet-500 to-purple-600',
+  'from-rose-500 to-pink-600',
+  'from-amber-500 to-orange-600',
+  'from-lime-500 to-green-600',
+  'from-teal-500 to-cyan-600',
+  'from-sky-500 to-blue-600',
+  'from-fuchsia-500 to-purple-600',
+  'from-red-500 to-rose-600',
+  'from-green-500 to-emerald-600',
+  'from-blue-500 to-indigo-600',
+  'from-purple-500 to-violet-600',
 ];
+
+const videoTestimonialsData = homepageVideos.map((video, index) => ({
+  id: video.id + 100,
+  title: video.title,
+  description: video.description,
+  icon: Video,
+  color: colorGradients[index % colorGradients.length],
+  category: 'Testimonial',
+  videoUrl: `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/${video.publicId}.mp4`,
+}));
 
 const Wins = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -393,6 +245,7 @@ const Wins = () => {
                     playsInline
                     autoPlay
                     preload="metadata"
+                    crossOrigin="anonymous"
                     className="w-full h-full object-cover"
                     onCanPlay={(e) => {
                       const video = e.currentTarget;
