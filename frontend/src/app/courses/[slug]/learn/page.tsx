@@ -25,8 +25,11 @@ const R2_ACCOUNT_ID = '6979f6d58b951631b6a5585a10376a27';
 const R2_BUCKET = 'darwin-videos';
 
 // Debug: Log Cloudinary config
-if (typeof window !== 'undefined' && CLOUDINARY_CLOUD_NAME === 'demo') {
-  console.warn('⚠️ CLOUDINARY_CLOUD_NAME is set to "demo". Videos may not load. Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME in Vercel.');
+if (typeof window !== 'undefined') {
+  console.log('🎬 Video Config:', { CLOUDINARY_CLOUD_NAME, R2_BUCKET });
+  if (CLOUDINARY_CLOUD_NAME === 'demo') {
+    console.warn('⚠️ CLOUDINARY_CLOUD_NAME is set to "demo". Videos may not load. Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME in Vercel.');
+  }
 }
 
 // TEMPORARY: All videos use Cloudinary until R2 public domain is configured
