@@ -130,6 +130,7 @@ function VideoThumbnail({ src, title }: { src: string; title: string }) {
           preload="metadata"
           playsInline
           muted
+          crossOrigin="anonymous"
           onError={() => setLoadError(true)}
           aria-label={title}
         />
@@ -835,6 +836,7 @@ export default function CourseLearnPage() {
                 src={getLessonVideoUrl(currentVideoLesson.filename)}
                 controls
                 className="w-full h-full"
+                crossOrigin="anonymous"
                 onEnded={handleVideoEnded}
                 autoPlay
               />
@@ -1074,6 +1076,7 @@ export default function CourseLearnPage() {
                                   src={getLessonVideoUrl(lesson.filename)}
                                   className="w-full h-full object-cover"
                                   preload="metadata"
+                                  crossOrigin="anonymous"
                                   muted
                                 />
                               )}
