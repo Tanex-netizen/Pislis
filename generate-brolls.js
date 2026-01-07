@@ -36,12 +36,14 @@ async function main() {
   const anatomyVideos = await getAllVideos('darwin-education/anatomy');
   const foodsVideos = await getAllVideos('darwin-education/foods');
   const peopleVideos = await getAllVideos('darwin-education/raw_people');
+  const othersVideos = await getAllVideos('darwin-education/videos');
 
   console.log(`Found ${brollsVideos.length} videos in darwin-education/b-rolls`);
   console.log(`Found ${winsVideos.length} videos in darwin-education/wins`);
   console.log(`Found ${anatomyVideos.length} videos in darwin-education/anatomy`);
   console.log(`Found ${foodsVideos.length} videos in darwin-education/foods`);
   console.log(`Found ${peopleVideos.length} videos in darwin-education/raw_people`);
+  console.log(`Found ${othersVideos.length} videos in darwin-education/videos`);
 
   let id = 1;
   const allVideos = [];
@@ -111,6 +113,19 @@ async function main() {
     });
   });
 
+  // Add others/overlay videos
+  othersVideos.forEach(video => {
+    const filename = video.public_id.split('/').pop();
+    const title = filename.replace(/-/g, ' ').replace('.mp4', '').replace(/\b\w/g, l => l.toUpperCase());
+    allVideos.push({
+      id: id++,
+      title: title,
+      filename: filename + '.mp4',
+      url: video.secure_url,
+      category: 'others'
+    });
+  });
+
   console.log(`\nTotal videos: ${allVideos.length}`);
 
   // Write to file
@@ -124,7 +139,7 @@ async function main() {
   console.log(`- Anatomy: ${brollsVideos.length + anatomyVideos.length}`);
   console.log(`- People: ${peopleVideos.length}`);
   console.log(`- Foods: ${foodsVideos.length}`);
-  console.log(`- Others (Wins): ${winsVideos.length}`);
+  console.log(`- Others: ${winsVideos.length + othersVideos.length}`);
 }
 
 main().catch(console.error);
