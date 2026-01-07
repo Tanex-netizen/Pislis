@@ -74,9 +74,11 @@ const getLessonVideoUrl = (filename: string) => {
     console.log('R2 Video URL:', url);
     return url;
   } else {
-    // Cloudinary URL - uses underscore-separated public_id
-    const publicId = filename.replace('.mp4', '').replace(/ /g, '_');
-    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-education/lessons/${publicId}`;
+    // Cloudinary URL - videos should match their upload filename exactly
+    // Replace spaces with underscores for the public_id
+    const filenameWithoutExt = filename.replace('.mp4', '');
+    const publicId = filenameWithoutExt.replace(/ /g, '_');
+    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-education/lessons/${publicId}.mp4`;
     console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
     return url;
   }
