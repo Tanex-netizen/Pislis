@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { TrendingUp, DollarSign, Users, BarChart, Award, Target, Zap, CheckCircle, Video, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import homepageVideos from '../../../public/data/homepage-videos.json';
 
 const winsData = [
   { id: 1, title: 'Wins', description: 'Student success', icon: Users, color: 'from-green-500 to-emerald-600', category: 'Wins', image: '/Wins/photo_6260264869919656889_w.jpg' },
@@ -114,8 +115,6 @@ for (let i = 0; i < maxLength; i++) {
 }
 
 // Video testimonials data for the second row - Using Cloudinary
-import homepageVideos from '../../../public/data/homepage-videos.json';
-
 const CLOUDINARY_CLOUD_NAME = 'dwcxvaswf';
 
 const colorGradients = [
