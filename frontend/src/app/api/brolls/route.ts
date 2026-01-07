@@ -19,19 +19,29 @@ type CloudinarySource = {
 // TODO: After uploading to Cloudinary, update these arrays with your actual video filenames
 const CLOUDINARY_SOURCES: CloudinarySource[] = [
   { 
-    cloudinaryFolder: 'brolls', 
+    cloudinaryFolder: 'b-rolls', 
     category: 'anatomy',
-    videos: [] // Add your b-roll filenames here after upload
+    videos: [
+      'woman-portrait-young.mp4',
+      'woman-portrait-dark-background.mp4',
+      'woman-face-side-profile.mp4',
+      'woman-face-neutral.mp4',
+      'woman-covering-nose.mp4',
+      'virus-cells-colorful.mp4',
+      'vascular-system-pink.mp4',
+      'vascular-system-overview.mp4',
+      'vascular-system.mp4',
+    ]
   },
   { 
-    cloudinaryFolder: 'foods', 
+    cloudinaryFolder: 'foods_raw', 
     category: 'foods',
-    videos: [] // Add your food video filenames here after upload
+    videos: [] // Need to see foods_raw folder contents
   },
   { 
-    cloudinaryFolder: 'anatomy', 
+    cloudinaryFolder: 'raw_people', 
     category: 'people',
-    videos: [] // Add your people/anatomy video filenames here after upload
+    videos: [] // Need to see raw_people folder contents
   },
   { 
     cloudinaryFolder: 'wins', 
