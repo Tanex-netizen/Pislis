@@ -1,56 +1,42 @@
-# R2 CORS Configuration Required
+# R2 Public Access Setup (REQUIRED for R2 videos)
 
-## Problem
-R2 videos are blocked by CORS (OpaqueResponseBlocking error)
+## ⚠️ Critical Issue
+R2's internal storage URLs (`*.r2.cloudflarestorage.com`) **CANNOT** be accessed directly by web browsers. They are for S3 API access only. You MUST set up a public domain.
 
-## Solution
-You need to configure CORS on your R2 bucket `darwin-videos`
+## Solution: Enable Public R2 Access
 
-### Steps:
+### Option 1: R2.dev Subdomain (Easiest - Free)
 
 1. **Go to Cloudflare Dashboard**
    - Visit: https://dash.cloudflare.com/
-   - Navigate to: R2 → Buckets → `darwin-videos`
+   - Navigate to: **R2 → darwin-videos bucket → Settings**
 
-2. **Configure CORS Settings**
-   - Click on "Settings" tab
-   - Find "CORS Policy" section
-   - Add the following CORS configuration:
+2. **Find "Public Development URL" section**
+   - Look for "R2.dev subdomain" or "Public URL"
+   - Click **"Allow Access"** or **"Connect Domain"**
+   - You'll get a URL like: `https://pub-xxxxxxxxxxxx.r2.dev`
 
-```json
-[
-  {
-    "AllowedOrigins": [
-      "https://pislis.vercel.app",
-      "http://localhost:3000"
-    ],
-    "AllowedMethods": [
-      "GET",
-      "HEAD"
-    ],
-    "AllowedHeaders": [
-      "*"
-    ],
-    "ExposeHeaders": [
-      "ETag",
-      "Content-Length"
-    ],
-    "MaxAgeSeconds": 3600
-  }
-]
-```
+3. **Copy the Public URL**
+   - Example: `https://pub-1234567890abcdef.r2.dev`
+   
+4. **Tell me the URL** so I can update the code
 
-3. **Save and Wait**
-   - Save the CORS configuration
-   - Wait 1-2 minutes for changes to propagate
-   - Refresh your site
+### Option 2: Custom Domain (Advanced)
 
-### Alternative: Public Domain
-If you set up a public R2 domain:
-1. Go to R2 bucket settings
-2. Connect a custom domain or use R2.dev subdomain
-3. Enable "Public Access"
-4. Update the R2_BUCKET URL in code to use the public domain
+1. Go to bucket settings → **Custom Domains**
+2. Click "Connect Domain"
+3. Enter your domain (e.g., `videos.yourdomain.com`)
+4. Follow DNS setup instructions
+5. Wait for DNS propagation
 
-### Verification
-After CORS is configured, videos should load without the `OpaqueResponseBlocking` error.
+## Alternative: Upload Large Videos to Cloudinary
+
+If R2 setup is too complex, consider:
+1. Upgrading Cloudinary plan to support larger videos
+2. Compressing videos to under 100MB
+3. Using Cloudinary's chunked upload for large files
+
+## Current Status
+
+🔴 **R2 videos are DISABLED** - All videos currently use Cloudinary to avoid errors
+✅ Once you provide the R2 public URL, I'll re-enable R2 for large videos

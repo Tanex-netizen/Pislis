@@ -29,28 +29,10 @@ if (typeof window !== 'undefined' && CLOUDINARY_CLOUD_NAME === 'demo') {
   console.warn('⚠️ CLOUDINARY_CLOUD_NAME is set to "demo". Videos may not load. Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME in Vercel.');
 }
 
-// Video source mapping - Videos over 100MB are on R2, smaller ones on Cloudinary
-const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = {
-  // Large videos on R2 (>100MB)
-  'LESSON 1. what is facebook automation in simple explanation.mp4': 'r2',
-  'LESSON 2. Niche have High Earnings.mp4': 'r2',
-  'LESSON 5. VID EDITING BY MY VID EDITOR.mp4': 'r2',
-  'LESSON 7. How to get more followers.mp4': 'r2',
-  '10  chatgpt + mage.space.mp4': 'r2',
-  '11. Q&A final.mp4': 'r2',
-  '12. another tips final.mp4': 'r2',
-  '13 . Extra tips final.mp4': 'r2',
-  '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4': 'r2',
-  '15. Sample edit about Reaction video Niche.mp4': 'r2',
-  '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4': 'r2',
-  '19. I Discovered a Script & Site That Unlocks Unlimite.mp4': 'r2',
-  'LESSON 6 II. Ways paano magviral.mp4': 'r2',
-  'LESSON 7 II. How to make page and post.mp4': 'r2',
-  'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4': 'r2',
-  'Lesson-6-Sample Edit by my video editor II.mp4': 'r2',
-  'hero.mp4': 'r2',
-  // All other videos default to Cloudinary (<100MB)
-};
+// TEMPORARY: All videos use Cloudinary until R2 public domain is configured
+// R2's .r2.cloudflarestorage.com URLs cannot be accessed by browsers
+// See R2_CORS_SETUP.md for instructions to enable R2 public access
+const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = {};
 
 type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 
