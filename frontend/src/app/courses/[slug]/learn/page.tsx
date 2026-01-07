@@ -82,7 +82,9 @@ const getLessonVideoUrl = (filename: string) => {
     // Remove .mp4 extension and replace spaces with underscores
     const filenameWithoutExt = filename.replace('.mp4', '');
     const publicId = filenameWithoutExt.replace(/ /g, '_');
-    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-education/lessons/${publicId}.mp4`;
+    // Encode the public_id to handle special characters like &, ', !, etc.
+    const encodedPublicId = encodeURIComponent(publicId);
+    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-education/lessons/${encodedPublicId}.mp4`;
     console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
     return url;
   }
