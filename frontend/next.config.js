@@ -50,48 +50,6 @@ const nextConfig = {
     // Optimize package imports to reduce bundle size
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
-
-  // Headers for CDN caching on Vercel
-  async headers() {
-    // In development, aggressive caching (especially `immutable` for `/_next/static/*`)
-    // can cause the browser to keep stale dev bundles and break HMR/runtime.
-    if (process.env.NODE_ENV !== 'production') {
-      return [];
-    }
-
-    return [
-      {
-        // Cache static assets aggressively
-        source: '/:all*(svg|jpg|jpeg|png|gif|ico|webp|avif|mp4|webm)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        // Cache fonts
-        source: '/:all*(woff|woff2|ttf|otf|eot)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        // Cache JS/CSS with revalidation
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;

@@ -283,7 +283,7 @@ export default function CourseLearnPage() {
     setBrollError(null);
     console.log('[B-rolls] Fetching videos...');
     
-    fetch('/api/brolls')
+    fetch('/data/brolls.json')
       .then(res => {
         if (!isMounted) return;
         console.log('[B-rolls] Response:', res.status);
@@ -318,7 +318,7 @@ export default function CourseLearnPage() {
     setFilesLoading(true);
     setFilesError(null);
     
-    fetch('/api/files')
+    fetch('/data/files.json')
       .then(res => {
         if (!isMounted) return;
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
