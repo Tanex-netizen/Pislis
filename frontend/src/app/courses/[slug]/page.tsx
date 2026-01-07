@@ -6,6 +6,16 @@ import CourseOverviewClient from './CourseOverviewClient';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
+// Generate static params for all courses at build time
+export async function generateStaticParams() {
+  // Return known course slugs for static generation
+  return [
+    { slug: 'fb-automation' },
+    { slug: 'facebook-automation' },
+    // Add more course slugs as needed
+  ];
+}
+
 interface CourseModule {
   id: string;
   title: string;
