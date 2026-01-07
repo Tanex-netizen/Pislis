@@ -23,6 +23,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/a
 const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'demo';
 const R2_ACCOUNT_ID = '6979f6d58b951631b6a5585a10376a27';
 const R2_BUCKET = 'darwin-videos';
+const R2_LESSONS_BASE_URL =
+  process.env.NEXT_PUBLIC_R2_LESSONS_BASE_URL ||
+  `https://${R2_BUCKET}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
 
 // Debug: Log Cloudinary config
 if (typeof window !== 'undefined') {
@@ -68,46 +71,38 @@ const LESSON_VIDEOS = [
   { id: 25, title: 'PC Unli Capcut Pro Hacks', filename: '23. PC Unli Capcut Pro hacks.mp4', duration: 20, thumbnail: null },
 ];
 
+const getLessonR2VideoUrl = (filename: string) => {
+  const url = `${R2_LESSONS_BASE_URL}/lessons/${encodeURIComponent(filename)}`;
+  console.log('R2 Video URL:', url);
+  return url;
+};
+
+const getLessonCloudinaryVideoUrl = (filename: string) => {
+  const PUBLIC_ID_OVERRIDES: Record<string, string> = {
+    // Cloudinary upload uses no apostrophes in this filename
+    "23 The Do's and Don'ts.mp4": '23_The_Dos_and_Donts',
+  };
+
+  const filenameWithoutExt = filename.replace(/\.mp4$/i, '');
+
+  const rawPublicId =
+    PUBLIC_ID_OVERRIDES[filename] ??
+    filenameWithoutExt
+      .replace(/ /g, '_')
+      .replace(/[’']/g, '')
+      .replace(/\u2019/g, '');
+
+  const encodedPublicId = encodeURIComponent(rawPublicId);
+  const transformation = 'f_mp4,vc_h264,ac_aac';
+  const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/${transformation}/darwin-education/lessons/${encodedPublicId}.mp4`;
+  console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
+  return url;
+};
+
 // Helper to get video URL from Cloudinary or R2
-const getLessonVideoUrl = (filename: string) => {
-  const source = VIDEO_SOURCES[filename] || 'cloudinary';
-  
-  if (source === 'r2') {
-    // R2 URL - videos are stored with original filename
-    const url = `https://${R2_BUCKET}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/lessons/${encodeURIComponent(filename)}`;
-    console.log('R2 Video URL:', url);
-    return url;
-  } else {
-    // Cloudinary URL
-    // IMPORTANT:
-    // - Some uploaded Cloudinary public_ids differ slightly from the original filenames.
-    // - Many lesson videos are phone exports (HEVC, etc.) which won't decode in all browsers.
-    //   Force H.264/AAC MP4 delivery via transformations.
-
-    const PUBLIC_ID_OVERRIDES: Record<string, string> = {
-      // Cloudinary upload uses no apostrophes in this filename
-      "23 The Do's and Don'ts.mp4": '23_The_Dos_and_Donts',
-    };
-
-    const filenameWithoutExt = filename.replace(/\.mp4$/i, '');
-
-    const rawPublicId =
-      PUBLIC_ID_OVERRIDES[filename] ??
-      filenameWithoutExt
-        .replace(/ /g, '_')
-        .replace(/[’']/g, '') // normalize apostrophes
-        .replace(/\u2019/g, '');
-
-    // Encode the final public_id segment to safely handle special characters
-    const encodedPublicId = encodeURIComponent(rawPublicId);
-
-    // Force a broadly-compatible stream: mp4 container + H.264 video + AAC audio
-    const transformation = 'f_mp4,vc_h264,ac_aac';
-    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/${transformation}/darwin-education/lessons/${encodedPublicId}.mp4`;
-
-    console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
-    return url;
-  }
+const getLessonVideoUrl = (filename: string, sourceOverride?: 'cloudinary' | 'r2') => {
+  const source = sourceOverride || VIDEO_SOURCES[filename] || 'cloudinary';
+  return source === 'r2' ? getLessonR2VideoUrl(filename) : getLessonCloudinaryVideoUrl(filename);
 };
 
 interface BrollVideo {
@@ -239,6 +234,15 @@ export default function CourseLearnPage() {
   const [currentVideoLesson, setCurrentVideoLesson] = useState<typeof LESSON_VIDEOS[0] | null>(null);
   const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set<number>());
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [lessonVideoSource, setLessonVideoSource] = useState<'cloudinary' | 'r2'>('cloudinary');
+  const [lessonVideoError, setLessonVideoError] = useState<string | null>(null);
+
+  // When the current lesson changes, reset source to preferred (VIDEO_SOURCES or Cloudinary)
+  useEffect(() => {
+    if (!currentVideoLesson) return;
+    setLessonVideoSource(VIDEO_SOURCES[currentVideoLesson.filename] || 'cloudinary');
+    setLessonVideoError(null);
+  }, [currentVideoLesson]);
 
   // Load completed lessons from localStorage after mount
   useEffect(() => {
@@ -854,14 +858,30 @@ export default function CourseLearnPage() {
               <video
                 ref={videoRef}
                 key={currentVideoLesson.id}
-                src={getLessonVideoUrl(currentVideoLesson.filename)}
+                src={getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource)}
                 controls
                 className="w-full h-full"
                 crossOrigin="anonymous"
                 onEnded={handleVideoEnded}
                 autoPlay
+                onError={() => {
+                  // Auto-fallback for large videos uploaded to R2
+                  if (lessonVideoSource === 'cloudinary') {
+                    setLessonVideoSource('r2');
+                    return;
+                  }
+                  setLessonVideoError(
+                    'Video failed to load from both Cloudinary and R2. Please confirm the R2 public URL and filename match.'
+                  );
+                }}
               />
             </div>
+
+            {lessonVideoError && (
+              <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-8">
+                <p className="text-red-300 text-sm">{lessonVideoError}</p>
+              </div>
+            )}
 
             {/* Lesson info */}
             <div className="mb-6">
@@ -1096,7 +1116,7 @@ export default function CourseLearnPage() {
                                 <video
                                   src={getLessonVideoUrl(lesson.filename)}
                                   className="w-full h-full object-cover"
-                                  preload="metadata"
+                                  preload="none"
                                   crossOrigin="anonymous"
                                   muted
                                 />
