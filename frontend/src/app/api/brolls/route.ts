@@ -36,7 +36,28 @@ const CLOUDINARY_SOURCES: CloudinarySource[] = [
   { 
     cloudinaryFolder: 'wins', 
     category: 'others',
-    videos: [] // Add your wins video filenames here after upload
+    videos: [
+      'IMG_1349.mp4',
+      'IMG_1351.mp4',
+      'IMG_1352.mp4',
+      'IMG_1353.mp4',
+      'IMG_1354.mp4',
+      'IMG_1355.mp4',
+      'IMG_1356.mp4',
+      'IMG_1357.mp4',
+      'IMG_1359.mp4',
+      'IMG_1361.mp4',
+      'IMG_1362.mp4',
+      'IMG_1365.mp4',
+      'IMG_1366.mp4',
+      'IMG_1367.mp4',
+      'IMG_1368.mp4',
+      'IMG_1369.mp4',
+      'IMG_1370.mp4',
+      'IMG_1371.mp4',
+      'IMG_1372.mp4',
+      'IMG_4325.mp4',
+    ]
   },
 ];
 
