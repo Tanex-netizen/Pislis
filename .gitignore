@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Environment variables - NEVER COMMIT THESE
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Uploads (user-generated content)
+backend/uploads/payment-proofs/*
+!backend/uploads/payment-proofs/.gitkeep
+
+# Large video files - DO NOT COMMIT (hosted on Cloudinary + R2)
+frontend/public/Lessons/**/*.mp4
+frontend/public/b-rolls/**/*.mp4
+frontend/public/foods_raw/**/*.mp4
+frontend/public/raw_people/**/*.mp4
+frontend/public/videos/**/*.mp4
+frontend/public/overly/**/*.mp4
+frontend/public/hero.mp4
+frontend/public/coaching/**/*.mp4
+
+# Upload scripts and credentials
+upload-*.js
+*-cloudinary.js
+*-r2.js
+audit-*.js
+missing-videos.json
+video-sources.json
+check-and-upload-missing.js
+retry-failed.js
+full-video-audit.js
+final-video-audit.js
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+*.log
+*.tsbuildinfo
