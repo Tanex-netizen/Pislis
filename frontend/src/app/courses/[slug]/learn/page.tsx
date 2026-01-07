@@ -30,6 +30,7 @@ const R2_LESSONS_BASE_URL =
 // Debug: Log Cloudinary config
 if (typeof window !== 'undefined') {
   console.log('🎬 Video Config:', { CLOUDINARY_CLOUD_NAME, R2_BUCKET });
+  console.log('🎥 R2 Lessons Base URL:', R2_LESSONS_BASE_URL);
   if (CLOUDINARY_CLOUD_NAME === 'demo') {
     console.warn('⚠️ CLOUDINARY_CLOUD_NAME is set to "demo". Videos may not load. Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME in Vercel.');
   }
@@ -861,7 +862,7 @@ export default function CourseLearnPage() {
                 src={getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource)}
                 controls
                 className="w-full h-full"
-                crossOrigin="anonymous"
+                crossOrigin={lessonVideoSource === 'cloudinary' ? 'anonymous' : undefined}
                 onEnded={handleVideoEnded}
                 autoPlay
                 onError={() => {
@@ -1117,7 +1118,6 @@ export default function CourseLearnPage() {
                                   src={getLessonVideoUrl(lesson.filename)}
                                   className="w-full h-full object-cover"
                                   preload="none"
-                                  crossOrigin="anonymous"
                                   muted
                                 />
                               )}
