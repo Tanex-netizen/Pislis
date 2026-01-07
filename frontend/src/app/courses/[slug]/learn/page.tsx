@@ -78,13 +78,33 @@ const getLessonVideoUrl = (filename: string) => {
     console.log('R2 Video URL:', url);
     return url;
   } else {
-    // Cloudinary URL - convert filename to match Cloudinary's public_id format
-    // Remove .mp4 extension and replace spaces with underscores
-    const filenameWithoutExt = filename.replace('.mp4', '');
-    const publicId = filenameWithoutExt.replace(/ /g, '_');
-    // Encode the public_id to handle special characters like &, ', !, etc.
-    const encodedPublicId = encodeURIComponent(publicId);
-    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/darwin-education/lessons/${encodedPublicId}.mp4`;
+    // Cloudinary URL
+    // IMPORTANT:
+    // - Some uploaded Cloudinary public_ids differ slightly from the original filenames.
+    // - Many lesson videos are phone exports (HEVC, etc.) which won't decode in all browsers.
+    //   Force H.264/AAC MP4 delivery via transformations.
+
+    const PUBLIC_ID_OVERRIDES: Record<string, string> = {
+      // Cloudinary upload uses no apostrophes in this filename
+      "23 The Do's and Don'ts.mp4": '23_The_Dos_and_Donts',
+    };
+
+    const filenameWithoutExt = filename.replace(/\.mp4$/i, '');
+
+    const rawPublicId =
+      PUBLIC_ID_OVERRIDES[filename] ??
+      filenameWithoutExt
+        .replace(/ /g, '_')
+        .replace(/[’']/g, '') // normalize apostrophes
+        .replace(/\u2019/g, '');
+
+    // Encode the final public_id segment to safely handle special characters
+    const encodedPublicId = encodeURIComponent(rawPublicId);
+
+    // Force a broadly-compatible stream: mp4 container + H.264 video + AAC audio
+    const transformation = 'f_mp4,vc_h264,ac_aac';
+    const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/${transformation}/darwin-education/lessons/${encodedPublicId}.mp4`;
+
     console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
     return url;
   }
