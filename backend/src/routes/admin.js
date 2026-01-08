@@ -105,6 +105,12 @@ router.post('/enrollments/:id/approve', async (req, res) => {
       return res.status(400).json({ error: 'Enrollment already approved' });
     }
 
+    if (!enrollment.course_id || !enrollment.courses?.title) {
+      return res.status(400).json({
+        error: 'Course not assigned for this request. Use the Unlock Course tool to grant access.',
+      });
+    }
+
     // Check if user exists, if not create one
     let { data: user } = await supabase
       .from('users')

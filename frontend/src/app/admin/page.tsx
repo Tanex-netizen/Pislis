@@ -10,12 +10,14 @@ import {
   LogOut, Menu, X, AlertCircle, Loader2, Unlock
 } from 'lucide-react';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 interface Enrollment {
   id: string;
   name: string;
   email: string;
   phone: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | string;
   created_at: string;
   transaction_id?: string;
   payment_proof_url?: string;
@@ -35,7 +37,7 @@ interface Stats {
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const { login, user, isAuthenticated, isLoading: authLoading, logout } = useAuth();
+  const { login, user, token, isAuthenticated, isLoading: authLoading, logout } = useAuth();
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
@@ -96,65 +98,57 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Demo data
-      setStats({
-        pendingEnrollments: 5,
-        approvedEnrollments: 48,
-        totalCourses: 6,
-        totalStudents: 53,
-      });
+      if (!token) {
+        setEnrollments([]);
+        setStats({
+          pendingEnrollments: 0,
+          approvedEnrollments: 0,
+          totalCourses: 0,
+          totalStudents: 0,
+        });
+        return;
+      }
 
-      setEnrollments([
-        {
-          id: '1',
-          name: 'Juan Dela Cruz',
-          email: 'juan@example.com',
-          phone: '+63 912 345 6789',
-          status: 'pending',
-          created_at: new Date().toISOString(),
-          transaction_id: 'TXN123456',
-          courses: { id: '1', title: 'Web Development Fundamentals', price: 2999 },
-        },
-        {
-          id: '2',
-          name: 'Maria Santos',
-          email: 'maria@example.com',
-          phone: '+63 923 456 7890',
-          status: 'pending',
-          created_at: new Date(Date.now() - 86400000).toISOString(),
-          transaction_id: 'TXN789012',
-          courses: { id: '2', title: 'Advanced React & Next.js', price: 3999 },
-        },
-        {
-          id: '3',
-          name: 'Carlos Rodriguez',
-          email: 'carlos@example.com',
-          phone: '+63 934 567 8901',
-          status: 'approved',
-          created_at: new Date(Date.now() - 172800000).toISOString(),
-          transaction_id: 'TXN345678',
-          courses: { id: '3', title: 'UI/UX Design Masterclass', price: 3499 },
-        },
-        {
-          id: '4',
-          name: 'Ana Garcia',
-          email: 'ana@example.com',
-          phone: '+63 945 678 9012',
-          status: 'rejected',
-          created_at: new Date(Date.now() - 259200000).toISOString(),
-          courses: { id: '4', title: 'Digital Marketing Essentials', price: 2499 },
-        },
-        {
-          id: '5',
-          name: 'Pedro Reyes',
-          email: 'pedro@example.com',
-          phone: '+63 956 789 0123',
-          status: 'pending',
-          created_at: new Date(Date.now() - 43200000).toISOString(),
-          transaction_id: 'TXN901234',
-          courses: { id: '5', title: 'Data Science with Python', price: 4499 },
-        },
+      const [enrollmentsRes, coursesRes, usersRes] = await Promise.all([
+        fetch(`${API_BASE_URL}/admin/enrollments`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        fetch(`${API_BASE_URL}/admin/courses`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        fetch(`${API_BASE_URL}/admin/users`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
+
+      const enrollmentsData = enrollmentsRes.ok ? await enrollmentsRes.json() : { enrollments: [] };
+      const coursesData = coursesRes.ok ? await coursesRes.json() : { courses: [] };
+      const usersData = usersRes.ok ? await usersRes.json() : { users: [] };
+
+      const fetchedEnrollments: Enrollment[] = (enrollmentsData.enrollments || []).map((e: Enrollment) => ({
+        ...e,
+        email: (e.email || '').toLowerCase(),
+      }));
+
+      setEnrollments(fetchedEnrollments);
+
+      const pendingEnrollments = fetchedEnrollments.filter((e) => e.status === 'pending').length;
+      const approvedEnrollments = fetchedEnrollments.filter((e) => e.status === 'approved').length;
+      const totalCourses = (coursesData.courses || []).length;
+      const totalStudents = (usersData.users || []).filter((u: { role?: string }) => u.role === 'student').length;
+
+      setStats({
+        pendingEnrollments,
+        approvedEnrollments,
+        totalCourses,
+        totalStudents,
+      });
     } catch (err) {
       console.error('Failed to fetch data:', err);
     } finally {
@@ -165,21 +159,27 @@ export default function AdminDashboard() {
   const handleApprove = async (enrollmentId: string) => {
     setActionLoading(enrollmentId);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setEnrollments(prev => 
-        prev.map(e => e.id === enrollmentId ? { ...e, status: 'approved' as const } : e)
-      );
-      setStats(prev => ({
-        ...prev,
-        pendingEnrollments: prev.pendingEnrollments - 1,
-        approvedEnrollments: prev.approvedEnrollments + 1,
-        totalStudents: prev.totalStudents + 1,
-      }));
+      if (!token) {
+        throw new Error('Missing admin token');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/approve`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ expiresInDays: 365 }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to approve enrollment');
+      }
+
       setSelectedEnrollment(null);
-      
-      alert('Enrollment approved! Access link sent to student email.');
+      await fetchData();
+      alert(data.accessUrl ? `Enrollment approved. Access URL: ${data.accessUrl}` : 'Enrollment approved.');
     } catch (err) {
       console.error('Failed to approve:', err);
     } finally {
@@ -191,18 +191,55 @@ export default function AdminDashboard() {
     const reason = prompt('Reason for rejection (optional):');
     setActionLoading(enrollmentId);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setEnrollments(prev => 
-        prev.map(e => e.id === enrollmentId ? { ...e, status: 'rejected' as const } : e)
-      );
-      setStats(prev => ({
-        ...prev,
-        pendingEnrollments: prev.pendingEnrollments - 1,
-      }));
+      if (!token) {
+        throw new Error('Missing admin token');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/reject`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reason: reason || undefined }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to reject enrollment');
+      }
+
       setSelectedEnrollment(null);
+      await fetchData();
     } catch (err) {
       console.error('Failed to reject:', err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleResendLink = async (enrollmentId: string) => {
+    setActionLoading(enrollmentId);
+    try {
+      if (!token) {
+        throw new Error('Missing admin token');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/resend-link`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to resend link');
+      }
+
+      alert('Access link resent.');
+    } catch (err) {
+      console.error('Failed to resend link:', err);
     } finally {
       setActionLoading(null);
     }
@@ -253,10 +290,10 @@ export default function AdminDashboard() {
             <div>
               <label className="block text-white font-medium mb-2">Email</label>
               <input
-                type=" || user?.role !== 'admin'email"
+                type="email"
                 value={loginData.email}
                 onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                placeholder="pisliskontint@gmail.com"
+                placeholder="Enter admin email"
                 className="w-full px-4 py-3 bg-dark-400 border border-primary-900/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary-500"
                 required
               />
@@ -284,10 +321,6 @@ export default function AdminDashboard() {
               )}
             </button>
           </form>
-
-          <p className="text-gray-500 text-sm text-center mt-6">
-            Demo: pisliskontint@gmail.com / Pislis@123
-          </p>
         </div>
       </div>
     );
@@ -464,8 +497,10 @@ export default function AdminDashboard() {
                           </div>
                         </td>
                         <td className="py-4 px-4 hidden md:table-cell">
-                          <p className="text-gray-300 text-sm">{enrollment.courses?.title}</p>
-                          <p className="text-primary-400 text-sm">₱{enrollment.courses?.price.toLocaleString()}</p>
+                          <p className="text-gray-300 text-sm">{enrollment.courses?.title || 'Not specified'}</p>
+                          {typeof enrollment.courses?.price === 'number' && (
+                            <p className="text-primary-400 text-sm">₱{enrollment.courses.price.toLocaleString()}</p>
+                          )}
                         </td>
                         <td className="py-4 px-4 hidden sm:table-cell">
                           <p className="text-gray-400 text-sm">
@@ -486,18 +521,20 @@ export default function AdminDashboard() {
                             </button>
                             {enrollment.status === 'pending' && (
                               <>
-                                <button
-                                  onClick={() => handleApprove(enrollment.id)}
-                                  disabled={actionLoading === enrollment.id}
-                                  className="p-2 text-green-400 hover:text-green-300 transition-colors disabled:opacity-50"
-                                  title="Approve"
-                                >
-                                  {actionLoading === enrollment.id ? (
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                  ) : (
-                                    <CheckCircle className="w-4 h-4" />
-                                  )}
-                                </button>
+                                {enrollment.courses?.id && (
+                                  <button
+                                    onClick={() => handleApprove(enrollment.id)}
+                                    disabled={actionLoading === enrollment.id}
+                                    className="p-2 text-green-400 hover:text-green-300 transition-colors disabled:opacity-50"
+                                    title="Approve"
+                                  >
+                                    {actionLoading === enrollment.id ? (
+                                      <Loader2 className="w-4 h-4 animate-spin" />
+                                    ) : (
+                                      <CheckCircle className="w-4 h-4" />
+                                    )}
+                                  </button>
+                                )}
                                 <button
                                   onClick={() => handleReject(enrollment.id)}
                                   disabled={actionLoading === enrollment.id}
@@ -510,10 +547,16 @@ export default function AdminDashboard() {
                             )}
                             {enrollment.status === 'approved' && (
                               <button
+                                onClick={() => handleResendLink(enrollment.id)}
+                                disabled={actionLoading === enrollment.id}
                                 className="p-2 text-blue-400 hover:text-blue-300 transition-colors"
                                 title="Resend Link"
                               >
-                                <Mail className="w-4 h-4" />
+                                {actionLoading === enrollment.id ? (
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                  <Mail className="w-4 h-4" />
+                                )}
                               </button>
                             )}
                           </div>
@@ -552,8 +595,10 @@ export default function AdminDashboard() {
               </div>
               <div className="border-b border-primary-900/30 pb-4">
                 <p className="text-gray-400 text-sm">Course</p>
-                <p className="text-white font-medium">{selectedEnrollment.courses?.title}</p>
-                <p className="text-primary-400 font-bold">₱{selectedEnrollment.courses?.price.toLocaleString()}</p>
+                <p className="text-white font-medium">{selectedEnrollment.courses?.title || 'Not specified'}</p>
+                {typeof selectedEnrollment.courses?.price === 'number' && (
+                  <p className="text-primary-400 font-bold">₱{selectedEnrollment.courses.price.toLocaleString()}</p>
+                )}
               </div>
               {selectedEnrollment.transaction_id && (
                 <div className="border-b border-primary-900/30 pb-4">
@@ -570,27 +615,40 @@ export default function AdminDashboard() {
               <div className="p-4 bg-dark-400/50 rounded-lg">
                 <p className="text-gray-400 text-sm mb-2">Payment Proof</p>
                 <div className="aspect-video bg-dark-500 rounded-lg flex items-center justify-center border border-primary-900/30">
-                  <p className="text-gray-500">Payment proof image would appear here</p>
+                  {selectedEnrollment.payment_proof_url ? (
+                    <a
+                      href={selectedEnrollment.payment_proof_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-primary-400 hover:text-primary-300"
+                    >
+                      View payment proof
+                    </a>
+                  ) : (
+                    <p className="text-gray-500">No payment proof uploaded</p>
+                  )}
                 </div>
               </div>
 
               {/* Actions */}
               {selectedEnrollment.status === 'pending' && (
                 <div className="flex space-x-4 pt-4">
-                  <button
-                    onClick={() => handleApprove(selectedEnrollment.id)}
-                    disabled={actionLoading === selectedEnrollment.id}
-                    className="flex-1 btn-primary flex items-center justify-center space-x-2"
-                  >
-                    {actionLoading === selectedEnrollment.id ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <>
-                        <CheckCircle className="w-5 h-5" />
-                        <span>Approve</span>
-                      </>
-                    )}
-                  </button>
+                  {selectedEnrollment.courses?.id && (
+                    <button
+                      onClick={() => handleApprove(selectedEnrollment.id)}
+                      disabled={actionLoading === selectedEnrollment.id}
+                      className="flex-1 btn-primary flex items-center justify-center space-x-2"
+                    >
+                      {actionLoading === selectedEnrollment.id ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <>
+                          <CheckCircle className="w-5 h-5" />
+                          <span>Approve</span>
+                        </>
+                      )}
+                    </button>
+                  )}
                   <button
                     onClick={() => handleReject(selectedEnrollment.id)}
                     disabled={actionLoading === selectedEnrollment.id}

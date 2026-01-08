@@ -37,7 +37,7 @@ const upload = multer({
  * POST /api/enrollments
  * Submit contact interest (simplified - no course or payment needed)
  */
-router.post('/', async (req, res) => {
+router.post('/', optionalAuth, async (req, res) => {
   try {
     const { name, email, phone } = req.body;
 
@@ -50,12 +50,41 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Invalid email address' });
     }
 
-    // Simply log the contact request - admin will handle course assignment via Student ID lookup
-    console.log('📋 New contact request:', { name, email, phone });
+    // Store as a pending enrollment request (course/payment can be handled later)
+    const { data: enrollment, error: insertError } = await supabase
+      .from('enrollments')
+      .insert({
+        user_id: req.user?.id || null,
+        course_id: null,
+        name,
+        email: email.toLowerCase(),
+        phone,
+        status: 'pending',
+      })
+      .select('id, status, created_at')
+      .single();
+
+    if (insertError) {
+      console.error('Create enrollment request error:', insertError);
+      return res.status(500).json({ error: 'Failed to submit enrollment request' });
+    }
+
+    // Notify admin by email if configured
+    try {
+      await sendAdminNotification({
+        name,
+        email: email.toLowerCase(),
+        phone,
+        courseName: 'Not specified',
+      });
+    } catch (emailError) {
+      console.warn('Failed to send admin notification email:', emailError.message);
+    }
 
     res.status(201).json({
-      message: 'Interest submitted! Please sign up to get your Student ID, then contact us on Telegram to unlock courses.',
+      message: 'Enrollment request received! Please sign up to get your Student ID, then contact us on Telegram to unlock courses.',
       success: true,
+      enrollment,
     });
   } catch (error) {
     console.error('Enrollment error:', error);
