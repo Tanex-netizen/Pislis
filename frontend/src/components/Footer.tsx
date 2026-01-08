@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { BookOpen, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { BookOpen, Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -25,13 +25,7 @@ const Footer = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors">
                 <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors">
-                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
