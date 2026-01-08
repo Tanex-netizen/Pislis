@@ -44,6 +44,9 @@ interface AdminUser {
   role: string;
   created_at: string;
   last_login?: string | null;
+  pending_enrollments?: number;
+  approved_enrollments?: number;
+  total_enrollments?: number;
 }
 
 export default function AdminDashboard() {
@@ -138,7 +141,7 @@ export default function AdminDashboard() {
             Authorization: `Bearer ${token}`,
           },
         }),
-        fetch(`${API_BASE_URL}/admin/users?loggedInOnly=true&limit=25&page=1`, {
+        fetch(`${API_BASE_URL}/admin/users?loggedInOnly=true&limit=100&page=1&includeEnrollments=true`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -168,6 +171,9 @@ export default function AdminDashboard() {
         role: String(u.role || 'student'),
         created_at: String(u.created_at || ''),
         last_login: u.last_login ?? null,
+        pending_enrollments: u.pending_enrollments || 0,
+        approved_enrollments: u.approved_enrollments || 0,
+        total_enrollments: u.total_enrollments || 0,
       })));
 
       const pendingEnrollments = fetchedEnrollments.filter((e) => e.status === 'pending').length;
@@ -478,19 +484,21 @@ export default function AdminDashboard() {
                     <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Student</th>
                     <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden md:table-cell">Email</th>
                     <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden lg:table-cell">Phone</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Last Login</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden xl:table-cell">Last Login</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Status</th>
+                    <th className="text-right py-3 px-4 text-gray-400 font-medium text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
                     <tr>
-                      <td colSpan={4} className="py-8 text-center text-gray-400">
+                      <td colSpan={6} className="py-8 text-center text-gray-400">
                         <Loader2 className="w-6 h-6 animate-spin mx-auto" />
                       </td>
                     </tr>
                   ) : recentLogins.length === 0 ? (
                     <tr>
-                      <td colSpan={4} className="py-8 text-center text-gray-400">
+                      <td colSpan={6} className="py-8 text-center text-gray-400">
                         No login activity yet
                       </td>
                     </tr>
@@ -505,8 +513,47 @@ export default function AdminDashboard() {
                         </td>
                         <td className="py-4 px-4 text-gray-300 text-sm hidden md:table-cell">{u.email}</td>
                         <td className="py-4 px-4 text-gray-300 text-sm hidden lg:table-cell">{u.phone || '-'}</td>
-                        <td className="py-4 px-4 text-gray-300 text-sm">
+                        <td className="py-4 px-4 text-gray-300 text-sm hidden xl:table-cell">
                           {u.last_login ? new Date(u.last_login).toLocaleString() : '-'}
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-2">
+                            {u.pending_enrollments && u.pending_enrollments > 0 ? (
+                              <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-medium rounded">
+                                {u.pending_enrollments} Pending
+                              </span>
+                            ) : null}
+                            {u.approved_enrollments && u.approved_enrollments > 0 ? (
+                              <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded">
+                                {u.approved_enrollments} Active
+                              </span>
+                            ) : null}
+                            {(!u.total_enrollments || u.total_enrollments === 0) ? (
+                              <span className="px-2 py-1 bg-gray-500/20 text-gray-400 text-xs font-medium rounded">
+                                No Courses
+                              </span>
+                            ) : null}
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center justify-end gap-2">
+                            <Link
+                              href={`/admin/unlock?userId=${u.id}&userCode=${u.user_code}`}
+                              className="px-3 py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded transition-colors"
+                            >
+                              <Unlock className="w-3 h-3 inline mr-1" />
+                              Unlock
+                            </Link>
+                            {u.total_enrollments && u.total_enrollments > 0 ? (
+                              <button
+                                onClick={() => router.push(`/admin/unlock?userId=${u.id}`)}
+                                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded transition-colors"
+                              >
+                                <Eye className="w-3 h-3 inline mr-1" />
+                                View
+                              </button>
+                            ) : null}
+                          </div>
                         </td>
                       </tr>
                     ))

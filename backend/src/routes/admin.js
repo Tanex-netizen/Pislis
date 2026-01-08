@@ -377,7 +377,7 @@ router.get('/stats', async (req, res) => {
  */
 router.get('/users', async (req, res) => {
   try {
-    const { search, loggedInOnly, page = 1, limit = 20 } = req.query;
+    const { search, loggedInOnly, page = 1, limit = 20, includeEnrollments } = req.query;
     const pageNumber = Math.max(1, Number(page) || 1);
     const limitNumber = Math.min(100, Math.max(1, Number(limit) || 20));
     const offset = (pageNumber - 1) * limitNumber;
@@ -385,7 +385,7 @@ router.get('/users', async (req, res) => {
     let query = supabase
       .from('users')
       .select('id, user_code, name, email, phone, role, created_at, last_login', { count: 'exact' })
-      .order('last_login', { ascending: false })
+      .order('last_login', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false })
       .range(offset, offset + limitNumber - 1);
 
@@ -405,8 +405,31 @@ router.get('/users', async (req, res) => {
       return res.status(500).json({ error: 'Failed to fetch users' });
     }
 
+    // If includeEnrollments is true, fetch enrollment counts for each user
+    let usersWithEnrollments = users || [];
+    if (includeEnrollments === 'true' && users && users.length > 0) {
+      const userIds = users.map(u => u.id);
+      
+      // Get enrollment counts for all users
+      const { data: enrollments } = await supabase
+        .from('enrollments')
+        .select('id, user_id, status')
+        .in('user_id', userIds);
+
+      // Map enrollments to users
+      usersWithEnrollments = users.map(user => {
+        const userEnrollments = (enrollments || []).filter(e => e.user_id === user.id);
+        return {
+          ...user,
+          pending_enrollments: userEnrollments.filter(e => e.status === 'pending').length,
+          approved_enrollments: userEnrollments.filter(e => e.status === 'active' || e.status === 'approved').length,
+          total_enrollments: userEnrollments.length
+        };
+      });
+    }
+
     res.json({ 
-      users: users || [], 
+      users: usersWithEnrollments, 
       total: count,
       page: pageNumber,
       totalPages: Math.ceil((count || 0) / limitNumber)
