@@ -958,7 +958,16 @@ export default function CourseLearnPage() {
                   src={getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource, lessonVideoR2Variant)}
                   controls
                   className="w-full h-full"
-                  crossOrigin={lessonVideoSource === 'cloudinary' ? 'anonymous' : undefined}
+                  // Only set CORS mode for Cloudinary URLs. Setting crossOrigin for R2 public URLs
+                  // can trigger a CORS preflight and fail playback if the bucket CORS isn't configured.
+                  crossOrigin={(() => {
+                    const url = getLessonVideoUrl(
+                      currentVideoLesson.filename,
+                      lessonVideoSource,
+                      lessonVideoR2Variant
+                    );
+                    return url.includes('res.cloudinary.com/') ? 'anonymous' : undefined;
+                  })()}
                   onEnded={handleVideoEnded}
                   autoPlay
                   onError={() => {
