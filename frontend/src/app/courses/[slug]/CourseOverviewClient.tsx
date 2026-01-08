@@ -16,8 +16,7 @@ import {
   Lock, 
   BookOpen,
   ChevronDown,
-  ChevronUp,
-  MessageCircle
+  ChevronUp
 } from 'lucide-react';
 
 interface CourseModule {
@@ -94,8 +93,7 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
     } else if (!isAuthenticated) {
       router.push(`/login?redirect=/courses/${course.slug}`);
     } else {
-      // Show enrollment instructions (Telegram contact)
-      document.getElementById('enrollment-section')?.scrollIntoView({ behavior: 'smooth' });
+      router.push('/profile');
     }
   };
 
@@ -159,7 +157,7 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
                     disabled={checkingEnrollment}
                     className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl transition-colors disabled:opacity-50"
                   >
-                    {checkingEnrollment ? 'Loading...' : isEnrolled ? 'Continue Learning' : 'Avail Now'}
+                    {checkingEnrollment ? 'Loading...' : isEnrolled ? 'Continue Learning' : 'View Student ID'}
                   </button>
                 </div>
               </div>
@@ -208,7 +206,7 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
                       disabled={checkingEnrollment}
                       className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl transition-colors disabled:opacity-50 mb-4"
                     >
-                      {checkingEnrollment ? 'Loading...' : isEnrolled ? 'Continue Learning' : 'Avail Now'}
+                      {checkingEnrollment ? 'Loading...' : isEnrolled ? 'Continue Learning' : 'View Student ID'}
                     </button>
 
                     {isEnrolled ? (
@@ -217,7 +215,7 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
                       </div>
                     ) : (
                       <p className="text-center text-sm text-gray-400">
-                        Quick enrollment via Telegram
+                        Access becomes available after admin approval/unlock.
                       </p>
                     )}
 
@@ -347,59 +345,48 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
               </div>
             </div>
 
-            {/* Enrollment Instructions */}
             {!isEnrolled && (
-              <div id="enrollment-section" className="bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border border-emerald-800/50 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border border-emerald-800/50 rounded-2xl p-8">
                 <div className="text-center">
-                  <MessageCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-                  <h2 className="text-2xl font-bold text-white mb-4">Ready to Enroll?</h2>
-                  
+                  <h2 className="text-2xl font-bold text-white mb-4">Course Locked</h2>
+
                   {isAuthenticated ? (
                     <>
                       <p className="text-gray-300 mb-6 max-w-lg mx-auto">
-                        Contact us on Telegram with your Student ID below. We'll help you complete payment and unlock your course instantly!
+                        Your account is active with a Student ID. This course will unlock after admin approval.
                       </p>
-                      
+
                       <div className="bg-gray-900/50 border border-emerald-700 rounded-lg p-5 inline-block mb-6">
                         <p className="text-sm text-gray-400 mb-2">Your Student ID:</p>
                         <p className="text-2xl font-mono font-bold text-emerald-400">{user?.user_code}</p>
-                        <p className="text-xs text-gray-500 mt-2">Share this ID on Telegram</p>
                       </div>
 
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a
-                          href="https://web.telegram.org/k/#@Kaizens09" 
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold rounded-lg transition-colors shadow-lg"
+                        <Link
+                          href="/profile"
+                          className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
                         >
-                          <MessageCircle className="w-5 h-5" />
-                          Message us on Telegram
-                        </a>
-                      </div>
-                      
-                      <div className="mt-6 pt-6 border-t border-gray-700">
-                        <p className="text-sm text-gray-400 mb-3">We accept:</p>
-                        <div className="flex gap-3 justify-center text-xs text-gray-500">
-                          <span>💳 GCash</span>
-                          <span>•</span>
-                          <span>🏦 Bank Transfer</span>
-                          <span>•</span>
-                          <span>💰 PayPal</span>
-                        </div>
+                          Go to Profile
+                        </Link>
+                        <Link
+                          href="/courses"
+                          className="px-8 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors"
+                        >
+                          Browse Courses
+                        </Link>
                       </div>
                     </>
                   ) : (
                     <>
                       <p className="text-gray-300 mb-6 max-w-lg mx-auto">
-                        Create a free account to get your Student ID. Then contact us on Telegram to enroll and unlock this course!
+                        Create an account to get your Student ID, then login. Courses become available after admin approval.
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                           href={`/signup?redirect=/courses/${course.slug}`}
                           className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
                         >
-                          Create Free Account
+                          Create Account
                         </Link>
                         <Link
                           href={`/login?redirect=/courses/${course.slug}`}

@@ -47,9 +47,6 @@ const Navbar = () => {
             <Link href="/login" className="p-2 text-gray-300 hover:text-primary-400 transition-colors">
               <User className="w-5 h-5" />
             </Link>
-            <Link href="/enroll" className="btn-primary text-sm">
-              Enroll Now
-            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -81,13 +78,6 @@ const Navbar = () => {
             >
               <User className="w-5 h-5" />
               Profile
-            </Link>
-            <Link
-              href="/enroll"
-              className="block mt-4 mx-2 btn-primary text-center text-sm py-3"
-              onClick={() => setIsOpen(false)}
-            >
-              Enroll Now
             </Link>
           </div>
         )}

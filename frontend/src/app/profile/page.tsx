@@ -117,10 +117,10 @@ export default function ProfilePage() {
 
                 <div className="mt-3 p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
                   <p className="text-sm text-emerald-400 font-semibold mb-1">
-                    📱 Ready to Enroll?
+                    Access & Approval
                   </p>
                   <p className="text-xs text-gray-400">
-                    Share this Student ID on Telegram to unlock courses instantly
+                    Courses become available after an admin approves/unlocks them.
                   </p>
                 </div>
               </div>

@@ -65,7 +65,7 @@ const Hero = () => {
                 <span className="text-2xl font-bold text-primary-400">₱2,178</span>
               </div>
               <Link href="/courses/fb-automation" className="btn-primary w-full mt-4 text-center block">
-                Enroll Now
+                View Course
               </Link>
             </div>
           </div>

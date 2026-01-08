@@ -138,14 +138,6 @@ const FeaturedCourses = () => {
                   ₱{course.price.toLocaleString()}
                 </span>
               </div>
-
-              {/* Enroll Button */}
-              <Link 
-                href={`/enroll?course=${course.id}`}
-                className="btn-outline w-full mt-4 text-center block text-sm"
-              >
-                Enroll Now
-              </Link>
             </div>
           ))}
         </div>

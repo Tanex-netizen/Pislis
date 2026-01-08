@@ -377,14 +377,21 @@ router.get('/stats', async (req, res) => {
  */
 router.get('/users', async (req, res) => {
   try {
-    const { search, page = 1, limit = 20 } = req.query;
-    const offset = (page - 1) * limit;
+    const { search, loggedInOnly, page = 1, limit = 20 } = req.query;
+    const pageNumber = Math.max(1, Number(page) || 1);
+    const limitNumber = Math.min(100, Math.max(1, Number(limit) || 20));
+    const offset = (pageNumber - 1) * limitNumber;
 
     let query = supabase
       .from('users')
-      .select('id, user_code, name, email, role, created_at', { count: 'exact' })
+      .select('id, user_code, name, email, phone, role, created_at, last_login', { count: 'exact' })
+      .order('last_login', { ascending: false })
       .order('created_at', { ascending: false })
-      .range(offset, offset + limit - 1);
+      .range(offset, offset + limitNumber - 1);
+
+    if (loggedInOnly === 'true' || loggedInOnly === true) {
+      query = query.not('last_login', 'is', null);
+    }
 
     if (search) {
       // Search by user_code, name, or email
@@ -401,8 +408,8 @@ router.get('/users', async (req, res) => {
     res.json({ 
       users: users || [], 
       total: count,
-      page: Number(page),
-      totalPages: Math.ceil(count / limit)
+      page: pageNumber,
+      totalPages: Math.ceil((count || 0) / limitNumber)
     });
   } catch (error) {
     console.error('Get users error:', error);

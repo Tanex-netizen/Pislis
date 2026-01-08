@@ -35,6 +35,17 @@ interface Stats {
   totalStudents: number;
 }
 
+interface AdminUser {
+  id: string;
+  user_code: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  role: string;
+  created_at: string;
+  last_login?: string | null;
+}
+
 export default function AdminDashboard() {
   const router = useRouter();
   const { login, user, token, isAuthenticated, isLoading: authLoading, logout } = useAuth();
@@ -55,6 +66,7 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEnrollment, setSelectedEnrollment] = useState<Enrollment | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [recentLogins, setRecentLogins] = useState<AdminUser[]>([]);
 
   // Check authentication on mount and when user changes
   useEffect(() => {
@@ -100,6 +112,7 @@ export default function AdminDashboard() {
     try {
       if (!token) {
         setEnrollments([]);
+        setRecentLogins([]);
         setStats({
           pendingEnrollments: 0,
           approvedEnrollments: 0,
@@ -109,7 +122,7 @@ export default function AdminDashboard() {
         return;
       }
 
-      const [enrollmentsRes, coursesRes, usersRes] = await Promise.all([
+      const [enrollmentsRes, coursesRes, usersRes, recentLoginsRes] = await Promise.all([
         fetch(`${API_BASE_URL}/admin/enrollments`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,11 +138,17 @@ export default function AdminDashboard() {
             Authorization: `Bearer ${token}`,
           },
         }),
+        fetch(`${API_BASE_URL}/admin/users?loggedInOnly=true&limit=25&page=1`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       const enrollmentsData = enrollmentsRes.ok ? await enrollmentsRes.json() : { enrollments: [] };
       const coursesData = coursesRes.ok ? await coursesRes.json() : { courses: [] };
       const usersData = usersRes.ok ? await usersRes.json() : { users: [] };
+      const recentLoginsData = recentLoginsRes.ok ? await recentLoginsRes.json() : { users: [] };
 
       const fetchedEnrollments: Enrollment[] = (enrollmentsData.enrollments || []).map((e: Partial<Enrollment>) => ({
         ...(e as Enrollment),
@@ -139,6 +158,17 @@ export default function AdminDashboard() {
       }));
 
       setEnrollments(fetchedEnrollments);
+
+      setRecentLogins((recentLoginsData.users || []).map((u: Partial<AdminUser>) => ({
+        id: String(u.id || ''),
+        user_code: String(u.user_code || ''),
+        name: String(u.name || 'Unknown'),
+        email: String((u.email || '')).toLowerCase(),
+        phone: u.phone ?? null,
+        role: String(u.role || 'student'),
+        created_at: String(u.created_at || ''),
+        last_login: u.last_login ?? null,
+      })));
 
       const pendingEnrollments = fetchedEnrollments.filter((e) => e.status === 'pending').length;
       const approvedEnrollments = fetchedEnrollments.filter((e) => e.status === 'approved').length;
@@ -429,6 +459,60 @@ export default function AdminDashboard() {
                   <BookOpen className="w-6 h-6 text-blue-400" />
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Recent Logins */}
+          <div className="card mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-white">Recent Logins</h2>
+              <span className="text-sm text-gray-400">
+                {recentLogins.length} user{recentLogins.length === 1 ? '' : 's'}
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-primary-900/30">
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Student</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden md:table-cell">Email</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden lg:table-cell">Phone</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Last Login</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={4} className="py-8 text-center text-gray-400">
+                        <Loader2 className="w-6 h-6 animate-spin mx-auto" />
+                      </td>
+                    </tr>
+                  ) : recentLogins.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="py-8 text-center text-gray-400">
+                        No login activity yet
+                      </td>
+                    </tr>
+                  ) : (
+                    recentLogins.map((u) => (
+                      <tr key={u.id} className="border-b border-primary-900/20 hover:bg-dark-300/30">
+                        <td className="py-4 px-4">
+                          <div>
+                            <p className="text-white font-medium">{u.name}</p>
+                            <p className="text-xs text-gray-500">{u.user_code}</p>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4 text-gray-300 text-sm hidden md:table-cell">{u.email}</td>
+                        <td className="py-4 px-4 text-gray-300 text-sm hidden lg:table-cell">{u.phone || '-'}</td>
+                        <td className="py-4 px-4 text-gray-300 text-sm">
+                          {u.last_login ? new Date(u.last_login).toLocaleString() : '-'}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
 

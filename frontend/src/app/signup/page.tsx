@@ -112,14 +112,14 @@ function SignupForm() {
                   </button>
                 </div>
                 <p className="text-xs text-emerald-400 mt-3 font-medium">
-                  📱 Share this ID on Telegram to enroll in courses!
+                  Keep this ID — the admin will use it to approve/unlock your access.
                 </p>
               </div>
-              
+
               <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 mb-6">
-                <p className="text-sm text-emerald-400 font-semibold mb-2">🎉 Quick Enrollment</p>
+                <p className="text-sm text-emerald-400 font-semibold mb-2">Access & Approval</p>
                 <p className="text-xs text-gray-400">
-                  Browse courses, contact us on Telegram with your Student ID, and get instant access after payment!
+                  Once you login, your account is created with a Student ID. Courses become available after an admin approves/unlocks them.
                 </p>
               </div>
 
