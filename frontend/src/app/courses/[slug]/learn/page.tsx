@@ -951,12 +951,25 @@ export default function CourseLearnPage() {
                           ) : (
                             <Lock className="w-4 h-4 flex-shrink-0 text-gray-600" />
                           )}
-                          <span className="flex-1 truncate text-sm">
-                            {lesson.id}. {lesson.title}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {lesson.duration}m
-                          </span>
+
+                          <div className="flex items-center gap-3 flex-1 min-w-0">
+                            <div className="w-16 h-10 rounded-md overflow-hidden bg-gray-800 flex-shrink-0">
+                              {lesson.thumbnail ? (
+                                // Public assets in `public/thumbnail` are served at `/thumbnail/...`
+                                <img src={lesson.thumbnail} alt={lesson.title} className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full bg-gray-800" />
+                              )}
+                            </div>
+
+                            <span className="truncate text-sm">
+                              {lesson.id}. {lesson.title}
+                            </span>
+
+                            <span className="text-xs text-gray-500 ml-3">
+                              {lesson.duration}m
+                            </span>
+                          </div>
                         </button>
                       </li>
                     );
