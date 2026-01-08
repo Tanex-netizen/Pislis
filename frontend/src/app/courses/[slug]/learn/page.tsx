@@ -131,7 +131,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 18,
     thumbnail: null,
     videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690651/darwin-education/lessons/LESSON_4._How_to_gain_followers_in_organic_way.mp4',
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767860985/how_to_gain_followers_in_organic_way_1_kvpjdv.mp4',
   },
   {
     id: 5,
