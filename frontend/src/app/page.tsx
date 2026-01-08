@@ -180,6 +180,25 @@ export default function Home() {
       {/* Lazy-loaded sections for better initial load */}
       <LazyWins />
       <LazyFeatures />
+      {/* Telegram FREE COMMUNITY CTA */}
+      <section className="py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <a
+            href="https://t.me/+MaOIiu5SXVhlZGE9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-full shadow-lg transition-colors"
+            title="Join our free Telegram community"
+          >
+            {/* Telegram logo (simple SVG) */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" className="w-5 h-5" fill="none" aria-hidden>
+              <circle cx="120" cy="120" r="120" fill="#37AEE2" />
+              <path d="M49 120l142-47c6-2 6 0 5 4l-24 111c-2 7-8 9-15 5L104 150l-24 23c-3 3-5 5-10 5l4-68z" fill="#fff" />
+            </svg>
+            <span>FREE COMMUNITY</span>
+          </a>
+        </div>
+      </section>
       <Footer />
     </main>
   );
