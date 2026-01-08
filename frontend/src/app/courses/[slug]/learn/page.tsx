@@ -214,7 +214,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Q&A Final',
     filename: '11. Q&A final.mp4',
     duration: 20,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-15.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853546/Lesson-15_kbmkan.mp4',
   },
   {
@@ -222,7 +222,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Another Tips Final',
     filename: '12. another tips final.mp4',
     duration: 15,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-16.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-16_c4iuwf.mp4',
   },
   {
@@ -230,7 +230,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Extra Tips Final',
     filename: '13 . Extra tips final.mp4',
     duration: 14,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-17.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853544/Lesson-17_u9l8jy.mp4',
   },
   {
@@ -238,7 +238,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Paano Ako Kumita ng 6 Digits sa Story',
     filename: '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4',
     duration: 22,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-18.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853507/Lesson-18_e2iv0n.mp4',
   },
   {
@@ -246,16 +246,16 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Sample Edit About Reaction Video Niche',
     filename: '15. Sample edit about Reaction video Niche.mp4',
     duration: 18,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-19.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853545/Lesson-19_icp8fk.mp4',
   },
-  { id: 20, title: 'Saan I-Download ang Nakuhang Content na 1080P', filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4', duration: 10, thumbnail: null },
+  { id: 20, title: 'Saan I-Download ang Nakuhang Content na 1080P', filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4', duration: 10, thumbnail: '/thumbnail/Lesson-20.jpg' },
   {
     id: 21,
     title: 'Saan Kukuha ng I-Repurpose Content - How to Re-edit',
     filename: '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4',
     duration: 25,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-21.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853587/Lesson-21_oj3dns.mp4',
   },
   {
@@ -263,12 +263,12 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Script & Site That Unlocks Unlimited Content',
     filename: '19. I Discovered a Script & Site That Unlocks Unlimite.mp4',
     duration: 16,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-22.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853559/Lesson-22_lzpjao.mp4',
   },
-  { id: 23, title: 'Awareness!!', filename: '21. Awareness!!.mp4', duration: 12, thumbnail: null },
-  { id: 24, title: "The Do's and Don'ts", filename: "23 The Do's and Don'ts.mp4", duration: 15, thumbnail: null },
-  { id: 25, title: 'PC Unli Capcut Pro Hacks', filename: '23. PC Unli Capcut Pro hacks.mp4', duration: 20, thumbnail: null },
+  { id: 23, title: 'Awareness!!', filename: '21. Awareness!!.mp4', duration: 12, thumbnail: '/thumbnail/Lesson-23.jpg' },
+  { id: 24, title: "The Do's and Don'ts", filename: "23 The Do's and Don'ts.mp4", duration: 15, thumbnail: '/thumbnail/Lesson-24.jpg' },
+  { id: 25, title: 'PC Unli Capcut Pro Hacks', filename: '23. PC Unli Capcut Pro hacks.mp4', duration: 20, thumbnail: '/thumbnail/Lesson-25.jpg' },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
