@@ -53,7 +53,6 @@ upload-*.js
 *-r2.js
 audit-*.js
 missing-videos.json
-video-sources.json
 check-and-upload-missing.js
 retry-failed.js
 full-video-audit.js
