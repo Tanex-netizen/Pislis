@@ -559,8 +559,7 @@ export default function CourseLearnPage() {
 
   // Fetch files when tab becomes active
   useEffect(() => {
-    const shouldFetch = activeTab === 'files' || (activeTab === 'lessons' && !!currentVideoLesson);
-    if (!shouldFetch) return;
+    if (activeTab !== 'files') return;
     if (courseFiles.length > 0) return;
     
     let isMounted = true;
@@ -588,7 +587,7 @@ export default function CourseLearnPage() {
     return () => {
       isMounted = false;
     };
-  }, [activeTab, currentVideoLesson, courseFiles.length]);
+  }, [activeTab, courseFiles.length]);
 
   const filteredFiles = useMemo(() => {
     if (activeTab !== 'files') return courseFiles;
@@ -1162,33 +1161,6 @@ export default function CourseLearnPage() {
                   </span>
                 )}
               </div>
-            </div>
-
-            {/* Files (downloadables) */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-8">
-              <h3 className="font-semibold text-white mb-4">Files</h3>
-              {filesLoading ? (
-                <p className="text-gray-400 text-sm">Loading files...</p>
-              ) : filesError ? (
-                <p className="text-gray-400 text-sm">{filesError}</p>
-              ) : courseFiles.length === 0 ? (
-                <p className="text-gray-500 text-sm">No files available</p>
-              ) : (
-                <ul className="space-y-2">
-                  {courseFiles.map((file) => (
-                    <li key={file.id} className="flex items-center justify-between gap-3">
-                      <span className="text-gray-300 text-sm truncate">{file.name}</span>
-                      <a
-                        href={file.url}
-                        download={file.name}
-                        className="text-emerald-400 hover:text-emerald-300 text-sm flex-shrink-0"
-                      >
-                        Download
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
 
             {/* Completion message */}

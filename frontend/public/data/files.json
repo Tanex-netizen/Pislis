@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Different Promt from Different Niche (1).docx",
+    "type": "word",
+    "size": 15360,
+    "url": "/files/Different Promt from Different Niche (1).docx"
+  },
+  {
+    "id": 2,
+    "name": "PROMPT.pdf",
+    "type": "pdf",
+    "size": 204800,
+    "url": "/files/PROMPT.pdf"
+  },
+  {
+    "id": 3,
+    "name": "Quizes Promt Niche.docx",
+    "type": "word",
+    "size": 12288,
+    "url": "/files/Quizes Promt Niche.docx"
+  },
+  {
+    "id": 4,
+    "name": "Script Ideas.docx",
+    "type": "word",
+    "size": 10240,
+    "url": "/files/Script Ideas.docx"
+  }
+]
