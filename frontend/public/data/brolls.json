@@ -2217,5 +2217,82 @@
     "filename": "yogurt.mp4",
     "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767699395/darwin-education/foods_raw/yogurt.mp4",
     "category": "foods"
+  },
+  {
+    "id": 318,
+    "title": "Gradient 1",
+    "filename": "gradient1_fuu4ji.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856758/gradient1_fuu4ji.mp4",
+    "category": "others"
+  },
+  {
+    "id": 319,
+    "title": "Black Grid",
+    "filename": "black_grid_zhdqrf.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856698/black_grid_zhdqrf.mp4",
+    "category": "others"
+  },
+  {
+    "id": 320,
+    "title": "Gradient 5",
+    "filename": "gradient5_hn2xxc.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856794/gradient5_hn2xxc.mp4",
+    "category": "others"
+  },
+  {
+    "id": 321,
+    "title": "Green Grid",
+    "filename": "Green_grid_b2g9mz.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856736/Green_grid_b2g9mz.mp4",
+    "category": "others"
+  },
+  {
+    "id": 322,
+    "title": "Neon Purple Grid",
+    "filename": "neon_purple_grid_tl27y7.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856721/neon_purple_grid_tl27y7.mp4",
+    "category": "others"
+  },
+  {
+    "id": 323,
+    "title": "Gradient 2",
+    "filename": "gradient2_s0omi0.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856760/gradient2_s0omi0.mp4",
+    "category": "others"
+  },
+  {
+    "id": 324,
+    "title": "Gradient 4",
+    "filename": "gradient4_qvhune.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856756/gradient4_qvhune.mp4",
+    "category": "others"
+  },
+  {
+    "id": 325,
+    "title": "Dark Blue Grid",
+    "filename": "Dark_blue_grid_urlkxz.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856715/Dark_blue_grid_urlkxz.mp4",
+    "category": "others"
+  },
+  {
+    "id": 326,
+    "title": "Gradient 3",
+    "filename": "gradient3_ym1ymj.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856773/gradient3_ym1ymj.mp4",
+    "category": "others"
+  },
+  {
+    "id": 327,
+    "title": "Light Blue Grid",
+    "filename": "light_blue_grid_bukpwo.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856730/light_blue_grid_bukpwo.mp4",
+    "category": "others"
+  },
+  {
+    "id": 328,
+    "title": "Grey Grid",
+    "filename": "grey_grid_bp9f45.mp4",
+    "url": "https://res.cloudinary.com/dwcxvaswf/video/upload/v1767856712/grey_grid_bp9f45.mp4",
+    "category": "others"
   }
 ]
