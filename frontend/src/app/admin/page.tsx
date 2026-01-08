@@ -186,9 +186,9 @@ export default function AdminDashboard() {
       setRecentLogins(mappedLogins);
 
       // Count students based on their approval status
-      const students = mappedLogins.filter(u => u.role === 'student');
-      const pendingEnrollments = students.filter((u) => (u.approved_enrollments || 0) === 0).length;
-      const approvedEnrollments = students.filter((u) => (u.approved_enrollments || 0) > 0).length;
+      const students = mappedLogins.filter((u: AdminUser) => u.role === 'student');
+      const pendingEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) === 0).length;
+      const approvedEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) > 0).length;
       const totalCourses = (coursesData.courses || []).length;
       const totalStudents = students.length;
 
