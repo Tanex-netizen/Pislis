@@ -123,13 +123,13 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Lesson-2.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853458/Lesson-2_zkl35x.mp4',
   },
-  { id: 3, title: 'FB Account Setup', filename: 'LESSON 3. FB ACCOUNT.mp4', duration: 12, thumbnail: null },
+  { id: 3, title: 'FB Account Setup', filename: 'LESSON 3. FB ACCOUNT.mp4', duration: 12, thumbnail: '/thumbnail/Lesson-3.jpg' },
   {
     id: 4,
     title: 'How to Gain Followers in Organic Way',
     filename: 'LESSON 4. How to gain followers in organic way.mp4',
     duration: 18,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-4.jpg',
     videoUrlOverride:
       'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767860985/how_to_gain_followers_in_organic_way_1_kvpjdv.mp4',
   },
@@ -138,7 +138,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Video Editing by My Video Editor',
     filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
     duration: 20,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-5.jpg',
     videoUrlOverride:
       'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
   },
@@ -147,7 +147,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Video Editing in CapCut',
     filename: 'hero.mp4',
     duration: 10,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-6.jpg',
     videoUrlOverride:
       'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
   },
@@ -156,18 +156,18 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Sample Edit by My Video Editor II',
     filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
     duration: 18,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-7.jpg',
     // Per request: use this Cloudinary upload for Lesson 7
     videoUrlOverride:
       'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
   },
-  { id: 8, title: 'Name Page to Edit Video', filename: 'LESSON 6  . Name page to Edit video.mp4', duration: 15, thumbnail: null },
+  { id: 8, title: 'Name Page to Edit Video', filename: 'LESSON 6  . Name page to Edit video.mp4', duration: 15, thumbnail: '/thumbnail/Lesson-8.jpg' },
   {
     id: 9,
     title: 'Ways Paano Magviral',
     filename: 'LESSON 6 II. Ways paano magviral.mp4',
     duration: 14,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-9.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-9_qggpgj.mp4',
   },
   {
@@ -175,7 +175,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'How to Get More Followers',
     filename: 'LESSON 7. How to get more followers.mp4',
     duration: 16,
-    thumbnail: '/thumbnail/Lesson-8.jpg',
+    thumbnail: '/thumbnail/Lesson-10.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853373/Lesson-10_njvy4y.mp4',
   },
   {
@@ -183,7 +183,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'How to Make Page and Post',
     filename: 'LESSON 7 II. How to make page and post.mp4',
     duration: 13,
-    thumbnail: null,
+    thumbnail: '/thumbnail/Lesson-11.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853369/Lesson-11_luwbrd.mp4',
   },
   {
@@ -191,7 +191,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'How to Generate Image sa ChatGPT sa Madaling Paraan',
     filename: 'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4',
     duration: 12,
-    thumbnail: '/thumbnail/Lesson-10.jpg',
+    thumbnail: '/thumbnail/Lesson-12.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853462/Lesson-12_i346j1.mp4',
   },
   {
@@ -199,7 +199,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'How to Create a Sample Photo in Canva',
     filename: 'LESSON 9. how to create a sample photo in canva.mp4',
     duration: 15,
-    thumbnail: '/thumbnail/Lesson-11.jpg',
+    thumbnail: '/thumbnail/Lesson-13.jpg',
   },
   {
     id: 14,
