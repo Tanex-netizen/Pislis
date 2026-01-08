@@ -405,15 +405,21 @@ router.get('/users', async (req, res) => {
       return res.status(500).json({ error: 'Failed to fetch users' });
     }
 
-    // If includeEnrollments is true, fetch enrollment counts for each user
+    // If includeEnrollments is true, fetch enrollment details for each user
     let usersWithEnrollments = users || [];
     if (includeEnrollments === 'true' && users && users.length > 0) {
       const userIds = users.map(u => u.id);
       
-      // Get enrollment counts for all users
+      // Get enrollment details for all users
       const { data: enrollments } = await supabase
         .from('enrollments')
-        .select('id, user_id, status')
+        .select(`
+          id,
+          user_id,
+          status,
+          course_id,
+          courses (id, title)
+        `)
         .in('user_id', userIds);
 
       // Map enrollments to users
@@ -421,6 +427,7 @@ router.get('/users', async (req, res) => {
         const userEnrollments = (enrollments || []).filter(e => e.user_id === user.id);
         return {
           ...user,
+          enrollments: userEnrollments,
           pending_enrollments: userEnrollments.filter(e => e.status === 'pending').length,
           approved_enrollments: userEnrollments.filter(e => e.status === 'active' || e.status === 'approved').length,
           total_enrollments: userEnrollments.length

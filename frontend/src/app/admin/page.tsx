@@ -47,6 +47,12 @@ interface AdminUser {
   pending_enrollments?: number;
   approved_enrollments?: number;
   total_enrollments?: number;
+  enrollments?: Array<{
+    id: string;
+    status: string;
+    course_id: string;
+    courses?: { id: string; title: string };
+  }>;
 }
 
 export default function AdminDashboard() {
@@ -141,7 +147,7 @@ export default function AdminDashboard() {
             Authorization: `Bearer ${token}`,
           },
         }),
-        fetch(`${API_BASE_URL}/admin/users?loggedInOnly=true&limit=100&page=1&includeEnrollments=true`, {
+        fetch(`${API_BASE_URL}/admin/users?limit=100&page=1&includeEnrollments=true`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -174,6 +180,7 @@ export default function AdminDashboard() {
         pending_enrollments: u.pending_enrollments || 0,
         approved_enrollments: u.approved_enrollments || 0,
         total_enrollments: u.total_enrollments || 0,
+        enrollments: u.enrollments || [],
       })));
 
       const pendingEnrollments = fetchedEnrollments.filter((e) => e.status === 'pending').length;
@@ -468,12 +475,12 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Recent Logins */}
+          {/* All Students */}
           <div className="card mb-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-white">Recent Logins</h2>
+              <h2 className="text-xl font-bold text-white">All Students</h2>
               <span className="text-sm text-gray-400">
-                {recentLogins.length} user{recentLogins.length === 1 ? '' : 's'}
+                {recentLogins.length} student{recentLogins.length === 1 ? '' : 's'}
               </span>
             </div>
 
@@ -536,7 +543,7 @@ export default function AdminDashboard() {
                           </div>
                         </td>
                         <td className="py-4 px-4">
-                          <div className="flex items-center justify-end gap-2">
+                          <div className="flex items-center justify-end gap-2 flex-wrap">
                             <Link
                               href={`/admin/unlock?userId=${u.id}&userCode=${u.user_code}`}
                               className="px-3 py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded transition-colors"
@@ -544,15 +551,46 @@ export default function AdminDashboard() {
                               <Unlock className="w-3 h-3 inline mr-1" />
                               Unlock
                             </Link>
-                            {u.total_enrollments && u.total_enrollments > 0 ? (
-                              <button
-                                onClick={() => router.push(`/admin/unlock?userId=${u.id}`)}
-                                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded transition-colors"
-                              >
-                                <Eye className="w-3 h-3 inline mr-1" />
-                                View
-                              </button>
-                            ) : null}
+                            {u.enrollments && u.enrollments.length > 0 ? (
+                              u.enrollments.map((enrollment) => (
+                                <div key={enrollment.id} className="flex items-center gap-1">
+                                  {enrollment.status === 'pending' ? (
+                                    <>
+                                      <button
+                                        onClick={() => handleApprove(enrollment.id)}
+                                        disabled={actionLoading === enrollment.id}
+                                        className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+                                        title={`Approve: ${enrollment.courses?.title || 'Course'}`}
+                                      >
+                                        <CheckCircle className="w-3 h-3 inline mr-0.5" />
+                                        Approve
+                                      </button>
+                                      <button
+                                        onClick={() => handleReject(enrollment.id)}
+                                        disabled={actionLoading === enrollment.id}
+                                        className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+                                        title={`Reject: ${enrollment.courses?.title || 'Course'}`}
+                                      >
+                                        <XCircle className="w-3 h-3 inline mr-0.5" />
+                                        Reject
+                                      </button>
+                                    </>
+                                  ) : enrollment.status === 'approved' || enrollment.status === 'active' ? (
+                                    <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded" title={enrollment.courses?.title || 'Course'}>
+                                      ✓ Approved
+                                    </span>
+                                  ) : enrollment.status === 'rejected' ? (
+                                    <span className="px-2 py-1 bg-red-500/20 text-red-400 text-xs font-medium rounded" title={enrollment.courses?.title || 'Course'}>
+                                      ✗ Rejected
+                                    </span>
+                                  ) : null}
+                                </div>
+                              ))
+                            ) : (
+                              <span className="px-2 py-1 bg-gray-600/50 text-gray-400 text-xs rounded">
+                                No enrollments
+                              </span>
+                            )}
                           </div>
                         </td>
                       </tr>
