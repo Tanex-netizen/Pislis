@@ -131,7 +131,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 18,
     thumbnail: null,
     videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690651/darwin-education/lessons/LESSON_4._How_to_gain_followers_in_organic_way.mp4',
   },
   {
     id: 5,
@@ -151,7 +151,16 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride:
       'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
   },
-  { id: 7, title: 'Sample Edit by My Video Editor II', filename: 'Lesson-6-Sample Edit by my video editor II.mp4', duration: 18, thumbnail: null },
+  {
+    id: 7,
+    title: 'Sample Edit by My Video Editor II',
+    filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
+    duration: 18,
+    thumbnail: null,
+    // Per request: use this Cloudinary upload for Lesson 7
+    videoUrlOverride:
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
+  },
   { id: 8, title: 'Name Page to Edit Video', filename: 'LESSON 6  . Name page to Edit video.mp4', duration: 15, thumbnail: null },
   {
     id: 9,
@@ -550,7 +559,8 @@ export default function CourseLearnPage() {
 
   // Fetch files when tab becomes active
   useEffect(() => {
-    if (activeTab !== 'files') return;
+    const shouldFetch = activeTab === 'files' || (activeTab === 'lessons' && !!currentVideoLesson);
+    if (!shouldFetch) return;
     if (courseFiles.length > 0) return;
     
     let isMounted = true;
@@ -578,7 +588,7 @@ export default function CourseLearnPage() {
     return () => {
       isMounted = false;
     };
-  }, [activeTab, courseFiles.length]);
+  }, [activeTab, currentVideoLesson, courseFiles.length]);
 
   const filteredFiles = useMemo(() => {
     if (activeTab !== 'files') return courseFiles;
@@ -1152,6 +1162,33 @@ export default function CourseLearnPage() {
                   </span>
                 )}
               </div>
+            </div>
+
+            {/* Files (downloadables) */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-8">
+              <h3 className="font-semibold text-white mb-4">Files</h3>
+              {filesLoading ? (
+                <p className="text-gray-400 text-sm">Loading files...</p>
+              ) : filesError ? (
+                <p className="text-gray-400 text-sm">{filesError}</p>
+              ) : courseFiles.length === 0 ? (
+                <p className="text-gray-500 text-sm">No files available</p>
+              ) : (
+                <ul className="space-y-2">
+                  {courseFiles.map((file) => (
+                    <li key={file.id} className="flex items-center justify-between gap-3">
+                      <span className="text-gray-300 text-sm truncate">{file.name}</span>
+                      <a
+                        href={file.url}
+                        download={file.name}
+                        className="text-emerald-400 hover:text-emerald-300 text-sm flex-shrink-0"
+                      >
+                        Download
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* Completion message */}
