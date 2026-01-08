@@ -131,9 +131,11 @@ export default function AdminDashboard() {
       const coursesData = coursesRes.ok ? await coursesRes.json() : { courses: [] };
       const usersData = usersRes.ok ? await usersRes.json() : { users: [] };
 
-      const fetchedEnrollments: Enrollment[] = (enrollmentsData.enrollments || []).map((e: Enrollment) => ({
-        ...e,
+      const fetchedEnrollments: Enrollment[] = (enrollmentsData.enrollments || []).map((e: Partial<Enrollment>) => ({
+        ...(e as Enrollment),
+        name: e.name || 'Unknown',
         email: (e.email || '').toLowerCase(),
+        phone: e.phone || '',
       }));
 
       setEnrollments(fetchedEnrollments);
@@ -248,8 +250,8 @@ export default function AdminDashboard() {
   const filteredEnrollments = enrollments.filter(enrollment => {
     const matchesStatus = filterStatus === 'all' || enrollment.status === filterStatus;
     const matchesSearch = 
-      enrollment.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      enrollment.email.toLowerCase().includes(searchQuery.toLowerCase());
+      (enrollment.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (enrollment.email || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchesStatus && matchesSearch;
   });
 
