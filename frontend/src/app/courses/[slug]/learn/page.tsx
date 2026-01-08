@@ -93,38 +93,170 @@ const LESSON_VIDEO_URL_OVERRIDES: Record<string, string> = {
 
 type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 
+type LessonVideoEntry = {
+  id: number;
+  title: string;
+  filename: string;
+  duration: number;
+  thumbnail: string | null;
+  youtubeEmbedUrl?: string;
+  videoUrlOverride?: string;
+};
+
 // Lesson videos from public/Lessons folder - ordered properly
-const LESSON_VIDEOS = [
+const LESSON_VIDEOS: LessonVideoEntry[] = [
   {
     id: 1,
     title: 'What is Facebook Automation in Simple Explanation',
     filename: 'LESSON 1. what is facebook automation in simple explanation.mp4',
     duration: 10,
     thumbnail: '/thumbnail/Lesson-1.jpg',
-    youtubeEmbedUrl:
-      'https://www.youtube-nocookie.com/embed/plpUS-HSlHo?list=PLe-NMa9rSZEjYGlhvmA8GN0vrU3BUHHqd&modestbranding=1&rel=0&playsinline=1',
+    // Replaced YouTube embed with Cloudinary
+    videoUrlOverride:
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853343/Lesson-1_voprmu.mp4',
   },
-  { id: 2, title: 'Niches with High Earnings', filename: 'LESSON 2. Niche have High Earnings.mp4', duration: 15, thumbnail: '/thumbnail/Lesson-2.jpg' },
+  {
+    id: 2,
+    title: 'Niches with High Earnings',
+    filename: 'LESSON 2. Niche have High Earnings.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-2.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853458/Lesson-2_zkl35x.mp4',
+  },
   { id: 3, title: 'FB Account Setup', filename: 'LESSON 3. FB ACCOUNT.mp4', duration: 12, thumbnail: null },
-  { id: 4, title: 'How to Gain Followers in Organic Way', filename: 'LESSON 4. How to gain followers in organic way.mp4', duration: 18, thumbnail: null },
-  { id: 5, title: 'Video Editing by My Video Editor', filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4', duration: 20, thumbnail: null },
-  { id: 6, title: 'Video Editing in CapCut', filename: 'hero.mp4', duration: 10, thumbnail: null },
+  {
+    id: 4,
+    title: 'How to Gain Followers in Organic Way',
+    filename: 'LESSON 4. How to gain followers in organic way.mp4',
+    duration: 18,
+    thumbnail: null,
+    videoUrlOverride:
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
+  },
+  {
+    id: 5,
+    title: 'Video Editing by My Video Editor',
+    filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
+    duration: 20,
+    thumbnail: null,
+    videoUrlOverride:
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
+  },
+  {
+    id: 6,
+    title: 'Video Editing in CapCut',
+    filename: 'hero.mp4',
+    duration: 10,
+    thumbnail: null,
+    videoUrlOverride:
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
+  },
   { id: 7, title: 'Sample Edit by My Video Editor II', filename: 'Lesson-6-Sample Edit by my video editor II.mp4', duration: 18, thumbnail: null },
   { id: 8, title: 'Name Page to Edit Video', filename: 'LESSON 6  . Name page to Edit video.mp4', duration: 15, thumbnail: null },
-  { id: 9, title: 'Ways Paano Magviral', filename: 'LESSON 6 II. Ways paano magviral.mp4', duration: 14, thumbnail: null },
-  { id: 10, title: 'How to Get More Followers', filename: 'LESSON 7. How to get more followers.mp4', duration: 16, thumbnail: '/thumbnail/Lesson-8.jpg' },
-  { id: 11, title: 'How to Make Page and Post', filename: 'LESSON 7 II. How to make page and post.mp4', duration: 13, thumbnail: null },
-  { id: 12, title: 'How to Generate Image sa ChatGPT sa Madaling Paraan', filename: 'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4', duration: 12, thumbnail: '/thumbnail/Lesson-10.jpg' },
-  { id: 13, title: 'How to Create a Sample Photo in Canva', filename: 'LESSON 9. how to create a sample photo in canva.mp4', duration: 15, thumbnail: '/thumbnail/Lesson-11.jpg' },
-  { id: 14, title: 'ChatGPT + Mage.space', filename: '10  chatgpt + mage.space.mp4', duration: 18, thumbnail: '/thumbnail/Lesson-12.jpg' },
-  { id: 15, title: 'Q&A Final', filename: '11. Q&A final.mp4', duration: 20, thumbnail: null },
-  { id: 16, title: 'Another Tips Final', filename: '12. another tips final.mp4', duration: 15, thumbnail: null },
-  { id: 17, title: 'Extra Tips Final', filename: '13 . Extra tips final.mp4', duration: 14, thumbnail: null },
-  { id: 18, title: 'Paano Ako Kumita ng 6 Digits sa Story', filename: '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4', duration: 22, thumbnail: null },
-  { id: 19, title: 'Sample Edit About Reaction Video Niche', filename: '15. Sample edit about Reaction video Niche.mp4', duration: 18, thumbnail: null },
+  {
+    id: 9,
+    title: 'Ways Paano Magviral',
+    filename: 'LESSON 6 II. Ways paano magviral.mp4',
+    duration: 14,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-9_qggpgj.mp4',
+  },
+  {
+    id: 10,
+    title: 'How to Get More Followers',
+    filename: 'LESSON 7. How to get more followers.mp4',
+    duration: 16,
+    thumbnail: '/thumbnail/Lesson-8.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853373/Lesson-10_njvy4y.mp4',
+  },
+  {
+    id: 11,
+    title: 'How to Make Page and Post',
+    filename: 'LESSON 7 II. How to make page and post.mp4',
+    duration: 13,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853369/Lesson-11_luwbrd.mp4',
+  },
+  {
+    id: 12,
+    title: 'How to Generate Image sa ChatGPT sa Madaling Paraan',
+    filename: 'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/Lesson-10.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853462/Lesson-12_i346j1.mp4',
+  },
+  {
+    id: 13,
+    title: 'How to Create a Sample Photo in Canva',
+    filename: 'LESSON 9. how to create a sample photo in canva.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-11.jpg',
+  },
+  {
+    id: 14,
+    title: 'ChatGPT + Mage.space',
+    filename: '10  chatgpt + mage.space.mp4',
+    duration: 18,
+    thumbnail: '/thumbnail/Lesson-12.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853549/Lesson-14_uiapkp.mp4',
+  },
+  {
+    id: 15,
+    title: 'Q&A Final',
+    filename: '11. Q&A final.mp4',
+    duration: 20,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853546/Lesson-15_kbmkan.mp4',
+  },
+  {
+    id: 16,
+    title: 'Another Tips Final',
+    filename: '12. another tips final.mp4',
+    duration: 15,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-16_c4iuwf.mp4',
+  },
+  {
+    id: 17,
+    title: 'Extra Tips Final',
+    filename: '13 . Extra tips final.mp4',
+    duration: 14,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853544/Lesson-17_u9l8jy.mp4',
+  },
+  {
+    id: 18,
+    title: 'Paano Ako Kumita ng 6 Digits sa Story',
+    filename: '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4',
+    duration: 22,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853507/Lesson-18_e2iv0n.mp4',
+  },
+  {
+    id: 19,
+    title: 'Sample Edit About Reaction Video Niche',
+    filename: '15. Sample edit about Reaction video Niche.mp4',
+    duration: 18,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853545/Lesson-19_icp8fk.mp4',
+  },
   { id: 20, title: 'Saan I-Download ang Nakuhang Content na 1080P', filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4', duration: 10, thumbnail: null },
-  { id: 21, title: 'Saan Kukuha ng I-Repurpose Content - How to Re-edit', filename: '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4', duration: 25, thumbnail: null },
-  { id: 22, title: 'Script & Site That Unlocks Unlimited Content', filename: '19. I Discovered a Script & Site That Unlocks Unlimite.mp4', duration: 16, thumbnail: null },
+  {
+    id: 21,
+    title: 'Saan Kukuha ng I-Repurpose Content - How to Re-edit',
+    filename: '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4',
+    duration: 25,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853587/Lesson-21_oj3dns.mp4',
+  },
+  {
+    id: 22,
+    title: 'Script & Site That Unlocks Unlimited Content',
+    filename: '19. I Discovered a Script & Site That Unlocks Unlimite.mp4',
+    duration: 16,
+    thumbnail: null,
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853559/Lesson-22_lzpjao.mp4',
+  },
   { id: 23, title: 'Awareness!!', filename: '21. Awareness!!.mp4', duration: 12, thumbnail: null },
   { id: 24, title: "The Do's and Don'ts", filename: "23 The Do's and Don'ts.mp4", duration: 15, thumbnail: null },
   { id: 25, title: 'PC Unli Capcut Pro Hacks', filename: '23. PC Unli Capcut Pro hacks.mp4', duration: 20, thumbnail: null },
@@ -942,7 +1074,7 @@ export default function CourseLearnPage() {
 
             {/* Video player */}
             <div className="aspect-video bg-gray-900 rounded-xl mb-8 overflow-hidden">
-              {currentVideoLesson.youtubeEmbedUrl ? (
+              {currentVideoLesson.youtubeEmbedUrl && !currentVideoLesson.videoUrlOverride ? (
                 <iframe
                   className="w-full h-full"
                   src={currentVideoLesson.youtubeEmbedUrl}
@@ -953,40 +1085,47 @@ export default function CourseLearnPage() {
                   allowFullScreen
                 />
               ) : (
-                <video
-                  ref={videoRef}
-                  key={`${currentVideoLesson.id}-${lessonVideoSource}-${lessonVideoR2Variant}`}
-                  src={getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource, lessonVideoR2Variant)}
-                  controls
-                  className="w-full h-full"
-                  // Only set CORS mode for Cloudinary URLs. Setting crossOrigin for R2 public URLs
-                  // can trigger a CORS preflight and fail playback if the bucket CORS isn't configured.
-                  crossOrigin={(() => {
-                    const url = getLessonVideoUrl(
-                      currentVideoLesson.filename,
-                      lessonVideoSource,
-                      lessonVideoR2Variant
-                    );
-                    return url.includes('res.cloudinary.com/') ? 'anonymous' : undefined;
-                  })()}
-                  onEnded={handleVideoEnded}
-                  autoPlay
-                  onError={() => {
-                    // Auto-fallback for large videos uploaded to R2
-                    if (lessonVideoSource === 'cloudinary') {
-                      setLessonVideoSource('r2');
-                      return;
-                    }
-                    // Some buckets store objects at the root, not under /lessons
-                    if (lessonVideoSource === 'r2' && lessonVideoR2Variant === 'lessons') {
-                      setLessonVideoR2Variant('root');
-                      return;
-                    }
-                    setLessonVideoError(
-                      'Video failed to load from both Cloudinary and R2. Please confirm the R2 public URL resolves, and the filename/path match.'
-                    );
-                  }}
-                />
+                (() => {
+                  const resolvedUrl =
+                    currentVideoLesson.videoUrlOverride ??
+                    getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource, lessonVideoR2Variant);
+
+                  return (
+                    <video
+                      ref={videoRef}
+                      key={`${currentVideoLesson.id}-${lessonVideoSource}-${lessonVideoR2Variant}`}
+                      src={resolvedUrl}
+                      controls
+                      className="w-full h-full"
+                      // Only set CORS mode for Cloudinary URLs. Setting crossOrigin for R2 public URLs
+                      // can trigger a CORS preflight and fail playback if the bucket CORS isn't configured.
+                      crossOrigin={resolvedUrl.includes('res.cloudinary.com/') ? 'anonymous' : undefined}
+                      onEnded={handleVideoEnded}
+                      autoPlay
+                      onError={() => {
+                        // If this lesson uses an explicit override URL, don't auto-switch sources.
+                        if (currentVideoLesson.videoUrlOverride) {
+                          setLessonVideoError('Video failed to load from the configured Cloudinary URL. Please verify the asset exists and is public.');
+                          return;
+                        }
+
+                        // Auto-fallback for large videos uploaded to R2
+                        if (lessonVideoSource === 'cloudinary') {
+                          setLessonVideoSource('r2');
+                          return;
+                        }
+                        // Some buckets store objects at the root, not under /lessons
+                        if (lessonVideoSource === 'r2' && lessonVideoR2Variant === 'lessons') {
+                          setLessonVideoR2Variant('root');
+                          return;
+                        }
+                        setLessonVideoError(
+                          'Video failed to load from both Cloudinary and R2. Please confirm the R2 public URL resolves, and the filename/path match.'
+                        );
+                      }}
+                    />
+                  );
+                })()
               )}
             </div>
 
