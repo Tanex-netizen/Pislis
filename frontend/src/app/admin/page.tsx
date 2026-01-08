@@ -168,7 +168,7 @@ export default function AdminDashboard() {
 
       setEnrollments(fetchedEnrollments);
 
-      setRecentLogins((recentLoginsData.users || []).map((u: Partial<AdminUser>) => ({
+      const mappedLogins = (recentLoginsData.users || []).map((u: Partial<AdminUser>) => ({
         id: String(u.id || ''),
         user_code: String(u.user_code || ''),
         name: String(u.name || 'Unknown'),
@@ -181,12 +181,16 @@ export default function AdminDashboard() {
         approved_enrollments: u.approved_enrollments || 0,
         total_enrollments: u.total_enrollments || 0,
         enrollments: u.enrollments || [],
-      })));
+      }));
 
-      const pendingEnrollments = fetchedEnrollments.filter((e) => e.status === 'pending').length;
-      const approvedEnrollments = fetchedEnrollments.filter((e) => e.status === 'approved').length;
+      setRecentLogins(mappedLogins);
+
+      // Count students based on their approval status
+      const students = mappedLogins.filter(u => u.role === 'student');
+      const pendingEnrollments = students.filter((u) => (u.approved_enrollments || 0) === 0).length;
+      const approvedEnrollments = students.filter((u) => (u.approved_enrollments || 0) > 0).length;
       const totalCourses = (coursesData.courses || []).length;
-      const totalStudents = (usersData.users || []).filter((u: { role?: string }) => u.role === 'student').length;
+      const totalStudents = students.length;
 
       setStats({
         pendingEnrollments,
@@ -590,145 +594,6 @@ export default function AdminDashboard() {
                               <span className="px-2 py-1 bg-gray-600/50 text-gray-400 text-xs rounded">
                                 No enrollments
                               </span>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Enrollments Table */}
-          <div className="card">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-              <h2 className="text-xl font-bold text-white">Enrollment Requests</h2>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                {/* Search */}
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2 bg-dark-400 border border-primary-900/30 rounded-lg text-white text-sm focus:outline-none focus:border-primary-500"
-                  />
-                </div>
-
-                {/* Filter */}
-                <select
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-4 py-2 bg-dark-400 border border-primary-900/30 rounded-lg text-white text-sm focus:outline-none focus:border-primary-500"
-                >
-                  <option value="all">All Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-primary-900/30">
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Student</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden md:table-cell">Course</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden sm:table-cell">Date</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Status</th>
-                    <th className="text-right py-3 px-4 text-gray-400 font-medium text-sm">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <tr>
-                      <td colSpan={5} className="py-8 text-center text-gray-400">
-                        <Loader2 className="w-6 h-6 animate-spin mx-auto" />
-                      </td>
-                    </tr>
-                  ) : filteredEnrollments.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} className="py-8 text-center text-gray-400">
-                        No enrollments found
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredEnrollments.map((enrollment) => (
-                      <tr key={enrollment.id} className="border-b border-primary-900/20 hover:bg-dark-400/50">
-                        <td className="py-4 px-4">
-                          <div>
-                            <p className="text-white font-medium">{enrollment.name}</p>
-                            <p className="text-gray-500 text-sm">{enrollment.email}</p>
-                          </div>
-                        </td>
-                        <td className="py-4 px-4 hidden md:table-cell">
-                          <p className="text-gray-300 text-sm">{enrollment.courses?.title || 'Not specified'}</p>
-                          {typeof enrollment.courses?.price === 'number' && (
-                            <p className="text-primary-400 text-sm">₱{enrollment.courses.price.toLocaleString()}</p>
-                          )}
-                        </td>
-                        <td className="py-4 px-4 hidden sm:table-cell">
-                          <p className="text-gray-400 text-sm">
-                            {new Date(enrollment.created_at).toLocaleDateString()}
-                          </p>
-                        </td>
-                        <td className="py-4 px-4">
-                          {getStatusBadge(enrollment.status)}
-                        </td>
-                        <td className="py-4 px-4 text-right">
-                          <div className="flex items-center justify-end space-x-2">
-                            <button
-                              onClick={() => setSelectedEnrollment(enrollment)}
-                              className="p-2 text-gray-400 hover:text-white transition-colors"
-                              title="View Details"
-                            >
-                              <Eye className="w-4 h-4" />
-                            </button>
-                            {enrollment.status === 'pending' && (
-                              <>
-                                {enrollment.courses?.id && (
-                                  <button
-                                    onClick={() => handleApprove(enrollment.id)}
-                                    disabled={actionLoading === enrollment.id}
-                                    className="p-2 text-green-400 hover:text-green-300 transition-colors disabled:opacity-50"
-                                    title="Approve"
-                                  >
-                                    {actionLoading === enrollment.id ? (
-                                      <Loader2 className="w-4 h-4 animate-spin" />
-                                    ) : (
-                                      <CheckCircle className="w-4 h-4" />
-                                    )}
-                                  </button>
-                                )}
-                                <button
-                                  onClick={() => handleReject(enrollment.id)}
-                                  disabled={actionLoading === enrollment.id}
-                                  className="p-2 text-red-400 hover:text-red-300 transition-colors disabled:opacity-50"
-                                  title="Reject"
-                                >
-                                  <XCircle className="w-4 h-4" />
-                                </button>
-                              </>
-                            )}
-                            {enrollment.status === 'approved' && (
-                              <button
-                                onClick={() => handleResendLink(enrollment.id)}
-                                disabled={actionLoading === enrollment.id}
-                                className="p-2 text-blue-400 hover:text-blue-300 transition-colors"
-                                title="Resend Link"
-                              >
-                                {actionLoading === enrollment.id ? (
-                                  <Loader2 className="w-4 h-4 animate-spin" />
-                                ) : (
-                                  <Mail className="w-4 h-4" />
-                                )}
-                              </button>
                             )}
                           </div>
                         </td>
