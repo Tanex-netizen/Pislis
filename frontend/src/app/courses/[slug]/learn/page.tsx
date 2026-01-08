@@ -53,6 +53,44 @@ const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = Object.fromEntries(
   ])
 ) as Record<string, 'cloudinary' | 'r2'>;
 
+// Public dev URLs (Cloudflare R2 public domain) for lesson videos.
+// If a filename exists here, we always use the explicit URL to ensure playback.
+const LESSON_VIDEO_URL_OVERRIDES: Record<string, string> = {
+  '12. another tips final.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/12.%20another%20tips%20final.mp4',
+  '10  chatgpt + mage.space.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/10%20%20chatgpt%20%2B%20mage.space.mp4',
+  '11. Q&A final.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/11.%20Q%26A%20final.mp4',
+  '13 . Extra tips final.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/13%20.%20Extra%20tips%20final.mp4',
+  '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/14.%20PAANO%20AKO%20KUMITA%20NG%206%20DIGITS%20SA%20STORY.mp4',
+  '15. Sample edit about Reaction video Niche.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/15.%20Sample%20edit%20about%20Reaction%20video%20Niche.mp4',
+  '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/17%20%26%2018%20SAAN%20KUKUHA%20NG%20I-REPURPOSE%20CONTENT%20-%20HOW%20TO%20REEDIT.mp4',
+  '19. I Discovered a Script & Site That Unlocks Unlimite.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/19.%20I%20Discovered%20a%20Script%20%26%20Site%20That%20Unlocks%20Unlimite.mp4',
+  'LESSON 1. what is facebook automation in simple explanation.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%201.%20what%20is%20facebook%20automation%20in%20simple%20explanation.mp4',
+  'LESSON 2. Niche have High Earnings.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%202.%20Niche%20have%20High%20Earnings.mp4',
+  'LESSON 5. VID EDITING BY MY VID EDITOR.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%205.%20VID%20EDITING%20BY%20MY%20VID%20EDITOR.mp4',
+  'LESSON 6 II. Ways paano magviral.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%206%20II.%20Ways%20paano%20magviral.mp4',
+  'LESSON 7 II. How to make page and post.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%207%20II.%20How%20to%20make%20page%20and%20post.mp4',
+  'LESSON 7. How to get more followers.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%207.%20How%20to%20get%20more%20followers.mp4',
+  'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%208.%20how%20to%20generate%20image%20sa%20chatgpt%20sa%20madaling%20paraa.mp4',
+  'Lesson-6-Sample Edit by my video editor II.mp4':
+    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/Lesson-6-Sample%20Edit%20by%20my%20video%20editor%20II.mp4',
+  'hero.mp4': 'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/hero.mp4',
+};
+
 type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 
 // Lesson videos from public/Lessons folder - ordered properly
@@ -135,6 +173,10 @@ const getLessonVideoUrl = (
   r2Variant: 'lessons' | 'root' = 'lessons'
 ) => {
   const normalizedFilename = normalizeFilenameKey(filename);
+
+  const overrideUrl = LESSON_VIDEO_URL_OVERRIDES[normalizedFilename];
+  if (overrideUrl) return overrideUrl;
+
   const source = sourceOverride || VIDEO_SOURCES[normalizedFilename] || 'cloudinary';
   return source === 'r2'
     ? getLessonR2VideoUrl(normalizedFilename, r2Variant)
