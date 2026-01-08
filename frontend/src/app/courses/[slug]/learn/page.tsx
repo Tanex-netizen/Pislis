@@ -142,6 +142,7 @@ const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
 const LESSON_CONTENT_OVERRIDES: Record<string, string> = {
   // Map the lesson title (exact match) to a public video URL
   'Another Tips Final': 'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/12.%20another%20tips%20final.mp4',
+  'Video Editing by My Video Editor': 'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%205.%20VID%20EDITING%20BY%20MY%20VID%20EDITOR.mp4',
 };
 
 const getLessonCloudinaryVideoUrl = (filename: string) => {
