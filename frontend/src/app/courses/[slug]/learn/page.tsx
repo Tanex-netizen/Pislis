@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/Navbar';
+import VIDEO_SOURCES_RAW from '@/data/video-sources.json';
 import { 
   Play, 
   CheckCircle, 
@@ -39,13 +40,32 @@ if (typeof window !== 'undefined') {
 // TEMPORARY: All videos use Cloudinary until R2 public domain is configured
 // R2's .r2.cloudflarestorage.com URLs cannot be accessed by browsers
 // See R2_CORS_SETUP.md for instructions to enable R2 public access
-const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = {};
+const normalizeFilenameKey = (value: string) =>
+  value
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .trim();
+
+const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = Object.fromEntries(
+  Object.entries(VIDEO_SOURCES_RAW as Record<string, 'cloudinary' | 'r2'>).map(([k, v]) => [
+    normalizeFilenameKey(k),
+    v,
+  ])
+) as Record<string, 'cloudinary' | 'r2'>;
 
 type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 
 // Lesson videos from public/Lessons folder - ordered properly
 const LESSON_VIDEOS = [
-  { id: 1, title: 'What is Facebook Automation in Simple Explanation', filename: 'LESSON 1. what is facebook automation in simple explanation.mp4', duration: 10, thumbnail: '/thumbnail/Lesson-1.jpg' },
+  {
+    id: 1,
+    title: 'What is Facebook Automation in Simple Explanation',
+    filename: 'LESSON 1. what is facebook automation in simple explanation.mp4',
+    duration: 10,
+    thumbnail: '/thumbnail/Lesson-1.jpg',
+    youtubeEmbedUrl:
+      'https://www.youtube-nocookie.com/embed/plpUS-HSlHo?list=PLe-NMa9rSZEjYGlhvmA8GN0vrU3BUHHqd&modestbranding=1&rel=0&playsinline=1',
+  },
   { id: 2, title: 'Niches with High Earnings', filename: 'LESSON 2. Niche have High Earnings.mp4', duration: 15, thumbnail: '/thumbnail/Lesson-2.jpg' },
   { id: 3, title: 'FB Account Setup', filename: 'LESSON 3. FB ACCOUNT.mp4', duration: 12, thumbnail: null },
   { id: 4, title: 'How to Gain Followers in Organic Way', filename: 'LESSON 4. How to gain followers in organic way.mp4', duration: 18, thumbnail: null },
@@ -72,10 +92,18 @@ const LESSON_VIDEOS = [
   { id: 25, title: 'PC Unli Capcut Pro Hacks', filename: '23. PC Unli Capcut Pro hacks.mp4', duration: 20, thumbnail: null },
 ];
 
-const getLessonR2VideoUrl = (filename: string) => {
-  const url = `${R2_LESSONS_BASE_URL}/lessons/${encodeURIComponent(filename)}`;
+const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
+  const base = R2_LESSONS_BASE_URL.replace(/\/+$/g, '');
+  const encoded = encodeURIComponent(filename);
+  const url = variant === 'root' ? `${base}/${encoded}` : `${base}/lessons/${encoded}`;
   console.log('R2 Video URL:', url);
   return url;
+};
+
+// Manual overrides for lesson content videos when a public URL is available
+const LESSON_CONTENT_OVERRIDES: Record<string, string> = {
+  // Map the lesson title (exact match) to a public video URL
+  'Another Tips Final': 'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/12.%20another%20tips%20final.mp4',
 };
 
 const getLessonCloudinaryVideoUrl = (filename: string) => {
@@ -101,9 +129,16 @@ const getLessonCloudinaryVideoUrl = (filename: string) => {
 };
 
 // Helper to get video URL from Cloudinary or R2
-const getLessonVideoUrl = (filename: string, sourceOverride?: 'cloudinary' | 'r2') => {
-  const source = sourceOverride || VIDEO_SOURCES[filename] || 'cloudinary';
-  return source === 'r2' ? getLessonR2VideoUrl(filename) : getLessonCloudinaryVideoUrl(filename);
+const getLessonVideoUrl = (
+  filename: string,
+  sourceOverride?: 'cloudinary' | 'r2',
+  r2Variant: 'lessons' | 'root' = 'lessons'
+) => {
+  const normalizedFilename = normalizeFilenameKey(filename);
+  const source = sourceOverride || VIDEO_SOURCES[normalizedFilename] || 'cloudinary';
+  return source === 'r2'
+    ? getLessonR2VideoUrl(normalizedFilename, r2Variant)
+    : getLessonCloudinaryVideoUrl(normalizedFilename);
 };
 
 interface BrollVideo {
@@ -236,12 +271,15 @@ export default function CourseLearnPage() {
   const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set<number>());
   const videoRef = useRef<HTMLVideoElement>(null);
   const [lessonVideoSource, setLessonVideoSource] = useState<'cloudinary' | 'r2'>('cloudinary');
+  const [lessonVideoR2Variant, setLessonVideoR2Variant] = useState<'lessons' | 'root'>('lessons');
   const [lessonVideoError, setLessonVideoError] = useState<string | null>(null);
 
   // When the current lesson changes, reset source to preferred (VIDEO_SOURCES or Cloudinary)
   useEffect(() => {
     if (!currentVideoLesson) return;
-    setLessonVideoSource(VIDEO_SOURCES[currentVideoLesson.filename] || 'cloudinary');
+    const normalizedFilename = normalizeFilenameKey(currentVideoLesson.filename);
+    setLessonVideoSource(VIDEO_SOURCES[normalizedFilename] || 'cloudinary');
+    setLessonVideoR2Variant('lessons');
     setLessonVideoError(null);
   }, [currentVideoLesson]);
 
@@ -621,6 +659,11 @@ export default function CourseLearnPage() {
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < allLessons.length - 1;
 
+  // Prefer an explicit override URL for lesson content videos when available
+  const currentLessonVideoUrl = currentLesson
+    ? LESSON_CONTENT_OVERRIDES[currentLesson.title] ?? currentLesson.video_url
+    : null;
+
   return (
     <div className="min-h-screen bg-gray-950 flex">
       {/* Sidebar */}
@@ -856,26 +899,43 @@ export default function CourseLearnPage() {
 
             {/* Video player */}
             <div className="aspect-video bg-gray-900 rounded-xl mb-8 overflow-hidden">
-              <video
-                ref={videoRef}
-                key={currentVideoLesson.id}
-                src={getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource)}
-                controls
-                className="w-full h-full"
-                crossOrigin={lessonVideoSource === 'cloudinary' ? 'anonymous' : undefined}
-                onEnded={handleVideoEnded}
-                autoPlay
-                onError={() => {
-                  // Auto-fallback for large videos uploaded to R2
-                  if (lessonVideoSource === 'cloudinary') {
-                    setLessonVideoSource('r2');
-                    return;
-                  }
-                  setLessonVideoError(
-                    'Video failed to load from both Cloudinary and R2. Please confirm the R2 public URL and filename match.'
-                  );
-                }}
-              />
+              {currentVideoLesson.youtubeEmbedUrl ? (
+                <iframe
+                  className="w-full h-full"
+                  src={currentVideoLesson.youtubeEmbedUrl}
+                  title={currentVideoLesson.title}
+                  frameBorder={0}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  ref={videoRef}
+                  key={`${currentVideoLesson.id}-${lessonVideoSource}-${lessonVideoR2Variant}`}
+                  src={getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource, lessonVideoR2Variant)}
+                  controls
+                  className="w-full h-full"
+                  crossOrigin={lessonVideoSource === 'cloudinary' ? 'anonymous' : undefined}
+                  onEnded={handleVideoEnded}
+                  autoPlay
+                  onError={() => {
+                    // Auto-fallback for large videos uploaded to R2
+                    if (lessonVideoSource === 'cloudinary') {
+                      setLessonVideoSource('r2');
+                      return;
+                    }
+                    // Some buckets store objects at the root, not under /lessons
+                    if (lessonVideoSource === 'r2' && lessonVideoR2Variant === 'lessons') {
+                      setLessonVideoR2Variant('root');
+                      return;
+                    }
+                    setLessonVideoError(
+                      'Video failed to load from both Cloudinary and R2. Please confirm the R2 public URL resolves, and the filename/path match.'
+                    );
+                  }}
+                />
+              )}
             </div>
 
             {lessonVideoError && (
@@ -955,14 +1015,14 @@ export default function CourseLearnPage() {
           </div>
         ) : currentLesson && activeTab === 'lessons' ? (
           <div className="p-6 lg:p-8 max-w-4xl mx-auto">
-            {/* Video player placeholder */}
-            {currentLesson.video_url && (
+            {/* Video player placeholder (supports explicit public URL overrides) */}
+            {currentLessonVideoUrl && (
               <div className="aspect-video bg-gray-900 rounded-xl mb-8 flex items-center justify-center">
                 <video
-                  src={currentLesson.video_url}
+                  src={currentLessonVideoUrl}
                   controls
                   className="w-full h-full rounded-xl"
-                  poster={`${currentLesson.video_url}?poster=true`}
+                  poster={`${currentLessonVideoUrl}?poster=true`}
                 />
               </div>
             )}
