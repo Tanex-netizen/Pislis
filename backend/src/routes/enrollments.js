@@ -155,9 +155,8 @@ router.get('/status', verifyToken, async (req, res) => {
  */
 router.get('/debug-my-enrollments', verifyToken, async (req, res) => {
   try {
-    const { data: enrollments, error } = await supabase
-      .from('enrollments')
-      .select(`
+    const selectVariants = [
+      `
         id,
         user_id,
         course_id,
@@ -165,12 +164,49 @@ router.get('/debug-my-enrollments', verifyToken, async (req, res) => {
         created_at,
         approved_at,
         unlocked_at,
+        expires_at,
         courses (id, title)
-      `)
-      .eq('user_id', req.user.id);
+      `,
+      `
+        id,
+        user_id,
+        course_id,
+        status,
+        created_at,
+        unlocked_at,
+        expires_at,
+        courses (id, title)
+      `,
+      `
+        id,
+        user_id,
+        course_id,
+        status,
+        created_at,
+        courses (id, title)
+      `,
+    ];
 
-    if (error) {
-      return res.status(500).json({ error: 'Failed to fetch enrollments', details: error });
+    let enrollments = null;
+    let lastError = null;
+
+    for (const select of selectVariants) {
+      const result = await supabase
+        .from('enrollments')
+        .select(select)
+        .eq('user_id', req.user.id);
+
+      if (!result.error) {
+        enrollments = result.data || [];
+        lastError = null;
+        break;
+      }
+
+      lastError = result.error;
+    }
+
+    if (lastError) {
+      return res.status(500).json({ error: 'Failed to fetch enrollments', details: lastError });
     }
 
     res.json({ 
@@ -191,13 +227,15 @@ router.get('/debug-my-enrollments', verifyToken, async (req, res) => {
  */
 router.get('/my-courses', verifyToken, async (req, res) => {
   try {
-    const { data: enrollments, error } = await supabase
-      .from('enrollments')
-      .select(`
+    // Some deployments may not have monthly payment columns yet.
+    // We try richer selects first, then fall back to a minimal select.
+    const selectVariants = [
+      `
         id,
         status,
         created_at,
         unlocked_at,
+        approved_at,
         expires_at,
         monthly_payment_amount,
         last_payment_date,
@@ -212,12 +250,63 @@ router.get('/my-courses', verifyToken, async (req, res) => {
           duration_hours,
           level
         )
-      `)
-      .eq('user_id', req.user.id)
-      .in('status', ['active', 'approved'])
-      .order('created_at', { ascending: false });
+      `,
+      `
+        id,
+        status,
+        created_at,
+        unlocked_at,
+        approved_at,
+        expires_at,
+        courses (
+          id,
+          slug,
+          title,
+          short_description,
+          thumbnail_url,
+          duration_hours,
+          level
+        )
+      `,
+      `
+        id,
+        status,
+        created_at,
+        expires_at,
+        courses (
+          id,
+          slug,
+          title,
+          short_description,
+          thumbnail_url,
+          duration_hours,
+          level
+        )
+      `,
+    ];
 
-    if (error) {
+    let enrollments = null;
+    let lastError = null;
+
+    for (const select of selectVariants) {
+      const result = await supabase
+        .from('enrollments')
+        .select(select)
+        .eq('user_id', req.user.id)
+        .in('status', ['active', 'approved'])
+        .order('created_at', { ascending: false });
+
+      if (!result.error) {
+        enrollments = result.data || [];
+        lastError = null;
+        break;
+      }
+
+      lastError = result.error;
+    }
+
+    if (lastError) {
+      console.error('Get my courses supabase error:', lastError);
       return res.status(500).json({ error: 'Failed to fetch enrolled courses' });
     }
 
