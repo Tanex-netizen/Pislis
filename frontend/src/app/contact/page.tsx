@@ -1,5 +1,5 @@
-import AuthRedirect from '@/components/AuthRedirect';
+import { redirect } from 'next/navigation';
 
 export default function ContactPage() {
-  return <AuthRedirect />;
+  redirect('/profile');
 }

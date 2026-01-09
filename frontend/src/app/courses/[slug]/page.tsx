@@ -41,7 +41,51 @@ interface Course {
   course_modules: CourseModule[];
 }
 
+const FALLBACK_COURSES: Record<string, Course> = {
+  'fb-automation': {
+    id: 'fallback-fb-automation',
+    slug: 'fb-automation',
+    title: 'Facebook Automation',
+    short_description: 'Learn Facebook automation fundamentals and organic growth strategies.',
+    description: 'Learn Facebook automation fundamentals and organic growth strategies.',
+    price: 2178,
+    original_price: null,
+    category: 'Facebook',
+    level: 'Beginner',
+    duration_hours: 0,
+    thumbnail_url: null,
+    preview_video_url: null,
+    rating: 4.8,
+    total_students: 0,
+    learning_outcomes: [],
+    requirements: [],
+    course_modules: [],
+  },
+  'facebook-automation': {
+    id: 'fallback-facebook-automation',
+    slug: 'facebook-automation',
+    title: 'Facebook Automation',
+    short_description: 'Learn Facebook automation fundamentals and organic growth strategies.',
+    description: 'Learn Facebook automation fundamentals and organic growth strategies.',
+    price: 2178,
+    original_price: null,
+    category: 'Facebook',
+    level: 'Beginner',
+    duration_hours: 0,
+    thumbnail_url: null,
+    preview_video_url: null,
+    rating: 4.8,
+    total_students: 0,
+    learning_outcomes: [],
+    requirements: [],
+    course_modules: [],
+  },
+};
+
 async function getCourse(slug: string): Promise<Course | null> {
+  if (FALLBACK_COURSES[slug]) {
+    return FALLBACK_COURSES[slug];
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/courses/slug/${slug}`, {
       next: { revalidate: 60 }, // ISR: revalidate every 60 seconds
@@ -59,14 +103,9 @@ async function getCourse(slug: string): Promise<Course | null> {
   }
 }
 
-// Generate static paths for known courses
+// Generate static paths for known courses (required for static export)
 export async function generateStaticParams() {
-  // Return all known course slugs
-  return [
-    { slug: 'fb-automation' },
-    { slug: 'fb-automation-mastery' },
-    { slug: 'facebook-automation' },
-  ];
+  return [{ slug: 'fb-automation' }, { slug: 'facebook-automation' }];
 }
 
 // Generate metadata for SEO
