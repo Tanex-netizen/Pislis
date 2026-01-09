@@ -163,6 +163,10 @@ router.get('/my-courses', verifyToken, async (req, res) => {
         created_at,
         unlocked_at,
         expires_at,
+        monthly_payment_amount,
+        last_payment_date,
+        next_payment_due,
+        monthly_payment_status,
         courses (
           id,
           slug,
@@ -181,10 +185,27 @@ router.get('/my-courses', verifyToken, async (req, res) => {
       return res.status(500).json({ error: 'Failed to fetch enrolled courses' });
     }
 
-    // Filter out expired enrollments
+    // Filter out expired enrollments and calculate days remaining
+    const now = new Date();
     const activeCourses = (enrollments || []).filter(e => 
       !e.expires_at || new Date(e.expires_at) > new Date()
-    );
+    ).map(e => {
+      let days_remaining = null;
+      let is_overdue = false;
+      
+      if (e.next_payment_due) {
+        const dueDate = new Date(e.next_payment_due);
+        const diffTime = dueDate.getTime() - now.getTime();
+        days_remaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        is_overdue = days_remaining < 0;
+      }
+
+      return {
+        ...e,
+        days_remaining,
+        is_overdue
+      };
+    });
 
     res.json({ enrollments: activeCourses });
   } catch (error) {

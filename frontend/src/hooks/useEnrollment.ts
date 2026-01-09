@@ -29,6 +29,12 @@ interface EnrolledCourse {
   status: string;
   created_at: string;
   expires_at: string | null;
+  monthly_payment_amount: number | null;
+  last_payment_date: string | null;
+  next_payment_due: string | null;
+  monthly_payment_status: 'paid' | 'pending' | 'overdue' | null;
+  days_remaining: number | null;
+  is_overdue: boolean;
   courses: CourseWithProgress;
 }
 

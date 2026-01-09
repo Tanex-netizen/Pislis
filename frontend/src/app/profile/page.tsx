@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useEnrollment } from '@/hooks/useEnrollment';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { User, BookOpen, Copy, Check, LogOut, Clock, Calendar } from 'lucide-react';
+import { User, BookOpen, Copy, Check, LogOut, Clock, Calendar, AlertCircle, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 
 interface EnrolledCourse {
@@ -14,6 +14,12 @@ interface EnrolledCourse {
   status: string;
   created_at: string;
   expires_at: string | null;
+  monthly_payment_amount: number | null;
+  last_payment_date: string | null;
+  next_payment_due: string | null;
+  monthly_payment_status: 'paid' | 'pending' | 'overdue' | null;
+  days_remaining: number | null;
+  is_overdue: boolean;
   courses: {
     id: string;
     slug: string;
@@ -226,7 +232,7 @@ export default function ProfilePage() {
                       <p className="text-sm text-gray-400 line-clamp-2 mb-3">
                         {enrollment.courses.short_description}
                       </p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
                         <span className="flex items-center gap-1">
                           <Clock className="w-4 h-4" />
                           {enrollment.courses.duration_hours}h
@@ -235,6 +241,48 @@ export default function ProfilePage() {
                           Enrolled {new Date(enrollment.created_at).toLocaleDateString()}
                         </span>
                       </div>
+                      
+                      {/* Monthly Payment Timer */}
+                      {enrollment.next_payment_due && (
+                        <div className={`p-3 rounded-lg border ${
+                          enrollment.is_overdue 
+                            ? 'bg-red-500/10 border-red-500/30' 
+                            : enrollment.days_remaining !== null && enrollment.days_remaining <= 5
+                              ? 'bg-orange-500/10 border-orange-500/30'
+                              : enrollment.monthly_payment_status === 'paid'
+                                ? 'bg-green-500/10 border-green-500/30'
+                                : 'bg-yellow-500/10 border-yellow-500/30'
+                        }`}>
+                          <div className="flex items-center gap-2 mb-1">
+                            <DollarSign className="w-4 h-4" />
+                            <span className="text-xs font-semibold">
+                              Monthly Payment: ₱{enrollment.monthly_payment_amount || 100}
+                            </span>
+                          </div>
+                          <div className={`text-sm font-medium ${
+                            enrollment.is_overdue 
+                              ? 'text-red-400' 
+                              : enrollment.days_remaining !== null && enrollment.days_remaining <= 5
+                                ? 'text-orange-400'
+                                : enrollment.monthly_payment_status === 'paid'
+                                  ? 'text-green-400'
+                                  : 'text-yellow-400'
+                          }`}>
+                            {enrollment.monthly_payment_status === 'paid' ? (
+                              <>✓ Paid - Next due: {new Date(enrollment.next_payment_due).toLocaleDateString()}</>
+                            ) : enrollment.is_overdue ? (
+                              <>⚠ Overdue by {Math.abs(enrollment.days_remaining || 0)} days</>
+                            ) : (
+                              <>{enrollment.days_remaining} days until payment due</>
+                            )}
+                          </div>
+                          {enrollment.next_payment_due && (
+                            <p className="text-xs text-gray-500 mt-1">
+                              Due: {new Date(enrollment.next_payment_due).toLocaleDateString()}
+                            </p>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </Link>
                 ))}

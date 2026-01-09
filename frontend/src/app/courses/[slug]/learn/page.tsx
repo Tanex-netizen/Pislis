@@ -1,12 +1,11 @@
 'use client';
-                <a
-                  className="px-4 py-2 bg-emerald-600 text-white rounded-md"
-                  href="https://t.me/+MaOIiu5SXVhlZGE9"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Contact on Telegram
-                </a>
+
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import Navbar from '@/components/Navbar';
+import {
   Play, 
   CheckCircle, 
   Lock, 
@@ -19,6 +18,7 @@
   MessageCircle,
   Search
 } from 'lucide-react';
+import VIDEO_SOURCES_RAW from '@/data/video-sources.json';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'demo';
