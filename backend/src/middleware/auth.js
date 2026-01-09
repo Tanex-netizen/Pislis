@@ -151,12 +151,13 @@ const verifyEnrollment = async (req, res, next) => {
     }
 
     // Check enrollment status
+    // NOTE: Admin approvals set status = 'approved', so we must treat both as valid access.
     const { data: enrollment, error } = await supabase
       .from('enrollments')
       .select('id, status, expires_at')
       .eq('user_id', req.user.id)
       .eq('course_id', courseId)
-      .eq('status', 'active')
+      .in('status', ['active', 'approved'])
       .single();
 
     if (error || !enrollment) {

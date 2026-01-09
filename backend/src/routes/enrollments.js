@@ -114,10 +114,11 @@ router.get('/status', verifyToken, async (req, res) => {
       .single();
 
     if (error || !enrollment) {
-      return res.json({ 
+      return res.json({
         enrolled: false,
+        isEnrolled: false,
         message: 'Contact admin on Telegram with your User ID to unlock this course',
-        user_code: req.user.user_code
+        user_code: req.user.user_code,
       });
     }
 
@@ -128,20 +129,22 @@ router.get('/status', verifyToken, async (req, res) => {
     if (!isActive || isExpired) {
       return res.json({
         enrolled: false,
+        isEnrolled: false,
         reason: isExpired ? 'expired' : 'inactive',
         message: 'Your course access has expired. Contact admin to renew.',
-        user_code: req.user.user_code
+        user_code: req.user.user_code,
       });
     }
 
     res.json({
       enrolled: true,
+      isEnrolled: true,
       enrollment: {
         id: enrollment.id,
         status: enrollment.status,
         unlocked_at: enrollment.unlocked_at,
-        expires_at: enrollment.expires_at
-      }
+        expires_at: enrollment.expires_at,
+      },
     });
   } catch (error) {
     console.error('Check enrollment status error:', error);
@@ -360,10 +363,11 @@ router.get('/check-slug/:slug', optionalAuth, async (req, res) => {
     }
 
     if (!req.user) {
-      return res.json({ 
-        enrolled: false, 
+      return res.json({
+        enrolled: false,
+        isEnrolled: false,
         course: { id: course.id, slug: course.slug, title: course.title },
-        requiresLogin: true
+        requiresLogin: true,
       });
     }
 
@@ -381,8 +385,9 @@ router.get('/check-slug/:slug', optionalAuth, async (req, res) => {
 
     res.json({
       enrolled: isEnrolled,
+      isEnrolled,
       course: { id: course.id, slug: course.slug, title: course.title },
-      user_code: req.user.user_code
+      user_code: req.user.user_code,
     });
   } catch (error) {
     console.error('Check enrollment error:', error);
