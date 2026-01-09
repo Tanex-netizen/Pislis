@@ -578,6 +578,9 @@ router.post('/unlock-course', async (req, res) => {
       }
       
       // Reactivate existing enrollment
+      const nextPaymentDue = new Date();
+      nextPaymentDue.setMonth(nextPaymentDue.getMonth() + 1);
+      
       const { error: updateError } = await supabase
         .from('enrollments')
         .update({
@@ -587,6 +590,9 @@ router.post('/unlock-course', async (req, res) => {
           expires_at: expiresAt || null,
           admin_notes: notes || null,
           payment_reference: paymentReference || null,
+          next_payment_due: nextPaymentDue.toISOString(),
+          monthly_payment_status: 'pending',
+          last_payment_date: new Date().toISOString(),
         })
         .eq('id', existingEnrollment.id);
 
@@ -600,18 +606,27 @@ router.post('/unlock-course', async (req, res) => {
       });
     }
 
-    // Create new enrollment
+    // Create new enrollment with monthly payment tracking
+    const nextPaymentDue = new Date();
+    nextPaymentDue.setMonth(nextPaymentDue.getMonth() + 1);
+    
     const { data: enrollment, error: enrollError } = await supabase
       .from('enrollments')
       .insert({
         user_id: userId,
         course_id: courseId,
+        name: user.name,
+        email: user.email,
+        phone: user.phone || null,
         unlocked_by_admin_id: req.user.id,
         unlocked_at: new Date().toISOString(),
         status: 'active',
         expires_at: expiresAt || null,
         admin_notes: notes || null,
         payment_reference: paymentReference || null,
+        next_payment_due: nextPaymentDue.toISOString(),
+        monthly_payment_status: 'pending',
+        last_payment_date: new Date().toISOString(),
       })
       .select()
       .single();
