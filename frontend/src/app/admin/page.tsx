@@ -73,6 +73,7 @@ export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [studentSearchQuery, setStudentSearchQuery] = useState('');
   const [selectedEnrollment, setSelectedEnrollment] = useState<Enrollment | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [recentLogins, setRecentLogins] = useState<AdminUser[]>([]);
@@ -302,6 +303,15 @@ export default function AdminDashboard() {
     return matchesStatus && matchesSearch;
   });
 
+  const normalizedStudentSearch = studentSearchQuery.trim().toLowerCase();
+  const filteredStudents = !normalizedStudentSearch
+    ? recentLogins
+    : recentLogins.filter((u) => {
+        const name = (u.name || '').toLowerCase();
+        const userCode = (u.user_code || '').toLowerCase();
+        return name.includes(normalizedStudentSearch) || userCode.includes(normalizedStudentSearch);
+      });
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
@@ -484,8 +494,21 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white">All Students</h2>
               <span className="text-sm text-gray-400">
-                {recentLogins.length} student{recentLogins.length === 1 ? '' : 's'}
+                {filteredStudents.length} student{filteredStudents.length === 1 ? '' : 's'}
               </span>
+            </div>
+
+            <div className="mb-6">
+              <div className="relative max-w-md">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                <input
+                  type="text"
+                  value={studentSearchQuery}
+                  onChange={(e) => setStudentSearchQuery(e.target.value)}
+                  placeholder="Search by name or Student ID (USR-XXXXXX)"
+                  className="w-full pl-12 pr-4 py-3 bg-dark-400 border border-primary-900/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary-500"
+                />
+              </div>
             </div>
 
             <div className="overflow-x-auto">
@@ -507,14 +530,14 @@ export default function AdminDashboard() {
                         <Loader2 className="w-6 h-6 animate-spin mx-auto" />
                       </td>
                     </tr>
-                  ) : recentLogins.length === 0 ? (
+                  ) : filteredStudents.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="py-8 text-center text-gray-400">
-                        No login activity yet
+                        {normalizedStudentSearch ? 'No matching students found' : 'No login activity yet'}
                       </td>
                     </tr>
                   ) : (
-                    recentLogins.map((u) => (
+                    filteredStudents.map((u) => (
                       <tr key={u.id} className="border-b border-primary-900/20 hover:bg-dark-300/30">
                         <td className="py-4 px-4">
                           <div>
