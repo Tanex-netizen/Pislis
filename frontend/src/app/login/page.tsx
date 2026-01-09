@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, MessageCircle } from 'lucide-react';
 
 function LoginForm() {
   const router = useRouter();
@@ -150,6 +150,17 @@ function LoginForm() {
             >
               Create Account
             </Link>
+
+            {/* Telegram Free Community Link */}
+            <a
+              href="https://web.telegram.org/k/#@Kaizens09"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 w-full py-3 bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Free Community
+            </a>
           </div>
         </div>
       </main>

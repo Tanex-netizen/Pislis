@@ -1,6 +1,37 @@
 -- Darwin Education Database Schema for Supabase
 -- Run this in the Supabase SQL Editor
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE INDEX IF NOT EXISTS idx_enrollments_next_payment_due ON enrollments(next_payment_due);CREATE INDEX IF NOT EXISTS idx_enrollments_monthly_payment_status ON enrollments(monthly_payment_status);-- Create index for monthly payment status queriesWHERE status = 'approved' AND next_payment_due IS NULL AND approved_at IS NOT NULL;    END      ELSE 'pending'      WHEN approved_at + INTERVAL '1 month' < NOW() THEN 'overdue'    monthly_payment_status = CASE SET next_payment_due = approved_at + INTERVAL '1 month',UPDATE enrollments -- Update existing approved enrollments to set next_payment_due based on approved_atEND $$;  WHEN duplicate_object THEN NULL;EXCEPTION  CHECK (monthly_payment_status IN ('paid', 'pending', 'overdue'));  ADD CONSTRAINT enrollments_monthly_payment_status_check   ALTER TABLE enrollments BEGINDO $$-- Add constraint for monthly_payment_statusADD COLUMN IF NOT EXISTS monthly_payment_status VARCHAR(20) DEFAULT 'pending';ADD COLUMN IF NOT EXISTS next_payment_due TIMESTAMPTZ,ADD COLUMN IF NOT EXISTS last_payment_date TIMESTAMPTZ,ADD COLUMN IF NOT EXISTS monthly_payment_amount DECIMAL(10, 2) DEFAULT 100,ALTER TABLE enrollments -- Add monthly payment tracking columns to enrollments table
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -80,6 +111,11 @@ CREATE TABLE IF NOT EXISTS enrollments (
   rejected_at TIMESTAMPTZ,
   rejected_by UUID REFERENCES users(id),
   rejection_reason TEXT,
+  -- Monthly payment tracking fields
+  monthly_payment_amount DECIMAL(10, 2) DEFAULT 100,
+  last_payment_date TIMESTAMPTZ,
+  next_payment_due TIMESTAMPTZ,
+  monthly_payment_status VARCHAR(20) DEFAULT 'pending' CHECK (monthly_payment_status IN ('paid', 'pending', 'overdue')),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );

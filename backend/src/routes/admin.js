@@ -145,6 +145,10 @@ router.post('/enrollments/:id/approve', async (req, res) => {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + expiresInDays);
 
+    // Calculate next monthly payment due date (1 month from approval)
+    const nextPaymentDue = new Date();
+    nextPaymentDue.setMonth(nextPaymentDue.getMonth() + 1);
+
     // Update enrollment status
     const { error: updateError } = await supabase
       .from('enrollments')
@@ -153,6 +157,9 @@ router.post('/enrollments/:id/approve', async (req, res) => {
         user_id: user.id,
         approved_at: new Date().toISOString(),
         approved_by: req.user.id,
+        next_payment_due: nextPaymentDue.toISOString(),
+        monthly_payment_status: 'pending',
+        last_payment_date: new Date().toISOString(),
       })
       .eq('id', id);
 
@@ -678,6 +685,189 @@ router.post('/revoke-enrollment', async (req, res) => {
     });
   } catch (error) {
     console.error('Revoke enrollment error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// ============================================================================
+// MONTHLY PAYMENT TRACKING ENDPOINTS
+// ============================================================================
+
+/**
+ * GET /api/admin/monthly-payments
+ * Get all enrollments with monthly payment status
+ */
+router.get('/monthly-payments', async (req, res) => {
+  try {
+    const { status, search } = req.query;
+
+    let query = supabase
+      .from('enrollments')
+      .select(`
+        id,
+        user_id,
+        name,
+        email,
+        phone,
+        status,
+        approved_at,
+        monthly_payment_amount,
+        last_payment_date,
+        next_payment_due,
+        monthly_payment_status,
+        courses (id, title),
+        users (id, user_code, name, email)
+      `)
+      .eq('status', 'approved')
+      .order('next_payment_due', { ascending: true, nullsFirst: false });
+
+    if (status && status !== 'all') {
+      query = query.eq('monthly_payment_status', status);
+    }
+
+    if (search) {
+      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%`);
+    }
+
+    const { data: payments, error } = await query;
+
+    if (error) {
+      console.error('Get monthly payments error:', error);
+      return res.status(500).json({ error: 'Failed to fetch monthly payments' });
+    }
+
+    // Calculate days remaining for each payment
+    const now = new Date();
+    const paymentsWithTimer = (payments || []).map(payment => {
+      let daysRemaining = null;
+      let isOverdue = false;
+      
+      if (payment.next_payment_due) {
+        const dueDate = new Date(payment.next_payment_due);
+        const diffTime = dueDate.getTime() - now.getTime();
+        daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        isOverdue = daysRemaining < 0;
+      }
+
+      return {
+        ...payment,
+        days_remaining: daysRemaining,
+        is_overdue: isOverdue
+      };
+    });
+
+    res.json({ payments: paymentsWithTimer });
+  } catch (error) {
+    console.error('Get monthly payments error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * POST /api/admin/monthly-payments/:enrollmentId/mark-paid
+ * Mark monthly payment as paid and extend to next month
+ */
+router.post('/monthly-payments/:enrollmentId/mark-paid', async (req, res) => {
+  try {
+    const { enrollmentId } = req.params;
+
+    const { data: enrollment, error: getError } = await supabase
+      .from('enrollments')
+      .select('*, users(name), courses(title)')
+      .eq('id', enrollmentId)
+      .single();
+
+    if (getError || !enrollment) {
+      return res.status(404).json({ error: 'Enrollment not found' });
+    }
+
+    // Calculate next payment due date (1 month from now or from current due date if still in future)
+    const now = new Date();
+    let nextDue;
+    
+    if (enrollment.next_payment_due) {
+      const currentDue = new Date(enrollment.next_payment_due);
+      // If current due date is in the future, add 1 month to it
+      // Otherwise, add 1 month from now
+      if (currentDue > now) {
+        nextDue = new Date(currentDue);
+      } else {
+        nextDue = new Date(now);
+      }
+    } else {
+      nextDue = new Date(now);
+    }
+    nextDue.setMonth(nextDue.getMonth() + 1);
+
+    const { error: updateError } = await supabase
+      .from('enrollments')
+      .update({
+        last_payment_date: now.toISOString(),
+        next_payment_due: nextDue.toISOString(),
+        monthly_payment_status: 'paid'
+      })
+      .eq('id', enrollmentId);
+
+    if (updateError) {
+      console.error('Mark paid error:', updateError);
+      return res.status(500).json({ error: 'Failed to update payment status' });
+    }
+
+    res.json({
+      message: `Payment marked as paid for ${enrollment.users?.name || enrollment.name}`,
+      next_payment_due: nextDue.toISOString()
+    });
+  } catch (error) {
+    console.error('Mark paid error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * POST /api/admin/monthly-payments/:enrollmentId/mark-unpaid
+ * Mark monthly payment as unpaid/pending
+ */
+router.post('/monthly-payments/:enrollmentId/mark-unpaid', async (req, res) => {
+  try {
+    const { enrollmentId } = req.params;
+
+    const { data: enrollment, error: getError } = await supabase
+      .from('enrollments')
+      .select('*, users(name)')
+      .eq('id', enrollmentId)
+      .single();
+
+    if (getError || !enrollment) {
+      return res.status(404).json({ error: 'Enrollment not found' });
+    }
+
+    // Determine if it's overdue or pending
+    const now = new Date();
+    let status = 'pending';
+    if (enrollment.next_payment_due) {
+      const dueDate = new Date(enrollment.next_payment_due);
+      if (dueDate < now) {
+        status = 'overdue';
+      }
+    }
+
+    const { error: updateError } = await supabase
+      .from('enrollments')
+      .update({
+        monthly_payment_status: status
+      })
+      .eq('id', enrollmentId);
+
+    if (updateError) {
+      console.error('Mark unpaid error:', updateError);
+      return res.status(500).json({ error: 'Failed to update payment status' });
+    }
+
+    res.json({
+      message: `Payment marked as ${status} for ${enrollment.users?.name || enrollment.name}`
+    });
+  } catch (error) {
+    console.error('Mark unpaid error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

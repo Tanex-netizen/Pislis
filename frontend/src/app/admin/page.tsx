@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { 
   Users, BookOpen, Clock, CheckCircle, XCircle, 
   Eye, Mail, MoreVertical, Search, Filter,
-  LogOut, Menu, X, AlertCircle, Loader2, Unlock
+  LogOut, Menu, X, AlertCircle, Loader2, Unlock, DollarSign, Calendar
 } from 'lucide-react';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
@@ -55,6 +55,24 @@ interface AdminUser {
   }>;
 }
 
+interface MonthlyPayment {
+  id: string;
+  user_id: string;
+  name: string;
+  email: string;
+  phone: string;
+  status: string;
+  approved_at: string;
+  monthly_payment_amount: number;
+  last_payment_date: string | null;
+  next_payment_due: string | null;
+  monthly_payment_status: 'paid' | 'pending' | 'overdue';
+  days_remaining: number | null;
+  is_overdue: boolean;
+  courses?: { id: string; title: string };
+  users?: { id: string; user_code: string; name: string; email: string };
+}
+
 export default function AdminDashboard() {
   const router = useRouter();
   const { login, user, token, isAuthenticated, isLoading: authLoading, logout } = useAuth();
@@ -77,6 +95,9 @@ export default function AdminDashboard() {
   const [selectedEnrollment, setSelectedEnrollment] = useState<Enrollment | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [recentLogins, setRecentLogins] = useState<AdminUser[]>([]);
+  const [monthlyPayments, setMonthlyPayments] = useState<MonthlyPayment[]>([]);
+  const [paymentFilterStatus, setPaymentFilterStatus] = useState<string>('all');
+  const [paymentSearchQuery, setPaymentSearchQuery] = useState('');
 
   // Check authentication on mount and when user changes
   useEffect(() => {
@@ -123,6 +144,7 @@ export default function AdminDashboard() {
       if (!token) {
         setEnrollments([]);
         setRecentLogins([]);
+        setMonthlyPayments([]);
         setStats({
           pendingEnrollments: 0,
           approvedEnrollments: 0,
@@ -132,7 +154,7 @@ export default function AdminDashboard() {
         return;
       }
 
-      const [enrollmentsRes, coursesRes, usersRes, recentLoginsRes] = await Promise.all([
+      const [enrollmentsRes, coursesRes, usersRes, recentLoginsRes, monthlyPaymentsRes] = await Promise.all([
         fetch(`${API_BASE_URL}/admin/enrollments`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -153,12 +175,20 @@ export default function AdminDashboard() {
             Authorization: `Bearer ${token}`,
           },
         }),
+        fetch(`${API_BASE_URL}/admin/monthly-payments`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       const enrollmentsData = enrollmentsRes.ok ? await enrollmentsRes.json() : { enrollments: [] };
       const coursesData = coursesRes.ok ? await coursesRes.json() : { courses: [] };
       const usersData = usersRes.ok ? await usersRes.json() : { users: [] };
       const recentLoginsData = recentLoginsRes.ok ? await recentLoginsRes.json() : { users: [] };
+      const monthlyPaymentsData = monthlyPaymentsRes.ok ? await monthlyPaymentsRes.json() : { payments: [] };
+
+      setMonthlyPayments(monthlyPaymentsData.payments || []);
 
       const fetchedEnrollments: Enrollment[] = (enrollmentsData.enrollments || []).map((e: Partial<Enrollment>) => ({
         ...(e as Enrollment),
@@ -295,6 +325,64 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleMarkPaid = async (enrollmentId: string) => {
+    setActionLoading(enrollmentId);
+    try {
+      if (!token) {
+        throw new Error('Missing admin token');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/admin/monthly-payments/${enrollmentId}/mark-paid`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to mark as paid');
+      }
+
+      alert(data.message || 'Payment marked as paid');
+      await fetchData();
+    } catch (err) {
+      console.error('Failed to mark as paid:', err);
+      alert('Failed to mark as paid');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleMarkUnpaid = async (enrollmentId: string) => {
+    setActionLoading(enrollmentId);
+    try {
+      if (!token) {
+        throw new Error('Missing admin token');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/admin/monthly-payments/${enrollmentId}/mark-unpaid`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to mark as unpaid');
+      }
+
+      alert(data.message || 'Payment marked as unpaid');
+      await fetchData();
+    } catch (err) {
+      console.error('Failed to mark as unpaid:', err);
+      alert('Failed to mark as unpaid');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const filteredEnrollments = enrollments.filter(enrollment => {
     const matchesStatus = filterStatus === 'all' || enrollment.status === filterStatus;
     const matchesSearch = 
@@ -311,6 +399,37 @@ export default function AdminDashboard() {
         const userCode = (u.user_code || '').toLowerCase();
         return name.includes(normalizedStudentSearch) || userCode.includes(normalizedStudentSearch);
       });
+
+  const normalizedPaymentSearch = paymentSearchQuery.trim().toLowerCase();
+  const filteredPayments = monthlyPayments.filter((p) => {
+    const matchesStatus = paymentFilterStatus === 'all' || p.monthly_payment_status === paymentFilterStatus;
+    const matchesSearch = !normalizedPaymentSearch || 
+      (p.name || '').toLowerCase().includes(normalizedPaymentSearch) ||
+      (p.email || '').toLowerCase().includes(normalizedPaymentSearch) ||
+      (p.users?.user_code || '').toLowerCase().includes(normalizedPaymentSearch);
+    return matchesStatus && matchesSearch;
+  });
+
+  const getPaymentStatusBadge = (status: string, daysRemaining: number | null) => {
+    switch (status) {
+      case 'paid':
+        return <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded-full">Paid</span>;
+      case 'overdue':
+        return <span className="px-3 py-1 bg-red-500/20 text-red-400 text-xs font-medium rounded-full">Overdue</span>;
+      case 'pending':
+        return (
+          <span className={`px-3 py-1 text-xs font-medium rounded-full ${
+            daysRemaining !== null && daysRemaining <= 5 
+              ? 'bg-orange-500/20 text-orange-400' 
+              : 'bg-yellow-500/20 text-yellow-400'
+          }`}>
+            {daysRemaining !== null && daysRemaining <= 5 ? 'Due Soon' : 'Pending'}
+          </span>
+        );
+      default:
+        return null;
+    }
+  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -405,6 +524,10 @@ export default function AdminDashboard() {
           <a href="#" className="flex items-center space-x-3 px-4 py-3 bg-primary-500/10 text-primary-400 rounded-lg">
             <Users className="w-5 h-5" />
             <span>Enrollments</span>
+          </a>
+          <a href="#monthly-payments" className="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-dark-300 rounded-lg transition-colors">
+            <DollarSign className="w-5 h-5" />
+            <span>Monthly Payments</span>
           </a>
           <Link href="/admin/unlock" className="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-dark-300 rounded-lg transition-colors">
             <Unlock className="w-5 h-5" />
@@ -617,6 +740,159 @@ export default function AdminDashboard() {
                               <span className="px-2 py-1 bg-gray-600/50 text-gray-400 text-xs rounded">
                                 No enrollments
                               </span>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Monthly Payments Section */}
+          <div id="monthly-payments" className="card mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                  <DollarSign className="w-5 h-5 text-emerald-400" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white">Monthly Payments</h2>
+                  <p className="text-sm text-gray-400">₱100/month per student</p>
+                </div>
+              </div>
+              <span className="text-sm text-gray-400">
+                {filteredPayments.length} record{filteredPayments.length === 1 ? '' : 's'}
+              </span>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                <input
+                  type="text"
+                  value={paymentSearchQuery}
+                  onChange={(e) => setPaymentSearchQuery(e.target.value)}
+                  placeholder="Search by name, email or Student ID"
+                  className="w-full pl-12 pr-4 py-3 bg-dark-400 border border-primary-900/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary-500"
+                />
+              </div>
+              <select
+                value={paymentFilterStatus}
+                onChange={(e) => setPaymentFilterStatus(e.target.value)}
+                className="px-4 py-3 bg-dark-400 border border-primary-900/30 rounded-lg text-white focus:outline-none focus:border-primary-500"
+              >
+                <option value="all">All Status</option>
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>
+                <option value="overdue">Overdue</option>
+              </select>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-primary-900/30">
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Student</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden md:table-cell">Course</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Timer</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm">Status</th>
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden lg:table-cell">Last Paid</th>
+                    <th className="text-right py-3 px-4 text-gray-400 font-medium text-sm">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={6} className="py-8 text-center text-gray-400">
+                        <Loader2 className="w-6 h-6 animate-spin mx-auto" />
+                      </td>
+                    </tr>
+                  ) : filteredPayments.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="py-8 text-center text-gray-400">
+                        {normalizedPaymentSearch || paymentFilterStatus !== 'all' 
+                          ? 'No matching payments found' 
+                          : 'No approved enrollments yet'}
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredPayments.map((p) => (
+                      <tr key={p.id} className="border-b border-primary-900/20 hover:bg-dark-300/30">
+                        <td className="py-4 px-4">
+                          <div>
+                            <p className="text-white font-medium">{p.users?.name || p.name}</p>
+                            <p className="text-xs text-gray-500">{p.users?.user_code || p.email}</p>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4 text-gray-300 text-sm hidden md:table-cell">
+                          {p.courses?.title || '-'}
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-gray-500" />
+                            {p.days_remaining !== null ? (
+                              <span className={`font-medium ${
+                                p.is_overdue 
+                                  ? 'text-red-400' 
+                                  : p.days_remaining <= 5 
+                                    ? 'text-orange-400' 
+                                    : 'text-gray-300'
+                              }`}>
+                                {p.is_overdue 
+                                  ? `${Math.abs(p.days_remaining)} days overdue` 
+                                  : `${p.days_remaining} days left`}
+                              </span>
+                            ) : (
+                              <span className="text-gray-500">Not set</span>
+                            )}
+                          </div>
+                          {p.next_payment_due && (
+                            <p className="text-xs text-gray-500 mt-1">
+                              Due: {new Date(p.next_payment_due).toLocaleDateString()}
+                            </p>
+                          )}
+                        </td>
+                        <td className="py-4 px-4">
+                          {getPaymentStatusBadge(p.monthly_payment_status, p.days_remaining)}
+                        </td>
+                        <td className="py-4 px-4 text-gray-300 text-sm hidden lg:table-cell">
+                          {p.last_payment_date 
+                            ? new Date(p.last_payment_date).toLocaleDateString() 
+                            : '-'}
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center justify-end gap-2">
+                            {p.monthly_payment_status === 'paid' ? (
+                              <button
+                                onClick={() => handleMarkUnpaid(p.id)}
+                                disabled={actionLoading === p.id}
+                                className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+                              >
+                                {actionLoading === p.id ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  'Mark Unpaid'
+                                )}
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleMarkPaid(p.id)}
+                                disabled={actionLoading === p.id}
+                                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+                              >
+                                {actionLoading === p.id ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <>
+                                    <CheckCircle className="w-3 h-3 inline mr-1" />
+                                    Mark Paid
+                                  </>
+                                )}
+                              </button>
                             )}
                           </div>
                         </td>
