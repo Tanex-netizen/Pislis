@@ -143,11 +143,7 @@ const FeaturedCourses = () => {
         </div>
 
         {/* View All Button */}
-        <div className="text-center mt-12">
-          <Link href="/courses" className="btn-primary">
-            View All Courses
-          </Link>
-        </div>
+        <div className="text-center mt-12" />
       </div>
     </section>
   );

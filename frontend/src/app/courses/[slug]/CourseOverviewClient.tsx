@@ -368,12 +368,6 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
                         >
                           Go to Profile
                         </Link>
-                        <Link
-                          href="/courses"
-                          className="px-8 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors"
-                        >
-                          Browse Courses
-                        </Link>
                       </div>
                     </>
                   ) : (

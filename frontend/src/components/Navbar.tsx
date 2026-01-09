@@ -3,23 +3,18 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X, BookOpen, User, Search } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Courses', href: '/courses' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-  ];
+  const { isAuthenticated } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-dark-500/80 backdrop-blur-md border-b border-primary-900/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={isAuthenticated ? '/profile' : '/login'} className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
@@ -27,24 +22,17 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-gray-300 hover:text-primary-400 transition-colors duration-300 font-medium"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
+          <div className="hidden md:flex items-center space-x-8" />
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
             <button className="p-2 text-gray-300 hover:text-primary-400 transition-colors">
               <Search className="w-5 h-5" />
             </button>
-            <Link href="/login" className="p-2 text-gray-300 hover:text-primary-400 transition-colors">
+            <Link
+              href={isAuthenticated ? '/profile' : '/login'}
+              className="p-2 text-gray-300 hover:text-primary-400 transition-colors"
+            >
               <User className="w-5 h-5" />
             </Link>
           </div>
@@ -61,23 +49,13 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 border-t border-primary-900/30">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="block py-3 px-2 text-gray-300 hover:text-primary-400 transition-colors font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
             <Link
-              href="/login"
+              href={isAuthenticated ? '/profile' : '/login'}
               className="flex items-center gap-2 py-3 px-2 text-gray-300 hover:text-primary-400 transition-colors font-medium"
               onClick={() => setIsOpen(false)}
             >
               <User className="w-5 h-5" />
-              Profile
+              {isAuthenticated ? 'Profile' : 'Log In'}
             </Link>
           </div>
         )}

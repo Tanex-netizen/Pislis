@@ -130,12 +130,6 @@ function SignupForm() {
                 >
                   Continue
                 </Link>
-                <Link
-                  href="/courses"
-                  className="block w-full py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  Browse Courses
-                </Link>
               </div>
             </div>
           </div>

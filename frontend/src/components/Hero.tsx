@@ -1,5 +1,4 @@
 import { Play, Star, Users, Clock } from 'lucide-react';
-import Link from 'next/link';
 
 const Hero = () => {
   return (
@@ -64,9 +63,6 @@ const Hero = () => {
                 </div>
                 <span className="text-2xl font-bold text-primary-400">₱2,178</span>
               </div>
-              <Link href="/courses/fb-automation" className="btn-primary w-full mt-4 text-center block">
-                View Course
-              </Link>
             </div>
           </div>
         </div>

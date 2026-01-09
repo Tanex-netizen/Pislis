@@ -61,7 +61,7 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     logout();
-    router.push('/');
+    router.push('/login');
   };
 
   if (isLoading) {
@@ -190,14 +190,8 @@ export default function ProfilePage() {
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">No courses yet</h3>
                 <p className="text-gray-400 mb-6">
-                  You haven&apos;t enrolled in any courses yet. Browse our catalog to get started!
+                  Your courses will appear here once an admin approves/unlocks access.
                 </p>
-                <Link
-                  href="/courses"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  Browse Courses
-                </Link>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
