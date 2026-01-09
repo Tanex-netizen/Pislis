@@ -113,7 +113,7 @@ router.get('/slug/:slug', optionalAuth, async (req, res) => {
         .select('id, status, expires_at')
         .eq('user_id', req.user.id)
         .eq('course_id', course.id)
-        .eq('status', 'active')
+        .in('status', ['active', 'approved'])
         .single();
 
       isEnrolled = enrollment && (!enrollment.expires_at || new Date(enrollment.expires_at) > new Date());
@@ -317,7 +317,7 @@ router.get('/user/enrolled', verifyToken, async (req, res) => {
         )
       `)
       .eq('user_id', req.user.id)
-      .eq('status', 'active')
+      .in('status', ['active', 'approved'])
       .order('created_at', { ascending: false });
 
     if (error) {

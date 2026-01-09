@@ -221,7 +221,7 @@ router.get('/enrollments', verifyToken, async (req, res) => {
         )
       `)
       .eq('user_id', req.user.id)
-      .eq('status', 'active')
+      .in('status', ['active', 'approved'])
       .order('unlocked_at', { ascending: false });
 
     if (error) {

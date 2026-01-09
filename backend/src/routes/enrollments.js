@@ -121,8 +121,8 @@ router.get('/status', verifyToken, async (req, res) => {
       });
     }
 
-    // Check if active and not expired
-    const isActive = enrollment.status === 'active';
+    // Check if active/approved and not expired
+    const isActive = enrollment.status === 'active' || enrollment.status === 'approved';
     const isExpired = enrollment.expires_at && new Date(enrollment.expires_at) < new Date();
 
     if (!isActive || isExpired) {
@@ -178,7 +178,7 @@ router.get('/my-courses', verifyToken, async (req, res) => {
         )
       `)
       .eq('user_id', req.user.id)
-      .eq('status', 'active')
+      .in('status', ['active', 'approved'])
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -248,7 +248,7 @@ router.get('/check-slug/:slug', optionalAuth, async (req, res) => {
       .select('id, status, expires_at')
       .eq('user_id', req.user.id)
       .eq('course_id', course.id)
-      .eq('status', 'active')
+      .in('status', ['active', 'approved'])
       .single();
 
     const isEnrolled = enrollment && 
