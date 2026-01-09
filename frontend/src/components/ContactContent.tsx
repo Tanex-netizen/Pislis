@@ -15,7 +15,7 @@ export default function ContactContent() {
             </p>
             
             <a
-              href="https://web.telegram.org/k/#@Kaizens09"
+              href="https://t.me/+MaOIiu5SXVhlZGE9"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center space-x-2 px-3 py-2 bg-[#0088cc] hover:bg-[#0077b5] text-white text-sm font-medium rounded-md transition-colors"

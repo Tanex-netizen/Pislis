@@ -1,12 +1,12 @@
 'use client';
-
-import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
-import Navbar from '@/components/Navbar';
-import VIDEO_SOURCES_RAW from '@/data/video-sources.json';
-import { 
+                <a
+                  className="px-4 py-2 bg-emerald-600 text-white rounded-md"
+                  href="https://t.me/+MaOIiu5SXVhlZGE9"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Contact on Telegram
+                </a>
   Play, 
   CheckCircle, 
   Lock, 

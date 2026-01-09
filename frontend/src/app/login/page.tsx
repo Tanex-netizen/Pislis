@@ -153,7 +153,7 @@ function LoginForm() {
 
             {/* Telegram Free Community Link */}
             <a
-              href="https://web.telegram.org/k/#@Kaizens09"
+              href="https://t.me/+MaOIiu5SXVhlZGE9"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 w-full py-3 bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
