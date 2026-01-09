@@ -241,6 +241,18 @@ export default function ProfilePage() {
               </div>
             )}
           </div>
+
+          {/* Community */}
+          <div className="mt-8 flex justify-center">
+            <a
+              href="https://t.me/+MaOIiu5SXVhlZGE9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors"
+            >
+              Free Community
+            </a>
+          </div>
         </div>
       </main>
       <Footer />
