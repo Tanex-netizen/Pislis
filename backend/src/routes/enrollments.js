@@ -150,6 +150,42 @@ router.get('/status', verifyToken, async (req, res) => {
 });
 
 /**
+ * GET /api/enrollments/debug-my-enrollments
+ * Debug endpoint to see all enrollments for the user (regardless of status)
+ */
+router.get('/debug-my-enrollments', verifyToken, async (req, res) => {
+  try {
+    const { data: enrollments, error } = await supabase
+      .from('enrollments')
+      .select(`
+        id,
+        user_id,
+        course_id,
+        status,
+        created_at,
+        approved_at,
+        unlocked_at,
+        courses (id, title)
+      `)
+      .eq('user_id', req.user.id);
+
+    if (error) {
+      return res.status(500).json({ error: 'Failed to fetch enrollments', details: error });
+    }
+
+    res.json({ 
+      user_id: req.user.id,
+      user_code: req.user.user_code,
+      enrollment_count: (enrollments || []).length,
+      enrollments: enrollments || []
+    });
+  } catch (error) {
+    console.error('Debug enrollments error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
  * GET /api/enrollments/my-courses
  * Get all courses the authenticated user is enrolled in
  */
