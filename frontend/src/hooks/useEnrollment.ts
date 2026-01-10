@@ -116,6 +116,7 @@ export function useEnrollment() {
 
       if (response.ok) {
         const data = await response.json();
+        console.log('🔍 API response from /enrollments/my-courses:', data);
         return data.enrollments || [];
       }
       return [];
