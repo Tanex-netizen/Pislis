@@ -1663,7 +1663,12 @@ export default function CourseLearnPage() {
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                               )}
-                              {!['pdf', 'word'].includes(file.type) && (
+                              {file.type === 'link' && (
+                                <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 010 5.656l-1.414 1.414a4 4 0 01-5.656-5.656l1.414-1.414m3.536 3.536a4 4 0 010-5.656l1.414-1.414a4 4 0 115.656 5.656l-1.414 1.414" />
+                                </svg>
+                              )}
+                              {!['pdf', 'word', 'link'].includes(file.type) && (
                                 <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
@@ -1672,20 +1677,34 @@ export default function CourseLearnPage() {
                             <div className="flex-1 min-w-0">
                               <h3 className="text-white font-medium truncate">{file.name}</h3>
                               <p className="text-gray-400 text-sm">
-                                {(file.size / 1024).toFixed(2)} KB
+                                {file.type === 'link' ? 'External link (Google Drive)' : `${(file.size / 1024).toFixed(2)} KB`}
                               </p>
                             </div>
                           </div>
-                          <a
-                            href={file.url}
-                            download={file.name}
-                            className="flex-shrink-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-2"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Download
-                          </a>
+                          {file.type === 'link' ? (
+                            <a
+                              href={file.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-shrink-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-2"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3h7v7m0-7L10 14m-4 0h4v4H6a3 3 0 01-3-3V6a3 3 0 013-3h4v4H6v8z" />
+                              </svg>
+                              Open
+                            </a>
+                          ) : (
+                            <a
+                              href={file.url}
+                              download={file.name}
+                              className="flex-shrink-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-2"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                              </svg>
+                              Download
+                            </a>
+                          )}
                         </div>
                       </div>
                     ))}
