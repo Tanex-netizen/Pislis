@@ -581,23 +581,37 @@ router.post('/unlock-course', async (req, res) => {
       const nextPaymentDue = new Date();
       nextPaymentDue.setMonth(nextPaymentDue.getMonth() + 1);
       
+      const updateData = {
+        status: 'active',
+        unlocked_by_admin_id: req.user.id,
+        unlocked_at: new Date().toISOString(),
+        expires_at: expiresAt || null,
+      };
+      
+      // Add optional fields
+      if (notes) updateData.admin_notes = notes;
+      if (paymentReference) updateData.payment_reference = paymentReference;
+      
+      // Try to add monthly payment fields (will be ignored if columns don't exist)
+      try {
+        updateData.next_payment_due = nextPaymentDue.toISOString();
+        updateData.monthly_payment_status = 'pending';
+        updateData.last_payment_date = new Date().toISOString();
+      } catch (e) {
+        // Monthly payment columns not yet migrated
+      }
+      
       const { error: updateError } = await supabase
         .from('enrollments')
-        .update({
-          status: 'active',
-          unlocked_by_admin_id: req.user.id,
-          unlocked_at: new Date().toISOString(),
-          expires_at: expiresAt || null,
-          admin_notes: notes || null,
-          payment_reference: paymentReference || null,
-          next_payment_due: nextPaymentDue.toISOString(),
-          monthly_payment_status: 'pending',
-          last_payment_date: new Date().toISOString(),
-        })
+        .update(updateData)
         .eq('id', existingEnrollment.id);
 
       if (updateError) {
-        return res.status(500).json({ error: 'Failed to reactivate enrollment' });
+        console.error('Reactivate enrollment error:', updateError);
+        return res.status(500).json({ 
+          error: 'Failed to reactivate enrollment',
+          details: updateError.message 
+        });
       }
 
       return res.json({
@@ -610,30 +624,41 @@ router.post('/unlock-course', async (req, res) => {
     const nextPaymentDue = new Date();
     nextPaymentDue.setMonth(nextPaymentDue.getMonth() + 1);
     
+    // Build enrollment data with only columns that should exist
+    const enrollmentData = {
+      user_id: userId,
+      course_id: courseId,
+      unlocked_by_admin_id: req.user.id,
+      unlocked_at: new Date().toISOString(),
+      status: 'active',
+      expires_at: expiresAt || null,
+    };
+    
+    // Add optional fields if they exist in the schema
+    if (notes) enrollmentData.admin_notes = notes;
+    if (paymentReference) enrollmentData.payment_reference = paymentReference;
+    
+    // Try to add monthly payment fields (will be ignored if columns don't exist yet)
+    try {
+      enrollmentData.next_payment_due = nextPaymentDue.toISOString();
+      enrollmentData.monthly_payment_status = 'pending';
+      enrollmentData.last_payment_date = new Date().toISOString();
+    } catch (e) {
+      // Monthly payment columns not yet migrated
+    }
+    
     const { data: enrollment, error: enrollError } = await supabase
       .from('enrollments')
-      .insert({
-        user_id: userId,
-        course_id: courseId,
-        name: user.name,
-        email: user.email,
-        phone: user.phone || null,
-        unlocked_by_admin_id: req.user.id,
-        unlocked_at: new Date().toISOString(),
-        status: 'active',
-        expires_at: expiresAt || null,
-        admin_notes: notes || null,
-        payment_reference: paymentReference || null,
-        next_payment_due: nextPaymentDue.toISOString(),
-        monthly_payment_status: 'pending',
-        last_payment_date: new Date().toISOString(),
-      })
+      .insert(enrollmentData)
       .select()
       .single();
 
     if (enrollError) {
       console.error('Create enrollment error:', enrollError);
-      return res.status(500).json({ error: 'Failed to create enrollment' });
+      return res.status(500).json({ 
+        error: 'Failed to create enrollment',
+        details: enrollError.message 
+      });
     }
 
     // Update course total_students count
