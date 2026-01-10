@@ -20,7 +20,7 @@ import {
 import VIDEO_SOURCES_RAW from '@/data/video-sources.json';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'demo';
+const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dwcxvaswf';
 const R2_ACCOUNT_ID = '6979f6d58b951631b6a5585a10376a27';
 const R2_BUCKET = 'darwin-videos';
 const R2_LESSONS_BASE_URL =
@@ -31,8 +31,8 @@ const R2_LESSONS_BASE_URL =
 if (typeof window !== 'undefined') {
   console.log('🎬 Video Config:', { CLOUDINARY_CLOUD_NAME, R2_BUCKET });
   console.log('🎥 R2 Lessons Base URL:', R2_LESSONS_BASE_URL);
-  if (CLOUDINARY_CLOUD_NAME === 'demo') {
-    console.warn('⚠️ CLOUDINARY_CLOUD_NAME is set to "demo". Videos may not load. Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME in Vercel.');
+  if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME) {
+    console.warn('⚠️ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is not set. Falling back to default cloud name; set it in your hosting env to avoid surprises.');
   }
 }
 
@@ -160,7 +160,15 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride:
       'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
   },
-  { id: 8, title: 'Name Page to Edit Video', filename: 'LESSON 6  . Name page to Edit video.mp4', duration: 15, thumbnail: '/thumbnail/Lesson-8.jpg' },
+  {
+    id: 8,
+    title: 'Name Page to Edit Video',
+    filename: 'LESSON 6  . Name page to Edit video.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-8.jpg',
+    videoUrlOverride:
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767691723/darwin-education/lessons/LESSON_6__._Name_page_to_Edit_video.mp4',
+  },
   {
     id: 9,
     title: 'Ways Paano Magviral',
@@ -305,6 +313,22 @@ const getLessonCloudinaryVideoUrl = (filename: string) => {
   const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/${transformation}/darwin-education/lessons/${encodedPublicId}.mp4`;
   console.log('Cloudinary Video URL:', url, `(Cloud: ${CLOUDINARY_CLOUD_NAME})`);
   return url;
+};
+
+const ensureCloudinaryPlayableMp4Url = (url: string) => {
+  // Many mobile/desktop browsers (notably Chrome/Android) cannot play HEVC (hvc1)
+  // sources and will surface it as a NetworkError. Force Cloudinary to transcode
+  // to H.264/AAC MP4 when possible.
+  const marker = '/video/upload/';
+  if (!url.includes('res.cloudinary.com/')) return url;
+  const idx = url.indexOf(marker);
+  if (idx === -1) return url;
+
+  const after = url.slice(idx + marker.length);
+  if (after.includes('vc_h264') || after.includes('f_mp4') || after.includes('ac_aac')) return url;
+
+  const transformation = 'f_mp4,vc_h264,ac_aac';
+  return url.slice(0, idx + marker.length) + `${transformation}/` + after;
 };
 
 // Helper to get video URL from Cloudinary or R2
@@ -1103,9 +1127,11 @@ export default function CourseLearnPage() {
                 />
               ) : (
                 (() => {
-                  const resolvedUrl =
+                  const baseUrl =
                     currentVideoLesson.videoUrlOverride ??
                     getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource, lessonVideoR2Variant);
+
+                  const resolvedUrl = ensureCloudinaryPlayableMp4Url(baseUrl);
 
                   return (
                     <video
