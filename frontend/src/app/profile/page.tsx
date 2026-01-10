@@ -50,7 +50,6 @@ export default function ProfilePage() {
     async function fetchCourses() {
       if (isAuthenticated) {
         const courses = await getMyEnrolledCourses();
-        console.log('📊 Enrolled courses data:', courses);
         setEnrolledCourses(courses);
         setLoadingCourses(false);
       }

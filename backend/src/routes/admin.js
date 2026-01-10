@@ -756,11 +756,7 @@ router.get('/monthly-payments', async (req, res) => {
       .select(`
         id,
         user_id,
-        name,
-        email,
-        phone,
         status,
-        approved_at,
         monthly_payment_amount,
         last_payment_date,
         next_payment_due,
@@ -768,7 +764,7 @@ router.get('/monthly-payments', async (req, res) => {
         courses (id, title),
         users (id, user_code, name, email)
       `)
-      .eq('status', 'approved')
+      .in('status', ['active', 'approved'])
       .order('next_payment_due', { ascending: true, nullsFirst: false });
 
     if (status && status !== 'all') {
@@ -776,7 +772,10 @@ router.get('/monthly-payments', async (req, res) => {
     }
 
     if (search) {
-      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%`);
+      // Prefer searching on the related user record (schema_v2 compatible)
+      query = query.or(
+        `users.user_code.ilike.%${search}%,users.name.ilike.%${search}%,users.email.ilike.%${search}%`
+      );
     }
 
     const { data: payments, error } = await query;

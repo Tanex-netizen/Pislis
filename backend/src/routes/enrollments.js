@@ -259,7 +259,43 @@ router.get('/my-courses', verifyToken, async (req, res) => {
         status,
         created_at,
         unlocked_at,
+        expires_at,
+        monthly_payment_amount,
+        last_payment_date,
+        next_payment_due,
+        monthly_payment_status,
+        courses (
+          id,
+          slug,
+          title,
+          short_description,
+          thumbnail_url,
+          duration_hours,
+          level
+        )
+      `,
+      `
+        id,
+        status,
+        created_at,
+        unlocked_at,
         approved_at,
+        expires_at,
+        courses (
+          id,
+          slug,
+          title,
+          short_description,
+          thumbnail_url,
+          duration_hours,
+          level
+        )
+      `,
+      `
+        id,
+        status,
+        created_at,
+        unlocked_at,
         expires_at,
         courses (
           id,
