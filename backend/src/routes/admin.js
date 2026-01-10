@@ -22,7 +22,8 @@ router.get('/enrollments', async (req, res) => {
       .from('enrollments')
       .select(`
         *,
-        courses (id, title, price)
+        courses (id, title, price),
+        users (id, user_code, name, email)
       `)
       .order('created_at', { ascending: false });
 
@@ -425,6 +426,11 @@ router.get('/users', async (req, res) => {
           user_id,
           status,
           course_id,
+          unlocked_at,
+          expires_at,
+          next_payment_due,
+          monthly_payment_status,
+          monthly_payment_amount,
           courses (id, title)
         `)
         .in('user_id', userIds);
@@ -489,6 +495,10 @@ router.get('/users/:userCode', async (req, res) => {
         status,
         unlocked_at,
         expires_at,
+        next_payment_due,
+        monthly_payment_status,
+        monthly_payment_amount,
+        last_payment_date,
         courses (id, slug, title)
       `)
       .eq('user_id', user.id)
