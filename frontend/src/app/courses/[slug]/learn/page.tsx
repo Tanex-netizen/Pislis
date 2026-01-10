@@ -14,7 +14,6 @@ import {
   Menu,
   X,
   BookOpen,
-  Clock,
   MessageCircle,
   Search
 } from 'lucide-react';
@@ -965,10 +964,6 @@ export default function CourseLearnPage() {
                             <span className="truncate text-sm">
                               {lesson.id}. {lesson.title}
                             </span>
-
-                            <span className="text-xs text-gray-500 ml-3">
-                              {lesson.duration}m
-                            </span>
                           </div>
                         </button>
                       </li>
@@ -1163,10 +1158,6 @@ export default function CourseLearnPage() {
                 Lesson {currentVideoLesson.id}: {currentVideoLesson.title}
               </h2>
               <div className="flex items-center gap-4 text-gray-400">
-                <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  {currentVideoLesson.duration} min
-                </span>
                 {completedLessons.has(currentVideoLesson.id) && (
                   <span className="flex items-center gap-1 text-emerald-500">
                     <CheckCircle className="w-4 h-4" />
@@ -1242,10 +1233,6 @@ export default function CourseLearnPage() {
 
             {/* Lesson info */}
             <div className="flex items-center gap-4 text-gray-400 mb-6">
-              <span className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                {currentLesson.duration_minutes} min
-              </span>
               <span className="flex items-center gap-1">
                 <BookOpen className="w-4 h-4" />
                 {currentLesson.lesson_type}
@@ -1426,7 +1413,6 @@ export default function CourseLearnPage() {
                             }`}>
                               {isCompleted ? 'Completed' : isUnlocked ? 'Available' : 'Locked'}
                             </span>
-                            <span className="text-xs text-gray-500">{lesson.duration} min</span>
                           </div>
                           <h3 className={`font-semibold mb-2 line-clamp-2 ${
                             isUnlocked ? 'text-white group-hover:text-emerald-400 transition-colors' : 'text-gray-500'

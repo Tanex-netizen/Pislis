@@ -97,13 +97,6 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
     }
   };
 
-  const formatDuration = (minutes: number) => {
-    if (minutes < 60) return `${minutes}min`;
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return mins > 0 ? `${hours}h ${mins}min` : `${hours}h`;
-  };
-
   return (
     <>
       <Navbar />
@@ -301,7 +294,7 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
                       <div>
                         <h3 className="font-semibold text-white">{module.title}</h3>
                         <p className="text-sm text-gray-400 mt-1">
-                          {module.course_lessons?.length || 0} lessons • {formatDuration(module.duration_minutes || 0)}
+                          {module.course_lessons?.length || 0} lessons
                         </p>
                       </div>
                       {expandedModules.includes(module.id) ? (
@@ -333,9 +326,6 @@ export default function CourseOverviewClient({ course, totalLessons }: CourseOve
                                 </span>
                               )}
                             </div>
-                            <span className="text-sm text-gray-500">
-                              {formatDuration(lesson.duration_minutes || 0)}
-                            </span>
                           </div>
                         ))}
                       </div>
