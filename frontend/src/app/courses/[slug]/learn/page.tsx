@@ -158,7 +158,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Lesson-7.jpg',
     // Per request: use this Cloudinary upload for Lesson 7
     videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
+      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
   },
   {
     id: 8,
