@@ -757,6 +757,9 @@ router.get('/monthly-payments', async (req, res) => {
         id,
         user_id,
         status,
+        created_at,
+        unlocked_at,
+        approved_at,
         monthly_payment_amount,
         last_payment_date,
         next_payment_due,
@@ -788,18 +791,31 @@ router.get('/monthly-payments', async (req, res) => {
     // Calculate days remaining for each payment
     const now = new Date();
     const paymentsWithTimer = (payments || []).map(payment => {
+      const baseDate = payment.approved_at || payment.unlocked_at || payment.created_at;
+      const fallbackDue = baseDate ? (() => {
+        const due = new Date(baseDate);
+        due.setMonth(due.getMonth() + 1);
+        return due.toISOString();
+      })() : null;
+
+      const effectiveDue = payment.next_payment_due || fallbackDue;
+
       let daysRemaining = null;
       let isOverdue = false;
       
-      if (payment.next_payment_due) {
-        const dueDate = new Date(payment.next_payment_due);
+      if (effectiveDue) {
+        const dueDate = new Date(effectiveDue);
         const diffTime = dueDate.getTime() - now.getTime();
         daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         isOverdue = daysRemaining < 0;
       }
 
+      const effectiveStatus = payment.monthly_payment_status || (effectiveDue ? (isOverdue ? 'overdue' : 'pending') : null);
+
       return {
         ...payment,
+        next_payment_due: effectiveDue,
+        monthly_payment_status: effectiveStatus,
         days_remaining: daysRemaining,
         is_overdue: isOverdue
       };

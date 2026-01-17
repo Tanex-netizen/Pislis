@@ -354,18 +354,31 @@ router.get('/my-courses', verifyToken, async (req, res) => {
     const activeCourses = (enrollments || []).filter(e => 
       !e.expires_at || new Date(e.expires_at) > new Date()
     ).map(e => {
+      const baseDate = e.approved_at || e.unlocked_at || e.created_at;
+      const fallbackDue = baseDate ? (() => {
+        const due = new Date(baseDate);
+        due.setMonth(due.getMonth() + 1);
+        return due.toISOString();
+      })() : null;
+
+      const effectiveDue = e.next_payment_due || fallbackDue;
+
       let days_remaining = null;
       let is_overdue = false;
       
-      if (e.next_payment_due) {
-        const dueDate = new Date(e.next_payment_due);
+      if (effectiveDue) {
+        const dueDate = new Date(effectiveDue);
         const diffTime = dueDate.getTime() - now.getTime();
         days_remaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         is_overdue = days_remaining < 0;
       }
 
+      const effectiveStatus = e.monthly_payment_status || (effectiveDue ? (is_overdue ? 'overdue' : 'pending') : null);
+
       return {
         ...e,
+        next_payment_due: effectiveDue,
+        monthly_payment_status: effectiveStatus,
         days_remaining,
         is_overdue
       };
