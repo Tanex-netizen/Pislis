@@ -25,7 +25,7 @@ const R2_ACCOUNT_ID = '6979f6d58b951631b6a5585a10376a27';
 const R2_BUCKET = 'darwin-videos';
 const R2_LESSONS_BASE_URL =
   process.env.NEXT_PUBLIC_R2_LESSONS_BASE_URL ||
-  `https://${R2_BUCKET}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
+  'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev';
 
 // Debug: Log Cloudinary config
 if (typeof window !== 'undefined') {
