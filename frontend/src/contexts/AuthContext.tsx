@@ -4,6 +4,36 @@ import { createContext, useContext, useState, useEffect, ReactNode, useCallback 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
+// Device token storage key
+const DEVICE_TOKEN_KEY = 'darwin_device_token';
+
+/**
+ * Get or generate a unique device token for this browser/device
+ * This persists across sessions to identify the device
+ */
+const getDeviceToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  
+  let deviceToken = localStorage.getItem(DEVICE_TOKEN_KEY);
+  return deviceToken;
+};
+
+/**
+ * Store the device token received from the server
+ */
+const setDeviceToken = (token: string) => {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(DEVICE_TOKEN_KEY, token);
+};
+
+/**
+ * Clear device token (used on logout or when device is reset)
+ */
+const clearDeviceToken = () => {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(DEVICE_TOKEN_KEY);
+};
+
 interface User {
   id: string;
   user_code: string;
@@ -20,7 +50,7 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string; code?: string }>;
   signup: (email: string, password: string, fullName: string) => Promise<{ success: boolean; error?: string; user_code?: string }>;
   logout: () => void;
   refreshUser: () => Promise<void>;
@@ -76,6 +106,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const data = await response.json();
         setUser(data.user);
       } else {
+        // Check if device was changed/reset by admin
+        const errorData = await response.json().catch(() => ({}));
+        if (errorData.code === 'DEVICE_CHANGED') {
+          // Device binding was reset - clear device token so user can re-bind
+          clearDeviceToken();
+        }
+        
         // Token is invalid or expired
         localStorage.removeItem('auth_token');
         setToken(null);
@@ -101,14 +138,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string; code?: string }> => {
     try {
+      // Get existing device token if any (to maintain device binding)
+      const existingDeviceToken = getDeviceToken();
+      
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ 
+          email, 
+          password,
+          deviceToken: existingDeviceToken 
+        }),
       });
 
       const data = await response.json();
@@ -117,9 +161,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('auth_token', data.token);
         setToken(data.token);
         setUser(data.user);
+        
+        // Store device token if provided (for non-admin users)
+        if (data.deviceToken) {
+          setDeviceToken(data.deviceToken);
+        }
+        
         return { success: true };
       } else {
-        return { success: false, error: data.error || 'Login failed' };
+        return { success: false, error: data.error || 'Login failed', code: data.code };
       }
     } catch (error) {
       console.error('Login error:', error);

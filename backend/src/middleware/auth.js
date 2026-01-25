@@ -49,10 +49,10 @@ const verifyToken = async (req, res, next) => {
       });
     }
     
-    // Fetch user from database
+    // Fetch user from database (include device_token for binding verification)
     const { data: user, error } = await supabase
       .from('users')
-      .select('id, user_code, name, email, phone, role, created_at')
+      .select('id, user_code, name, email, phone, role, device_token, created_at')
       .eq('id', decoded.userId)
       .single();
 
@@ -61,6 +61,17 @@ const verifyToken = async (req, res, next) => {
         error: 'User not found', 
         code: 'USER_NOT_FOUND' 
       });
+    }
+
+    // Device binding verification (skip for admins)
+    if (user.role !== 'admin' && user.device_token) {
+      // Check if the device token in JWT matches the one stored in database
+      if (decoded.deviceToken && decoded.deviceToken !== user.device_token) {
+        return res.status(403).json({
+          error: 'Session invalid. This account is now linked to a different device.',
+          code: 'DEVICE_CHANGED'
+        });
+      }
     }
 
     req.user = user;
@@ -232,13 +243,17 @@ const verifyCourseAccess = async (req, res, next) => {
 
 /**
  * Generate JWT token for a user
+ * @param {Object} user - User object with id, email, role
+ * @param {string} deviceToken - Device token for binding (null for admins)
+ * @param {string} expiresIn - Token expiration time
  */
-const generateToken = (user, expiresIn = '7d') => {
+const generateToken = (user, deviceToken = null, expiresIn = '7d') => {
   return jwt.sign(
     {
       userId: user.id,
       email: user.email,
       role: user.role,
+      deviceToken: deviceToken, // Include device token in JWT for verification
       tokenId: crypto.randomUUID()
     },
     JWT_SECRET,

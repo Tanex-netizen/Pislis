@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { 
   Users, BookOpen, Clock, CheckCircle, XCircle, 
   Eye, Mail, MoreVertical, Search, Filter,
-  LogOut, Menu, X, AlertCircle, Loader2, Unlock, DollarSign, Calendar
+  LogOut, Menu, X, AlertCircle, Loader2, Unlock, DollarSign, Calendar, Smartphone
 } from 'lucide-react';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
@@ -383,6 +383,38 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleResetDevice = async (userId: string, userName: string) => {
+    if (!confirm(`Are you sure you want to reset the device binding for ${userName}? This will allow them to login from a new device.`)) {
+      return;
+    }
+    
+    setActionLoading(`device-${userId}`);
+    try {
+      if (!token) {
+        throw new Error('Missing admin token');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/auth/reset-device/${userId}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to reset device');
+      }
+
+      alert(data.message || 'Device binding reset successfully');
+    } catch (err: any) {
+      console.error('Failed to reset device:', err);
+      alert(err.message || 'Failed to reset device');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const filteredEnrollments = enrollments.filter(enrollment => {
     const matchesStatus = filterStatus === 'all' || enrollment.status === filterStatus;
     const matchesSearch = 
@@ -694,6 +726,19 @@ export default function AdminDashboard() {
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-end gap-2 flex-wrap">
+                            <button
+                              onClick={() => handleResetDevice(u.id, u.name)}
+                              disabled={actionLoading === `device-${u.id}`}
+                              className="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+                              title="Reset device binding - allows user to login from a new device"
+                            >
+                              {actionLoading === `device-${u.id}` ? (
+                                <Loader2 className="w-3 h-3 inline mr-1 animate-spin" />
+                              ) : (
+                                <Smartphone className="w-3 h-3 inline mr-1" />
+                              )}
+                              Reset Device
+                            </button>
                             <Link
                               href={`/admin/unlock?userId=${u.id}&userCode=${u.user_code}`}
                               className="px-3 py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded transition-colors"

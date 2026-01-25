@@ -110,9 +110,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 1. what is facebook automation in simple explanation.mp4',
     duration: 10,
     thumbnail: '/thumbnail/Lesson-1.jpg',
-    // Replaced YouTube embed with Cloudinary
-    videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853343/Lesson-1_voprmu.mp4',
   },
   {
     id: 2,
@@ -120,7 +117,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 2. Niche have High Earnings.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-2.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853458/Lesson-2_zkl35x.mp4',
   },
   { id: 3, title: 'FB Account Setup', filename: 'LESSON 3. FB ACCOUNT.mp4', duration: 12, thumbnail: '/thumbnail/Lesson-3.jpg' },
   {
@@ -138,8 +134,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
     duration: 20,
     thumbnail: '/thumbnail/Lesson-5.jpg',
-    videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
   },
   {
     id: 6,
@@ -147,8 +141,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'hero.mp4',
     duration: 10,
     thumbnail: '/thumbnail/Lesson-6.jpg',
-    videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
   },
   {
     id: 7,
@@ -156,9 +148,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-7.jpg',
-    // Per request: use this Cloudinary upload for Lesson 7
-    videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
   },
   {
     id: 8,
@@ -166,8 +155,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 6  . Name page to Edit video.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-8.jpg',
-    videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767691723/darwin-education/lessons/LESSON_6__._Name_page_to_Edit_video.mp4',
   },
   {
     id: 9,
@@ -175,7 +162,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 6 II. Ways paano magviral.mp4',
     duration: 14,
     thumbnail: '/thumbnail/Lesson-9.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-9_qggpgj.mp4',
   },
   {
     id: 10,
@@ -183,7 +169,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 7. How to get more followers.mp4',
     duration: 16,
     thumbnail: '/thumbnail/Lesson-10.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853373/Lesson-10_njvy4y.mp4',
   },
   {
     id: 11,
@@ -191,7 +176,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 7 II. How to make page and post.mp4',
     duration: 13,
     thumbnail: '/thumbnail/Lesson-11.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853369/Lesson-11_luwbrd.mp4',
   },
   {
     id: 12,
@@ -199,7 +183,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4',
     duration: 12,
     thumbnail: '/thumbnail/Lesson-12.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853462/Lesson-12_i346j1.mp4',
   },
   {
     id: 13,
@@ -214,7 +197,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '10  chatgpt + mage.space.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-12.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853549/Lesson-14_uiapkp.mp4',
   },
   {
     id: 15,
@@ -222,7 +204,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '11. Q&A final.mp4',
     duration: 20,
     thumbnail: '/thumbnail/Lesson-15.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853546/Lesson-15_kbmkan.mp4',
   },
   {
     id: 16,
@@ -230,7 +211,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '12. another tips final.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-16.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-16_c4iuwf.mp4',
   },
   {
     id: 17,
@@ -238,7 +218,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '13 . Extra tips final.mp4',
     duration: 14,
     thumbnail: '/thumbnail/Lesson-17.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853544/Lesson-17_u9l8jy.mp4',
   },
   {
     id: 18,
@@ -246,7 +225,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4',
     duration: 22,
     thumbnail: '/thumbnail/Lesson-18.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853507/Lesson-18_e2iv0n.mp4',
   },
   {
     id: 19,
@@ -254,7 +232,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '15. Sample edit about Reaction video Niche.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-19.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853545/Lesson-19_icp8fk.mp4',
   },
   { id: 20, title: 'Saan I-Download ang Nakuhang Content na 1080P', filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4', duration: 10, thumbnail: '/thumbnail/Lesson-20.jpg' },
   {
@@ -263,7 +240,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4',
     duration: 25,
     thumbnail: '/thumbnail/Lesson-21.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853587/Lesson-21_oj3dns.mp4',
   },
   {
     id: 22,
@@ -271,7 +247,6 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '19. I Discovered a Script & Site That Unlocks Unlimite.mp4',
     duration: 16,
     thumbnail: '/thumbnail/Lesson-22.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853559/Lesson-22_lzpjao.mp4',
   },
   { id: 23, title: 'Awareness!!', filename: '21. Awareness!!.mp4', duration: 12, thumbnail: '/thumbnail/Lesson-23.jpg' },
   { id: 24, title: "The Do's and Don'ts", filename: "23 The Do's and Don'ts.mp4", duration: 15, thumbnail: '/thumbnail/Lesson-24.jpg' },
@@ -1139,6 +1114,8 @@ export default function CourseLearnPage() {
                       key={`${currentVideoLesson.id}-${lessonVideoSource}-${lessonVideoR2Variant}`}
                       src={resolvedUrl}
                       controls
+                      controlsList="nodownload"
+                      onContextMenu={(e) => e.preventDefault()}
                       className="w-full h-full"
                       // Only set CORS mode for Cloudinary URLs. Setting crossOrigin for R2 public URLs
                       // can trigger a CORS preflight and fail playback if the bucket CORS isn't configured.
@@ -1251,6 +1228,8 @@ export default function CourseLearnPage() {
                 <video
                   src={currentLessonVideoUrl}
                   controls
+                  controlsList="nodownload"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="w-full h-full rounded-xl"
                   poster={`${currentLessonVideoUrl}?poster=true`}
                 />

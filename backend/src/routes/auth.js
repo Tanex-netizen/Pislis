@@ -6,10 +6,18 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const crypto = require('crypto');
 const supabase = require('../config/supabase');
-const { verifyToken, generateToken } = require('../middleware/auth');
+const { verifyToken, verifyAdmin, generateToken } = require('../middleware/auth');
 
 const router = express.Router();
+
+/**
+ * Generate a unique device token
+ */
+const generateDeviceToken = () => {
+  return crypto.randomBytes(32).toString('hex');
+};
 
 /**
  * POST /api/auth/signup
@@ -88,19 +96,20 @@ router.post('/signup', async (req, res) => {
 /**
  * POST /api/auth/login
  * Authenticate user and return JWT token
+ * Implements device binding - users can only login from one device (except admins)
  */
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, deviceToken: clientDeviceToken } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Find user
+    // Find user (include device_token for binding check)
     const { data: user, error } = await supabase
       .from('users')
-      .select('id, user_code, name, email, password, role')
+      .select('id, user_code, name, email, password, role, device_token')
       .eq('email', email.toLowerCase().trim())
       .single();
 
@@ -114,8 +123,45 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Generate token
-    const token = generateToken(user);
+    // Device binding check (skip for admins)
+    let deviceToken = clientDeviceToken;
+    
+    if (user.role !== 'admin') {
+      if (user.device_token) {
+        // User already has a bound device
+        if (clientDeviceToken && clientDeviceToken === user.device_token) {
+          // Same device, allow login
+          deviceToken = user.device_token;
+        } else if (clientDeviceToken && clientDeviceToken !== user.device_token) {
+          // Different device token provided - reject
+          return res.status(403).json({ 
+            error: 'This account is already linked to another device. Please contact support if you need to transfer your account.',
+            code: 'DEVICE_MISMATCH'
+          });
+        } else {
+          // No device token provided but user has one bound - reject (new device)
+          return res.status(403).json({ 
+            error: 'This account is already linked to another device. Please contact support if you need to transfer your account.',
+            code: 'DEVICE_MISMATCH'
+          });
+        }
+      } else {
+        // No device bound yet - generate and bind new device token
+        deviceToken = clientDeviceToken || generateDeviceToken();
+        
+        // Bind device to user
+        await supabase
+          .from('users')
+          .update({ 
+            device_token: deviceToken,
+            device_bound_at: new Date().toISOString()
+          })
+          .eq('id', user.id);
+      }
+    }
+
+    // Generate JWT token (include device token for verification)
+    const token = generateToken(user, deviceToken);
 
     // Update last login
     await supabase
@@ -133,6 +179,7 @@ router.post('/login', async (req, res) => {
         role: user.role,
       },
       token,
+      deviceToken: user.role !== 'admin' ? deviceToken : undefined,
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -231,6 +278,59 @@ router.get('/enrollments', verifyToken, async (req, res) => {
     res.json({ enrollments: enrollments || [] });
   } catch (error) {
     console.error('Get enrollments error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * POST /api/auth/reset-device/:userId
+ * Admin-only: Reset a user's device binding so they can login from a new device
+ */
+router.post('/reset-device/:userId', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Get user info first
+    const { data: targetUser, error: fetchError } = await supabase
+      .from('users')
+      .select('id, user_code, name, email, device_token')
+      .eq('id', userId)
+      .single();
+
+    if (fetchError || !targetUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Don't allow resetting admin accounts
+    if (targetUser.role === 'admin') {
+      return res.status(400).json({ error: 'Cannot reset device binding for admin accounts' });
+    }
+
+    // Reset device token
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ 
+        device_token: null,
+        device_bound_at: null
+      })
+      .eq('id', userId);
+
+    if (updateError) {
+      console.error('Reset device error:', updateError);
+      return res.status(500).json({ error: 'Failed to reset device binding' });
+    }
+
+    res.json({ 
+      message: `Device binding reset for user ${targetUser.name} (${targetUser.user_code}). They can now login from a new device.`,
+      user: {
+        id: targetUser.id,
+        user_code: targetUser.user_code,
+        name: targetUser.name,
+        email: targetUser.email
+      }
+    });
+  } catch (error) {
+    console.error('Reset device error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
