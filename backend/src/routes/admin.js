@@ -333,23 +333,23 @@ router.post('/enrollments/:id/revoke', async (req, res) => {
 router.get('/stats', async (req, res) => {
   try {
     // Get enrollment counts by status
-    const { data: pendingCount } = await supabase
+    const { count: pendingCount } = await supabase
       .from('enrollments')
-      .select('id', { count: 'exact' })
+      .select('id', { count: 'exact', head: true })
       .eq('status', 'pending');
 
-    const { data: approvedCount } = await supabase
+    const { count: approvedCount } = await supabase
       .from('enrollments')
-      .select('id', { count: 'exact' })
-      .eq('status', 'approved');
+      .select('id', { count: 'exact', head: true })
+      .or('status.eq.approved,status.eq.active');
 
-    const { data: totalCourses } = await supabase
+    const { count: totalCourses } = await supabase
       .from('courses')
-      .select('id', { count: 'exact' });
+      .select('id', { count: 'exact', head: true });
 
-    const { data: totalUsers } = await supabase
+    const { count: totalUsers } = await supabase
       .from('users')
-      .select('id', { count: 'exact' })
+      .select('id', { count: 'exact', head: true })
       .eq('role', 'student');
 
     // Get recent enrollments
@@ -361,10 +361,10 @@ router.get('/stats', async (req, res) => {
 
     res.json({
       stats: {
-        pendingEnrollments: pendingCount?.length || 0,
-        approvedEnrollments: approvedCount?.length || 0,
-        totalCourses: totalCourses?.length || 0,
-        totalStudents: totalUsers?.length || 0,
+        pendingEnrollments: pendingCount || 0,
+        approvedEnrollments: approvedCount || 0,
+        totalCourses: totalCourses || 0,
+        totalStudents: totalUsers || 0,
       },
       recentEnrollments,
     });

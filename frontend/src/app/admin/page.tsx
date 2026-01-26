@@ -154,7 +154,7 @@ export default function AdminDashboard() {
         return;
       }
 
-      const [enrollmentsRes, coursesRes, usersRes, recentLoginsRes, monthlyPaymentsRes] = await Promise.all([
+      const [enrollmentsRes, coursesRes, usersRes, recentLoginsRes, monthlyPaymentsRes, statsRes] = await Promise.all([
         fetch(`${API_BASE_URL}/admin/enrollments`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -180,6 +180,11 @@ export default function AdminDashboard() {
             Authorization: `Bearer ${token}`,
           },
         }),
+        fetch(`${API_BASE_URL}/admin/stats`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       const enrollmentsData = enrollmentsRes.ok ? await enrollmentsRes.json() : { enrollments: [] };
@@ -187,6 +192,7 @@ export default function AdminDashboard() {
       const usersData = usersRes.ok ? await usersRes.json() : { users: [], total: 0 };
       const recentLoginsData = recentLoginsRes.ok ? await recentLoginsRes.json() : { users: [], total: 0 };
       const monthlyPaymentsData = monthlyPaymentsRes.ok ? await monthlyPaymentsRes.json() : { payments: [] };
+      const statsData = statsRes.ok ? await statsRes.json() : { stats: null };
 
       setMonthlyPayments(monthlyPaymentsData.payments || []);
 
@@ -216,20 +222,24 @@ export default function AdminDashboard() {
 
       setRecentLogins(mappedLogins);
 
-      // Count students based on their approval status
-      const students = mappedLogins.filter((u: AdminUser) => u.role === 'student');
-      const pendingEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) === 0).length;
-      const approvedEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) > 0).length;
-      const totalCourses = (coursesData.courses || []).length;
-      // Use the total count from the API response instead of counting the fetched users (which is limited)
-      const totalStudents = recentLoginsData.total || students.length;
+      // Use stats from the dedicated stats endpoint for accurate counts
+      if (statsData.stats) {
+        setStats(statsData.stats);
+      } else {
+        // Fallback to counting from fetched data (limited accuracy)
+        const students = mappedLogins.filter((u: AdminUser) => u.role === 'student');
+        const pendingEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) === 0).length;
+        const approvedEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) > 0).length;
+        const totalCourses = (coursesData.courses || []).length;
+        const totalStudents = recentLoginsData.total || students.length;
 
-      setStats({
-        pendingEnrollments,
-        approvedEnrollments,
-        totalCourses,
-        totalStudents,
-      });
+        setStats({
+          pendingEnrollments,
+          approvedEnrollments,
+          totalCourses,
+          totalStudents,
+        });
+      }
     } catch (err) {
       console.error('Failed to fetch data:', err);
     } finally {
