@@ -30,7 +30,10 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Auto-generate user_code on insert
 CREATE OR REPLACE FUNCTION generate_user_code()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   -- Generate a human-readable code like "USR-001234"
   NEW.user_code := 'USR-' || LPAD(
@@ -218,7 +221,10 @@ CREATE INDEX IF NOT EXISTS idx_user_sessions_token ON user_sessions(token_id);
 -- Automatically update updated_at timestamp on row changes
 -- =============================================================================
 CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
@@ -323,7 +329,10 @@ ON CONFLICT DO NOTHING;
 
 -- Function to check if a user is enrolled in a course
 CREATE OR REPLACE FUNCTION is_user_enrolled(p_user_id UUID, p_course_id UUID)
-RETURNS BOOLEAN AS $$
+RETURNS BOOLEAN 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   RETURN EXISTS (
     SELECT 1 FROM enrollments
@@ -337,7 +346,10 @@ $$ LANGUAGE plpgsql;
 
 -- Function to get user's course progress percentage
 CREATE OR REPLACE FUNCTION get_course_progress(p_user_id UUID, p_course_id UUID)
-RETURNS INTEGER AS $$
+RETURNS INTEGER 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 DECLARE
   total_lessons INTEGER;
   completed_lessons INTEGER;
@@ -371,6 +383,7 @@ $$ LANGUAGE plpgsql;
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE enrollments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE course_progress ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_sessions ENABLE ROW LEVEL SECURITY;
 
 -- Users can only see their own data (unless admin)
 CREATE POLICY users_select_own ON users
@@ -384,7 +397,23 @@ CREATE POLICY enrollments_select_own ON enrollments
 CREATE POLICY progress_select_own ON course_progress
   FOR SELECT USING (auth.uid()::text = user_id::text);
 
+-- User sessions policies (users can only access their own sessions)
+CREATE POLICY user_sessions_select_own ON user_sessions
+  FOR SELECT TO authenticated USING (auth.uid()::text = user_id::text);
+
+CREATE POLICY user_sessions_insert_own ON user_sessions
+  FOR INSERT TO authenticated WITH CHECK (auth.uid()::text = user_id::text);
+
+CREATE POLICY user_sessions_update_own ON user_sessions
+  FOR UPDATE TO authenticated 
+  USING (auth.uid()::text = user_id::text)
+  WITH CHECK (auth.uid()::text = user_id::text);
+
+CREATE POLICY user_sessions_delete_own ON user_sessions
+  FOR DELETE TO authenticated USING (auth.uid()::text = user_id::text);
+
 -- Service role can do everything (for backend API)
-CREATE POLICY service_role_all ON users FOR ALL USING (true);
-CREATE POLICY service_role_all_enrollments ON enrollments FOR ALL USING (true);
-CREATE POLICY service_role_all_progress ON course_progress FOR ALL USING (true);
+CREATE POLICY service_role_all ON users FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY service_role_all_enrollments ON enrollments FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY service_role_all_progress ON course_progress FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY service_role_all_sessions ON user_sessions FOR ALL TO service_role USING (true) WITH CHECK (true);
