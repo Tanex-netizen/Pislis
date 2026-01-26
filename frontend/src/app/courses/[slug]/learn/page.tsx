@@ -52,43 +52,8 @@ const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = Object.fromEntries(
   ])
 ) as Record<string, 'cloudinary' | 'r2'>;
 
-// Public dev URLs (Cloudflare R2 public domain) for lesson videos.
-// If a filename exists here, we always use the explicit URL to ensure playback.
-const LESSON_VIDEO_URL_OVERRIDES: Record<string, string> = {
-  '12. another tips final.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/12.%20another%20tips%20final.mp4',
-  '10  chatgpt + mage.space.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/10%20%20chatgpt%20%2B%20mage.space.mp4',
-  '11. Q&A final.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/11.%20Q%26A%20final.mp4',
-  '13 . Extra tips final.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/13%20.%20Extra%20tips%20final.mp4',
-  '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/14.%20PAANO%20AKO%20KUMITA%20NG%206%20DIGITS%20SA%20STORY.mp4',
-  '15. Sample edit about Reaction video Niche.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/15.%20Sample%20edit%20about%20Reaction%20video%20Niche.mp4',
-  '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/17%20%26%2018%20SAAN%20KUKUHA%20NG%20I-REPURPOSE%20CONTENT%20-%20HOW%20TO%20REEDIT.mp4',
-  '19. I Discovered a Script & Site That Unlocks Unlimite.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/19.%20I%20Discovered%20a%20Script%20%26%20Site%20That%20Unlocks%20Unlimite.mp4',
-  'LESSON 1. what is facebook automation in simple explanation.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%201.%20what%20is%20facebook%20automation%20in%20simple%20explanation.mp4',
-  'LESSON 2. Niche have High Earnings.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%202.%20Niche%20have%20High%20Earnings.mp4',
-  'LESSON 5. VID EDITING BY MY VID EDITOR.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%205.%20VID%20EDITING%20BY%20MY%20VID%20EDITOR.mp4',
-  'LESSON 6 II. Ways paano magviral.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%206%20II.%20Ways%20paano%20magviral.mp4',
-  'LESSON 7 II. How to make page and post.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%207%20II.%20How%20to%20make%20page%20and%20post.mp4',
-  'LESSON 7. How to get more followers.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%207.%20How%20to%20get%20more%20followers.mp4',
-  'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/LESSON%208.%20how%20to%20generate%20image%20sa%20chatgpt%20sa%20madaling%20paraa.mp4',
-  'Lesson-6-Sample Edit by my video editor II.mp4':
-    'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/Lesson-6-Sample%20Edit%20by%20my%20video%20editor%20II.mp4',
-  'hero.mp4': 'https://pub-79bbe5625f3e4375a961f7bf776b47c8.r2.dev/lessons/hero.mp4',
-};
+// No longer using R2 - all videos are on Cloudinary with direct URLs in videoUrlOverride
+const LESSON_VIDEO_URL_OVERRIDES: Record<string, string> = {};
 
 type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 
@@ -103,6 +68,7 @@ type LessonVideoEntry = {
 };
 
 // Lesson videos from public/Lessons folder - ordered properly
+// All videos are on Cloudinary with direct URLs
 const LESSON_VIDEOS: LessonVideoEntry[] = [
   {
     id: 1,
@@ -110,6 +76,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 1. what is facebook automation in simple explanation.mp4',
     duration: 10,
     thumbnail: '/thumbnail/Lesson-1.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853343/Lesson-1_voprmu.mp4',
   },
   {
     id: 2,
@@ -117,16 +84,23 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 2. Niche have High Earnings.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-2.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853458/Lesson-2_zkl35x.mp4',
   },
-  { id: 3, title: 'FB Account Setup', filename: 'LESSON 3. FB ACCOUNT.mp4', duration: 12, thumbnail: '/thumbnail/Lesson-3.jpg' },
+  {
+    id: 3,
+    title: 'FB Account Setup',
+    filename: 'LESSON 3. FB ACCOUNT.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/Lesson-3.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767692629/darwin-education/lessons/LESSON_3._FB_ACCOUNT.mp4',
+  },
   {
     id: 4,
     title: 'How to Gain Followers in Organic Way',
     filename: 'LESSON 4. How to gain followers in organic way.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-4.jpg',
-    videoUrlOverride:
-      'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767860985/how_to_gain_followers_in_organic_way_1_kvpjdv.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767860985/how_to_gain_followers_in_organic_way_1_kvpjdv.mp4',
   },
   {
     id: 5,
@@ -134,6 +108,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
     duration: 20,
     thumbnail: '/thumbnail/Lesson-5.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
   },
   {
     id: 6,
@@ -141,6 +116,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'hero.mp4',
     duration: 10,
     thumbnail: '/thumbnail/Lesson-6.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
   },
   {
     id: 7,
@@ -148,6 +124,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-7.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
   },
   {
     id: 8,
@@ -155,6 +132,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 6  . Name page to Edit video.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-8.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767691723/darwin-education/lessons/LESSON_6__._Name_page_to_Edit_video.mp4',
   },
   {
     id: 9,
@@ -162,6 +140,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 6 II. Ways paano magviral.mp4',
     duration: 14,
     thumbnail: '/thumbnail/Lesson-9.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-9_qggpgj.mp4',
   },
   {
     id: 10,
@@ -169,6 +148,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 7. How to get more followers.mp4',
     duration: 16,
     thumbnail: '/thumbnail/Lesson-10.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853373/Lesson-10_njvy4y.mp4',
   },
   {
     id: 11,
@@ -176,6 +156,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 7 II. How to make page and post.mp4',
     duration: 13,
     thumbnail: '/thumbnail/Lesson-11.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853369/Lesson-11_luwbrd.mp4',
   },
   {
     id: 12,
@@ -183,6 +164,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4',
     duration: 12,
     thumbnail: '/thumbnail/Lesson-12.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853462/Lesson-12_i346j1.mp4',
   },
   {
     id: 13,
@@ -190,6 +172,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'LESSON 9. how to create a sample photo in canva.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-13.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767692112/darwin-education/lessons/LESSON_9._how_to_create_a_sample_photo_in_canva.mp4',
   },
   {
     id: 14,
@@ -197,6 +180,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '10  chatgpt + mage.space.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-12.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853549/Lesson-14_uiapkp.mp4',
   },
   {
     id: 15,
@@ -204,6 +188,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '11. Q&A final.mp4',
     duration: 20,
     thumbnail: '/thumbnail/Lesson-15.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853546/Lesson-15_kbmkan.mp4',
   },
   {
     id: 16,
@@ -211,6 +196,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '12. another tips final.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-16.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-16_c4iuwf.mp4',
   },
   {
     id: 17,
@@ -218,6 +204,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '13 . Extra tips final.mp4',
     duration: 14,
     thumbnail: '/thumbnail/Lesson-17.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853544/Lesson-17_u9l8jy.mp4',
   },
   {
     id: 18,
@@ -225,6 +212,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4',
     duration: 22,
     thumbnail: '/thumbnail/Lesson-18.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853507/Lesson-18_e2iv0n.mp4',
   },
   {
     id: 19,
@@ -232,14 +220,23 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '15. Sample edit about Reaction video Niche.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-19.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853545/Lesson-19_icp8fk.mp4',
   },
-  { id: 20, title: 'Saan I-Download ang Nakuhang Content na 1080P', filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4', duration: 10, thumbnail: '/thumbnail/Lesson-20.jpg' },
+  {
+    id: 20,
+    title: 'Saan I-Download ang Nakuhang Content na 1080P',
+    filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4',
+    duration: 10,
+    thumbnail: '/thumbnail/Lesson-20.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690333/darwin-education/lessons/16._SAAN_I-DOWNLOAD_ANG_NAKUHANG_CONTENT_NA_1080P.mp4',
+  },
   {
     id: 21,
     title: 'Saan Kukuha ng I-Repurpose Content - How to Re-edit',
     filename: '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4',
     duration: 25,
     thumbnail: '/thumbnail/Lesson-21.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853587/Lesson-21_oj3dns.mp4',
   },
   {
     id: 22,
@@ -247,10 +244,32 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '19. I Discovered a Script & Site That Unlocks Unlimite.mp4',
     duration: 16,
     thumbnail: '/thumbnail/Lesson-22.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853559/Lesson-22_lzpjao.mp4',
   },
-  { id: 23, title: 'Awareness!!', filename: '21. Awareness!!.mp4', duration: 12, thumbnail: '/thumbnail/Lesson-23.jpg' },
-  { id: 24, title: "The Do's and Don'ts", filename: "23 The Do's and Don'ts.mp4", duration: 15, thumbnail: '/thumbnail/Lesson-24.jpg' },
-  { id: 25, title: 'PC Unli Capcut Pro Hacks', filename: '23. PC Unli Capcut Pro hacks.mp4', duration: 20, thumbnail: '/thumbnail/Lesson-25.jpg' },
+  {
+    id: 23,
+    title: 'Awareness!!',
+    filename: '21. Awareness!!.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/Lesson-23.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690392/darwin-education/lessons/21._Awareness%21%21.mp4',
+  },
+  {
+    id: 24,
+    title: "The Do's and Don'ts",
+    filename: "23 The Do's and Don'ts.mp4",
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-24.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767700930/darwin-education/lessons/23_The_Dos_and_Donts.mp4',
+  },
+  {
+    id: 25,
+    title: 'PC Unli Capcut Pro Hacks',
+    filename: '23. PC Unli Capcut Pro hacks.mp4',
+    duration: 20,
+    thumbnail: '/thumbnail/Lesson-25.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690577/darwin-education/lessons/23._PC_Unli_Capcut_Pro_hacks.mp4',
+  },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
