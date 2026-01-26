@@ -124,7 +124,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
     duration: 18,
     thumbnail: '/thumbnail/Lesson-7.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
   },
   {
     id: 8,
