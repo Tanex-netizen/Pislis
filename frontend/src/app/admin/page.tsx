@@ -184,8 +184,8 @@ export default function AdminDashboard() {
 
       const enrollmentsData = enrollmentsRes.ok ? await enrollmentsRes.json() : { enrollments: [] };
       const coursesData = coursesRes.ok ? await coursesRes.json() : { courses: [] };
-      const usersData = usersRes.ok ? await usersRes.json() : { users: [] };
-      const recentLoginsData = recentLoginsRes.ok ? await recentLoginsRes.json() : { users: [] };
+      const usersData = usersRes.ok ? await usersRes.json() : { users: [], total: 0 };
+      const recentLoginsData = recentLoginsRes.ok ? await recentLoginsRes.json() : { users: [], total: 0 };
       const monthlyPaymentsData = monthlyPaymentsRes.ok ? await monthlyPaymentsRes.json() : { payments: [] };
 
       setMonthlyPayments(monthlyPaymentsData.payments || []);
@@ -221,7 +221,8 @@ export default function AdminDashboard() {
       const pendingEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) === 0).length;
       const approvedEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) > 0).length;
       const totalCourses = (coursesData.courses || []).length;
-      const totalStudents = students.length;
+      // Use the total count from the API response instead of counting the fetched users (which is limited)
+      const totalStudents = recentLoginsData.total || students.length;
 
       setStats({
         pendingEnrollments,
@@ -649,7 +650,7 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white">All Students</h2>
               <span className="text-sm text-gray-400">
-                {filteredStudents.length} student{filteredStudents.length === 1 ? '' : 's'}
+                {studentSearchQuery ? filteredStudents.length : stats.totalStudents} student{(studentSearchQuery ? filteredStudents.length : stats.totalStudents) === 1 ? '' : 's'}
               </span>
             </div>
 
