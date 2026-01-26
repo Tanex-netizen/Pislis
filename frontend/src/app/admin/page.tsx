@@ -95,6 +95,8 @@ export default function AdminDashboard() {
   const [selectedEnrollment, setSelectedEnrollment] = useState<Enrollment | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [recentLogins, setRecentLogins] = useState<AdminUser[]>([]);
+  const [studentSearchResults, setStudentSearchResults] = useState<AdminUser[] | null>(null);
+  const [studentSearching, setStudentSearching] = useState(false);
   const [monthlyPayments, setMonthlyPayments] = useState<MonthlyPayment[]>([]);
   const [paymentFilterStatus, setPaymentFilterStatus] = useState<string>('all');
   const [paymentSearchQuery, setPaymentSearchQuery] = useState('');
@@ -426,6 +428,97 @@ export default function AdminDashboard() {
     }
   };
 
+  // Server-side search for students
+  const searchStudents = async (query: string) => {
+    if (!query.trim()) {
+      setStudentSearchResults(null);
+      return;
+    }
+
+    setStudentSearching(true);
+    try {
+      const isUserCode = query.toUpperCase().startsWith('USR-');
+      
+      if (isUserCode) {
+        // Search by exact user code
+        const response = await fetch(`${API_BASE_URL}/admin/users/${query.toUpperCase()}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.user) {
+            // Enrollments are returned separately for this endpoint
+            const enrollments = data.enrollments || [];
+            const pendingCount = enrollments.filter((e: any) => e.status === 'pending').length;
+            const approvedCount = enrollments.filter((e: any) => e.status === 'active' || e.status === 'approved').length;
+            
+            setStudentSearchResults([{
+              id: String(data.user.id || ''),
+              user_code: String(data.user.user_code || ''),
+              name: String(data.user.name || 'Unknown'),
+              email: String((data.user.email || '')).toLowerCase(),
+              phone: data.user.phone ?? null,
+              role: String(data.user.role || 'student'),
+              created_at: String(data.user.created_at || ''),
+              last_login: data.user.last_login ?? null,
+              pending_enrollments: pendingCount,
+              approved_enrollments: approvedCount,
+              total_enrollments: enrollments.length,
+              enrollments: enrollments,
+            }]);
+          } else {
+            setStudentSearchResults([]);
+          }
+        } else {
+          setStudentSearchResults([]);
+        }
+      } else {
+        // Search by name or email
+        const response = await fetch(`${API_BASE_URL}/admin/users?search=${encodeURIComponent(query)}&includeEnrollments=true`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          const mapped = (data.users || []).map((u: Partial<AdminUser>) => ({
+            id: String(u.id || ''),
+            user_code: String(u.user_code || ''),
+            name: String(u.name || 'Unknown'),
+            email: String((u.email || '')).toLowerCase(),
+            phone: u.phone ?? null,
+            role: String(u.role || 'student'),
+            created_at: String(u.created_at || ''),
+            last_login: u.last_login ?? null,
+            pending_enrollments: u.pending_enrollments || 0,
+            approved_enrollments: u.approved_enrollments || 0,
+            total_enrollments: u.total_enrollments || 0,
+            enrollments: u.enrollments || [],
+          }));
+          setStudentSearchResults(mapped);
+        } else {
+          setStudentSearchResults([]);
+        }
+      }
+    } catch (error) {
+      console.error('Student search failed:', error);
+      setStudentSearchResults([]);
+    } finally {
+      setStudentSearching(false);
+    }
+  };
+
+  // Debounced search effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (studentSearchQuery.trim()) {
+        searchStudents(studentSearchQuery);
+      } else {
+        setStudentSearchResults(null);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [studentSearchQuery, token]);
+
   const filteredEnrollments = enrollments.filter(enrollment => {
     const matchesStatus = filterStatus === 'all' || enrollment.status === filterStatus;
     const matchesSearch = 
@@ -434,14 +527,10 @@ export default function AdminDashboard() {
     return matchesStatus && matchesSearch;
   });
 
-  const normalizedStudentSearch = studentSearchQuery.trim().toLowerCase();
-  const filteredStudents = !normalizedStudentSearch
-    ? recentLogins
-    : recentLogins.filter((u) => {
-        const name = (u.name || '').toLowerCase();
-        const userCode = (u.user_code || '').toLowerCase();
-        return name.includes(normalizedStudentSearch) || userCode.includes(normalizedStudentSearch);
-      });
+  // Use server-side search results if available, otherwise show loaded users
+  const filteredStudents = studentSearchQuery.trim()
+    ? (studentSearchResults || [])
+    : recentLogins;
 
   const normalizedPaymentSearch = paymentSearchQuery.trim().toLowerCase();
   const filteredPayments = monthlyPayments.filter((p) => {
@@ -690,7 +779,7 @@ export default function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {loading ? (
+                  {loading || studentSearching ? (
                     <tr>
                       <td colSpan={6} className="py-8 text-center text-gray-400">
                         <Loader2 className="w-6 h-6 animate-spin mx-auto" />
@@ -699,7 +788,7 @@ export default function AdminDashboard() {
                   ) : filteredStudents.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="py-8 text-center text-gray-400">
-                        {normalizedStudentSearch ? 'No matching students found' : 'No login activity yet'}
+                        {studentSearchQuery.trim() ? 'No matching students found' : 'No login activity yet'}
                       </td>
                     </tr>
                   ) : (
