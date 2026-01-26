@@ -313,14 +313,19 @@ const getLessonVideoUrl = (
   r2Variant: 'lessons' | 'root' = 'lessons'
 ) => {
   const normalizedFilename = normalizeFilenameKey(filename);
-
-  const overrideUrl = LESSON_VIDEO_URL_OVERRIDES[normalizedFilename];
-  if (overrideUrl) return overrideUrl;
-
+  
+  // Determine the source: explicit override > VIDEO_SOURCES mapping > default cloudinary
   const source = sourceOverride || VIDEO_SOURCES[normalizedFilename] || 'cloudinary';
-  return source === 'r2'
-    ? getLessonR2VideoUrl(normalizedFilename, r2Variant)
-    : getLessonCloudinaryVideoUrl(normalizedFilename);
+  
+  // For R2 source, use override URL if available, otherwise generate URL
+  if (source === 'r2') {
+    const overrideUrl = LESSON_VIDEO_URL_OVERRIDES[normalizedFilename];
+    if (overrideUrl) return overrideUrl;
+    return getLessonR2VideoUrl(normalizedFilename, r2Variant);
+  }
+  
+  // For Cloudinary source, always use generated URL (not R2 overrides)
+  return getLessonCloudinaryVideoUrl(normalizedFilename);
 };
 
 interface BrollVideo {
@@ -455,6 +460,8 @@ export default function CourseLearnPage() {
   const [lessonVideoSource, setLessonVideoSource] = useState<'cloudinary' | 'r2'>('cloudinary');
   const [lessonVideoR2Variant, setLessonVideoR2Variant] = useState<'lessons' | 'root'>('lessons');
   const [lessonVideoError, setLessonVideoError] = useState<string | null>(null);
+  const [lessonVideoFallbackAttempts, setLessonVideoFallbackAttempts] = useState(0);
+  const [lessonVideoRetryCount, setLessonVideoRetryCount] = useState(0);
 
   // When the current lesson changes, reset source to preferred (VIDEO_SOURCES or Cloudinary)
   useEffect(() => {
@@ -463,6 +470,8 @@ export default function CourseLearnPage() {
     setLessonVideoSource(VIDEO_SOURCES[normalizedFilename] || 'cloudinary');
     setLessonVideoR2Variant('lessons');
     setLessonVideoError(null);
+    setLessonVideoFallbackAttempts(0); // Reset fallback attempts on lesson change
+    setLessonVideoRetryCount(0); // Reset retry count on lesson change
   }, [currentVideoLesson]);
 
   // Load completed lessons from localStorage after mount
@@ -1108,39 +1117,87 @@ export default function CourseLearnPage() {
 
                   const resolvedUrl = ensureCloudinaryPlayableMp4Url(baseUrl);
 
+                  // Debug logging for video loading
+                  console.log('[Video] Loading lesson:', currentVideoLesson.title);
+                  console.log('[Video] Source:', lessonVideoSource, 'R2 variant:', lessonVideoR2Variant);
+                  console.log('[Video] Resolved URL:', resolvedUrl);
+                  console.log('[Video] Fallback attempts:', lessonVideoFallbackAttempts, 'Retry count:', lessonVideoRetryCount);
+
                   return (
                     <video
                       ref={videoRef}
-                      key={`${currentVideoLesson.id}-${lessonVideoSource}-${lessonVideoR2Variant}`}
+                      key={`${currentVideoLesson.id}-${lessonVideoSource}-${lessonVideoR2Variant}-${lessonVideoFallbackAttempts}-${lessonVideoRetryCount}`}
                       src={resolvedUrl}
                       controls
                       controlsList="nodownload"
                       onContextMenu={(e) => e.preventDefault()}
                       className="w-full h-full"
+                      preload="auto"
+                      playsInline
                       // Only set CORS mode for Cloudinary URLs. Setting crossOrigin for R2 public URLs
                       // can trigger a CORS preflight and fail playback if the bucket CORS isn't configured.
                       crossOrigin={resolvedUrl.includes('res.cloudinary.com/') ? 'anonymous' : undefined}
                       onEnded={handleVideoEnded}
                       autoPlay
-                      onError={() => {
+                      onError={(e) => {
+                        console.error('[Video] Error loading video:', e);
+                        console.error('[Video] Failed URL:', resolvedUrl);
+                        console.error('[Video] Source was:', lessonVideoSource, 'R2 variant:', lessonVideoR2Variant);
+                        console.error('[Video] Fallback attempts:', lessonVideoFallbackAttempts, 'Retry count:', lessonVideoRetryCount);
+                        
                         // If this lesson uses an explicit override URL, don't auto-switch sources.
                         if (currentVideoLesson.videoUrlOverride) {
                           setLessonVideoError('Video failed to load from the configured Cloudinary URL. Please verify the asset exists and is public.');
                           return;
                         }
 
-                        // Auto-fallback for large videos uploaded to R2
-                        if (lessonVideoSource === 'cloudinary') {
-                          setLessonVideoSource('r2');
+                        // Retry same source up to 2 times before switching (helps with transient network issues)
+                        if (lessonVideoRetryCount < 2) {
+                          console.log('[Video] Retrying same source (attempt', lessonVideoRetryCount + 1, ')...');
+                          setLessonVideoRetryCount(prev => prev + 1);
                           return;
                         }
-                        // Some buckets store objects at the root, not under /lessons
+
+                        // Reset retry count for next source
+                        setLessonVideoRetryCount(0);
+
+                        // Prevent infinite fallback loops - max 3 source switches
+                        if (lessonVideoFallbackAttempts >= 3) {
+                          console.error('[Video] All sources exhausted for:', currentVideoLesson.filename);
+                          setLessonVideoError(
+                            'Video failed to load. Please try refreshing the page or check your internet connection. If the issue persists, contact support.'
+                          );
+                          return;
+                        }
+
+                        // Increment fallback counter
+                        setLessonVideoFallbackAttempts(prev => prev + 1);
+
+                        // Fallback chain based on current state
                         if (lessonVideoSource === 'r2' && lessonVideoR2Variant === 'lessons') {
+                          // R2 /lessons/ failed, try R2 root path
+                          console.log('[Video] R2 /lessons/ failed, trying R2 root variant...');
                           setLessonVideoR2Variant('root');
                           return;
                         }
+                        if (lessonVideoSource === 'r2' && lessonVideoR2Variant === 'root') {
+                          // R2 root also failed, fallback to Cloudinary
+                          console.log('[Video] R2 root failed, falling back to Cloudinary...');
+                          setLessonVideoSource('cloudinary');
+                          return;
+                        }
+                        if (lessonVideoSource === 'cloudinary') {
+                          // Cloudinary failed, try R2 as final fallback
+                          console.log('[Video] Cloudinary failed, trying R2...');
+                          setLessonVideoSource('r2');
+                          setLessonVideoR2Variant('lessons');
+                          return;
+                        }
+                        
+                        // Should not reach here, but just in case
+                        console.error('[Video] Unexpected state for:', currentVideoLesson.filename);
                         setLessonVideoError(
-                          'Video failed to load from both Cloudinary and R2. Please confirm the R2 public URL resolves, and the filename/path match.'
+                          'Video failed to load. Please try refreshing the page or check your internet connection. If the issue persists, contact support.'
                         );
                       }}
                     />
@@ -1152,6 +1209,45 @@ export default function CourseLearnPage() {
             {lessonVideoError && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-8">
                 <p className="text-red-300 text-sm">{lessonVideoError}</p>
+                <p className="text-gray-400 text-xs mt-2">
+                  This may be due to slow internet, browser restrictions, or mobile data limits.
+                  Try using Wi-Fi, refreshing the page, or using a different browser.
+                </p>
+                <div className="flex flex-wrap gap-3 mt-3">
+                  <button
+                    onClick={() => {
+                      // Reset and try again from the beginning
+                      const normalizedFilename = normalizeFilenameKey(currentVideoLesson?.filename || '');
+                      setLessonVideoSource(VIDEO_SOURCES[normalizedFilename] || 'cloudinary');
+                      setLessonVideoR2Variant('lessons');
+                      setLessonVideoError(null);
+                      setLessonVideoFallbackAttempts(0);
+                      setLessonVideoRetryCount(0);
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Try Again
+                  </button>
+                  {currentVideoLesson && (
+                    <a
+                      href={
+                        currentVideoLesson.videoUrlOverride ??
+                        getLessonVideoUrl(currentVideoLesson.filename, lessonVideoSource, lessonVideoR2Variant)
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Open in New Tab
+                    </a>
+                  )}
+                </div>
               </div>
             )}
 
