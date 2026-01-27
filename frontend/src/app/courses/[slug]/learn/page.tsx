@@ -270,6 +270,14 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Lesson-25.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690577/darwin-education/lessons/23._PC_Unli_Capcut_Pro_hacks.mp4',
   },
+  {
+    id: 26,
+    title: 'How to Setup Payhip Store for your digital products',
+    filename: 'Lesson 26. How to Setup Payhip Store for your digital products.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-26.jpg',
+    videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
+  },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
