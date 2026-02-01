@@ -278,6 +278,14 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Lesson-26.jpg',
     videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
   },
+  {
+    id: 27,
+    title: 'How to Make an AI Object Talk 100% Free | By Darwin',
+    filename: 'Lesson 27. How to Make an AI Object Talk 100% Free | By Darwin.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-27.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1769910581/27_LESSON_27_How_to_Make_an_AI_Object_Talk_100__ijnaph.mp4',
+  },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
