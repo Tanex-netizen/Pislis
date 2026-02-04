@@ -286,6 +286,14 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Lesson-27.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1769910581/27_LESSON_27_How_to_Make_an_AI_Object_Talk_100__ijnaph.mp4',
   },
+  {
+    id: 28,
+    title: 'Photo Template on Canva',
+    filename: 'Lesson 28. Photo Template on Canva.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-28.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770195854/PHOTO_TEMPLATE_ON_CANVA_pismhd.mp4',
+  },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
