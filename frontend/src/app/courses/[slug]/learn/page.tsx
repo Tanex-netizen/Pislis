@@ -525,10 +525,9 @@ export default function CourseLearnPage() {
     }
   }, []);
 
-  // Check if a lesson is unlocked (first lesson always unlocked, others need previous completed)
+  // Check if a lesson is unlocked (all lessons are now unlocked based on customer feedback)
   const isLessonUnlocked = (lessonId: number) => {
-    if (lessonId === 1) return true;
-    return completedLessons.has(lessonId - 1);
+    return true; // All lessons unlocked for better user experience
   };
 
   // Mark lesson as completed
@@ -1449,9 +1448,9 @@ export default function CourseLearnPage() {
             {activeTab === 'lessons' && (
               <div className="w-full">
                 {/* Info header */}
-                <div className="mb-6 bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-                  <p className="text-blue-400 text-sm">
-                    <span className="font-semibold">📹 Watch to unlock:</span> Complete each video in full to unlock the next lesson
+                <div className="mb-6 bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4">
+                  <p className="text-emerald-400 text-sm">
+                    <span className="font-semibold">📹 All Lessons Unlocked:</span> You have full access to all video lessons. Learn at your own pace!
                   </p>
                 </div>
 
