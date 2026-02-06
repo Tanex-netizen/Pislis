@@ -294,6 +294,14 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Lesson-28.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770195854/PHOTO_TEMPLATE_ON_CANVA_pismhd.mp4',
   },
+  {
+    id: 29,
+    title: 'HOW TO MAKE A SAMPLE OUTRO | QUICK FACTS',
+    filename: 'Lesson 29. HOW TO MAKE A SAMPLE OUTRO | QUICK FACTS.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-29.jpg',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770375062/document_6059878188102721360_1_bvqytj.mp4',
+  },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
