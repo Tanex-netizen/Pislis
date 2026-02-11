@@ -294,6 +294,14 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Lesson-28.jpg',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770375062/document_6059878188102721360_1_bvqytj.mp4',
   },
+  {
+    id: 29,
+    title: 'Lesson 29',
+    filename: 'Lesson-29.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Lesson-29.jpg',
+    videoUrlOverride: '',
+  },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
