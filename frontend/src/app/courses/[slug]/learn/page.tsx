@@ -296,11 +296,11 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
   },
   {
     id: 29,
-    title: 'Lesson 29',
+    title: 'HOW TO MAKE A SAMPLE OUTRO | QUICK FACTS',
     filename: 'Lesson-29.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-29.jpg',
-    videoUrlOverride: '',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770375062/document_6059878188102721360_1_bvqytj.mp4',
   },
 ];
 
