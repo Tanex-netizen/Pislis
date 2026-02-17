@@ -288,11 +288,11 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
   },
   {
     id: 28,
-    title: 'HOW TO MAKE A SAMPLE OUTRO | QUICK FACTS',
+    title: 'Photo template on Canva',
     filename: 'Lesson 28. HOW TO MAKE A SAMPLE OUTRO | QUICK FACTS.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Lesson-28.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770375062/document_6059878188102721360_1_bvqytj.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770195854/PHOTO_TEMPLATE_ON_CANVA_pismhd.mp4',
   },
   {
     id: 29,
@@ -533,11 +533,9 @@ export default function CourseLearnPage() {
     }
   }, []);
 
-  // Check if a lesson is unlocked (first lesson always unlocked, others need previous completed)
-  const isLessonUnlocked = (lessonId: number) => {
-    if (lessonId === 1) return true;
-    return completedLessons.has(lessonId - 1);
-  };
+  // Check if a lesson is unlocked
+  // Changed to always return true so lessons are immediately available
+  const isLessonUnlocked = (lessonId: number) => true;
 
   // Mark lesson as completed
   const markVideoLessonComplete = (lessonId: number) => {
@@ -1548,7 +1546,7 @@ export default function CourseLearnPage() {
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80 px-4">
                               <Lock className="w-12 h-12 text-gray-600 mb-3" />
                               <span className="text-gray-400 text-sm text-center font-medium mb-1">Watch the full video</span>
-                              <span className="text-gray-500 text-xs text-center">Complete the previous lesson to unlock this video</span>
+                              {/* Previously instructed users to complete previous lessons to unlock; removed per request */}
                             </div>
                           )}
                         </div>
