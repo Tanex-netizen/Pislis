@@ -84,7 +84,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Niches That Print Money.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Niches That Print Money.png',
-    videoUrlOverride: '/lessons/Niches%20That%20Print%20Money.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241166/Niches_That_Print_Money_mmnys4.mp4',
   },
   {
     id: 3,
@@ -92,7 +92,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'HOW TO GO VIRAL ON FACEBOOK PAGE.mp4',
     duration: 15,
     thumbnail: '/thumbnail/HOW TO GO VIRAL ON FACEBOOK PAGE.png',
-    videoUrlOverride: '/lessons/HOW%20TO%20GO%20VIRAL%20ON%20FACEBOOK%20PAGE.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241277/HOW_TO_GO_VIRAL_ON_FACEBOOK_PAGE_f1jyeo.mp4',
   },
   {
     id: 4,
@@ -100,7 +100,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Branding Page Setup.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Branding Page Setup.png',
-    videoUrlOverride: '/lessons/Branding%20Page%20Setup.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241297/Branding_Page_Setup_zespcz.mp4',
   },
   {
     id: 5,
@@ -108,7 +108,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Facebook Account Setup.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Facebook Account Setup.png',
-    videoUrlOverride: '/lessons/Facebook%20Account%20Setup.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241219/Facebook_Account_Setup_kcis63.mp4',
   },
   {
     id: 6,
@@ -116,7 +116,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Organic Growth How to Gain Followers Fast.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Organic Growth How to Gain Followers Fast.png',
-    videoUrlOverride: '/lessons/Organic%20Growth%20How%20to%20Gain%20Followers%20Fast.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241208/Organic_Growth_How_to_Gain_Followers_Fast_nbkfxb.mp4',
   },
   {
     id: 7,
@@ -140,7 +140,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'pc capcut bypass.mp4',
     duration: 15,
     thumbnail: '/thumbnail/pc capcut bypass.png',
-    videoUrlOverride: '/lessons/pc%20capcut%20bypass.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241131/pc_capcut_bypass_kgotz8.mp4',
   },
   {
     id: 10,
@@ -164,7 +164,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Create Content with Free Tools.mp4',
     duration: 15,
     thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1774254213/Create_Content_with_Free_Tools_yfta9p.png',
-    videoUrlOverride: '/lessons/Create%20Content%20with%20Free%20Tools.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774253399/Create_Content_with_Free_Tools_ra3hqb.mp4',
   },
   {
     id: 13,
@@ -196,7 +196,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Paano Ako Kumita ng 6 Digits sa Story.mp4',
     duration: 22,
     thumbnail: '/thumbnail/Paano Ako Kumita ng 6 Digits sa Story.png',
-    videoUrlOverride: '/lessons/Paano%20Ako%20Kumita%20ng%206%20Digits%20sa%20Story.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774245612/Paano_Ako_Kumita_ng_6_Digits_sa_Story_ebugqb.mp4',
   },
   {
     id: 17,
@@ -204,7 +204,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'From Basic to Advanced Image Creation.mp4',
     duration: 15,
     thumbnail: '/thumbnail/From Basic to Advanced Image Creation.png',
-    videoUrlOverride: '/lessons/From%20Basic%20to%20Advanced%20Image%20Creation.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241232/From_Basic_to_Advanced_Image_Creation_nvqfgh.mp4',
   },
   {
     id: 18,
@@ -220,7 +220,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Skeleton Content Niche.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Skeleton Content Niche.png',
-    videoUrlOverride: '/lessons/Skeleton%20Content%20Niche.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241392/Skeleton_Content_Niche_zydqcv.mp4',
   },
   {
     id: 20,
@@ -228,7 +228,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'Animation Niche.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Animation Niche.png',
-    videoUrlOverride: '/lessons/Animation%20Niche.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241388/Animation_Niche_slz9ju.mp4',
   },
   {
     id: 21,
@@ -236,7 +236,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'AI Remedies NIche.mp4',
     duration: 15,
     thumbnail: '/thumbnail/AI Remedies NIche.png',
-    videoUrlOverride: '/lessons/AI%20Remedies%20NIche.mp4',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241426/AI_Remedies_NIche_ip5d8f.mp4',
   },
   {
     id: 22,
