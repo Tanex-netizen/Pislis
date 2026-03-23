@@ -46,6 +46,9 @@ frontend/public/videos/**/*.mp4
 frontend/public/overly/**/*.mp4
 frontend/public/hero.mp4
 frontend/public/coaching/**/*.mp4
+frontend/public/lessons/*.mp4
+frontend/src/**/*.mp4
+frontend/src/thumbnail/*.mp4
 
 # Upload scripts and credentials
 upload-*.js

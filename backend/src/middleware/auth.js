@@ -52,7 +52,7 @@ const verifyToken = async (req, res, next) => {
     // Fetch user from database (include device_token for binding verification)
     const { data: user, error } = await supabase
       .from('users')
-      .select('id, user_code, name, email, phone, role, device_token, created_at')
+      .select('id, user_code, name, email, phone, role, device_token, avatar_url, created_at')
       .eq('id', decoded.userId)
       .single();
 
@@ -247,7 +247,7 @@ const verifyCourseAccess = async (req, res, next) => {
  * @param {string} deviceToken - Device token for binding (null for admins)
  * @param {string} expiresIn - Token expiration time
  */
-const generateToken = (user, deviceToken = null, expiresIn = '7d') => {
+const generateToken = (user, deviceToken = null, expiresIn = '365d') => {
   return jwt.sign(
     {
       userId: user.id,

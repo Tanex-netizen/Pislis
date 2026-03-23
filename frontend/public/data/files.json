@@ -1,48 +1,34 @@
 [
   {
     "id": 1,
-    "name": "Different Promt from Different Niche (1).docx",
-    "type": "word",
-    "size": 15360,
-    "url": "/files/Different Promt from Different Niche (1).docx"
+    "name": "Animation Prompt.pdf",
+    "type": "pdf",
+    "size": 0,
+    "url": "/files/Animation%20Prompt.pdf"
   },
   {
     "id": 2,
-    "name": "PROMPT.pdf",
+    "name": "Photo Prompt.pdf",
     "type": "pdf",
-    "size": 204800,
-    "url": "/files/PROMPT.pdf"
+    "size": 0,
+    "url": "/files/Photo%20prompt.pdf"
   },
   {
     "id": 3,
-    "name": "Quizes Promt Niche.docx",
-    "type": "word",
-    "size": 12288,
-    "url": "/files/Quizes Promt Niche.docx"
-  },
-  {
-    "id": 4,
-    "name": "Script Ideas.docx",
-    "type": "word",
-    "size": 10240,
-    "url": "/files/Script Ideas.docx"
-  },
-  {
-    "id": 5,
     "name": "READY TO USE VIDEOS (Google Drive Folder)",
     "type": "link",
     "size": 0,
     "url": "https://drive.google.com/drive/folders/1rIAjcq50_u5_hnUADo-byjVYEXt9NVUD"
   },
   {
-    "id": 6,
+    "id": 4,
     "name": "DIFFERENT WAYS TO MAKE MONEY ONLINE (Google Drive Folder)",
     "type": "link",
     "size": 0,
     "url": "https://drive.google.com/drive/folders/1--hnXWV791TvH2SOxTjbzGQx6qxNi1ZG"
   },
   {
-    "id": 7,
+    "id": 5,
     "name": "SKELETON NICHE (Google Drive Folder)",
     "type": "link",
     "size": 0,

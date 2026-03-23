@@ -75,232 +75,192 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'What is Facebook Automation in Simple Explanation',
     filename: 'LESSON 1. what is facebook automation in simple explanation.mp4',
     duration: 10,
-    thumbnail: '/thumbnail/Lesson-1.jpg',
+    thumbnail: '/thumbnail/Facebook Automation Explained Simply.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853343/Lesson-1_voprmu.mp4',
   },
   {
     id: 2,
-    title: 'Niches with High Earnings',
-    filename: 'LESSON 2. Niche have High Earnings.mp4',
+    title: 'Niches That Print Money',
+    filename: 'Niches That Print Money.mp4',
     duration: 15,
-    thumbnail: '/thumbnail/Lesson-2.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853458/Lesson-2_zkl35x.mp4',
+    thumbnail: '/thumbnail/Niches That Print Money.png',
+    videoUrlOverride: '/lessons/Niches%20That%20Print%20Money.mp4',
   },
   {
     id: 3,
-    title: 'FB Account Setup',
-    filename: 'LESSON 3. FB ACCOUNT.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/Lesson-3.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767692629/darwin-education/lessons/LESSON_3._FB_ACCOUNT.mp4',
+    title: 'How to Go Viral on Facebook Page',
+    filename: 'HOW TO GO VIRAL ON FACEBOOK PAGE.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/HOW TO GO VIRAL ON FACEBOOK PAGE.png',
+    videoUrlOverride: '/lessons/HOW%20TO%20GO%20VIRAL%20ON%20FACEBOOK%20PAGE.mp4',
   },
   {
     id: 4,
-    title: 'How to Gain Followers in Organic Way',
-    filename: 'LESSON 4. How to gain followers in organic way.mp4',
-    duration: 18,
-    thumbnail: '/thumbnail/Lesson-4.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767860985/how_to_gain_followers_in_organic_way_1_kvpjdv.mp4',
+    title: 'Branding Page Setup',
+    filename: 'Branding Page Setup.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Branding Page Setup.png',
+    videoUrlOverride: '/lessons/Branding%20Page%20Setup.mp4',
   },
   {
     id: 5,
-    title: 'Video Editing by My Video Editor',
-    filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
-    duration: 20,
-    thumbnail: '/thumbnail/Lesson-5.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
+    title: 'Facebook Account Setup',
+    filename: 'Facebook Account Setup.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Facebook Account Setup.png',
+    videoUrlOverride: '/lessons/Facebook%20Account%20Setup.mp4',
   },
   {
     id: 6,
-    title: 'Video Editing in CapCut',
-    filename: 'hero.mp4',
-    duration: 10,
-    thumbnail: '/thumbnail/Lesson-6.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
+    title: 'Organic Growth How to Gain Followers Fast',
+    filename: 'Organic Growth How to Gain Followers Fast.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Organic Growth How to Gain Followers Fast.png',
+    videoUrlOverride: '/lessons/Organic%20Growth%20How%20to%20Gain%20Followers%20Fast.mp4',
   },
   {
     id: 7,
-    title: 'Sample Edit by My Video Editor II',
-    filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
-    duration: 18,
-    thumbnail: '/thumbnail/Lesson-7.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
+    title: "The Do's and Don'ts",
+    filename: "23 The Do's and Don'ts.mp4",
+    duration: 15,
+    thumbnail: "/thumbnail/The Do's and Don'ts.png",
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767700930/darwin-education/lessons/23_The_Dos_and_Donts.mp4',
   },
   {
     id: 8,
-    title: 'Name Page to Edit Video',
-    filename: 'LESSON 6  . Name page to Edit video.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Lesson-8.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767691723/darwin-education/lessons/LESSON_6__._Name_page_to_Edit_video.mp4',
-  },
-  {
-    id: 9,
-    title: 'Ways Paano Magviral',
-    filename: 'LESSON 6 II. Ways paano magviral.mp4',
-    duration: 14,
-    thumbnail: '/thumbnail/Lesson-9.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-9_qggpgj.mp4',
-  },
-  {
-    id: 10,
-    title: 'How to Get More Followers',
-    filename: 'LESSON 7. How to get more followers.mp4',
-    duration: 16,
-    thumbnail: '/thumbnail/Lesson-10.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853373/Lesson-10_njvy4y.mp4',
-  },
-  {
-    id: 11,
-    title: 'How to Make Page and Post',
-    filename: 'LESSON 7 II. How to make page and post.mp4',
-    duration: 13,
-    thumbnail: '/thumbnail/Lesson-11.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853369/Lesson-11_luwbrd.mp4',
-  },
-  {
-    id: 12,
-    title: 'How to Generate Image sa ChatGPT sa Madaling Paraan',
-    filename: 'LESSON 8. how to generate image sa chatgpt sa madaling paraa.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/Lesson-12.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853462/Lesson-12_i346j1.mp4',
-  },
-  {
-    id: 13,
-    title: 'How to Create a Sample Photo in Canva',
-    filename: 'LESSON 9. how to create a sample photo in canva.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Lesson-13.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767692112/darwin-education/lessons/LESSON_9._how_to_create_a_sample_photo_in_canva.mp4',
-  },
-  {
-    id: 14,
-    title: 'ChatGPT + Mage.space',
-    filename: '10  chatgpt + mage.space.mp4',
-    duration: 18,
-    thumbnail: '/thumbnail/Lesson-12.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853549/Lesson-14_uiapkp.mp4',
-  },
-  {
-    id: 15,
-    title: 'Q&A Final',
-    filename: '11. Q&A final.mp4',
-    duration: 20,
-    thumbnail: '/thumbnail/Lesson-15.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853546/Lesson-15_kbmkan.mp4',
-  },
-  {
-    id: 16,
-    title: 'Another Tips Final',
-    filename: '12. another tips final.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Lesson-16.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853430/Lesson-16_c4iuwf.mp4',
-  },
-  {
-    id: 17,
     title: 'Extra Tips Final',
     filename: '13 . Extra tips final.mp4',
     duration: 14,
-    thumbnail: '/thumbnail/Lesson-17.jpg',
+    thumbnail: '/thumbnail/Extra Tips Final.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853544/Lesson-17_u9l8jy.mp4',
   },
   {
-    id: 18,
-    title: 'Paano Ako Kumita ng 6 Digits sa Story',
-    filename: '14. PAANO AKO KUMITA NG 6 DIGITS SA STORY.mp4',
-    duration: 22,
-    thumbnail: '/thumbnail/Lesson-18.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853507/Lesson-18_e2iv0n.mp4',
+    id: 9,
+    title: 'PC CapCut Bypass',
+    filename: 'pc capcut bypass.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/pc capcut bypass.png',
+    videoUrlOverride: '/lessons/pc%20capcut%20bypass.mp4',
   },
   {
-    id: 19,
-    title: 'Sample Edit About Reaction Video Niche',
-    filename: '15. Sample edit about Reaction video Niche.mp4',
-    duration: 18,
-    thumbnail: '/thumbnail/Lesson-19.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853545/Lesson-19_icp8fk.mp4',
-  },
-  {
-    id: 20,
+    id: 10,
     title: 'Saan I-Download ang Nakuhang Content na 1080P',
     filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4',
     duration: 10,
-    thumbnail: '/thumbnail/Lesson-20.jpg',
+    thumbnail: '/thumbnail/Where to Download 1080P Content.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690333/darwin-education/lessons/16._SAAN_I-DOWNLOAD_ANG_NAKUHANG_CONTENT_NA_1080P.mp4',
   },
   {
+    id: 11,
+    title: 'Q&A Final',
+    filename: '11. Q&A final.mp4',
+    duration: 20,
+    thumbnail: '/thumbnail/Q&A.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853546/Lesson-15_kbmkan.mp4',
+  },
+  {
+    id: 12,
+    title: 'Create Content with Free Tools',
+    filename: 'Create Content with Free Tools.mp4',
+    duration: 15,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1774254213/Create_Content_with_Free_Tools_yfta9p.png',
+    videoUrlOverride: '/lessons/Create%20Content%20with%20Free%20Tools.mp4',
+  },
+  {
+    id: 13,
+    title: 'Video Editing by My Video Editor',
+    filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
+    duration: 20,
+    thumbnail: '/thumbnail/Video Editing by My Video Editor.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
+  },
+  {
+    id: 14,
+    title: 'Video Editing in CapCut',
+    filename: 'hero.mp4',
+    duration: 10,
+    thumbnail: '/thumbnail/Video Editing in CapCut.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
+  },
+  {
+    id: 15,
+    title: 'Sample Edit by My Video Editor II',
+    filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
+    duration: 18,
+    thumbnail: '/thumbnail/Sample Edit by My Video Editor II.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
+  },
+  {
+    id: 16,
+    title: 'Paano Ako Kumita ng 6 Digits sa Story',
+    filename: 'Paano Ako Kumita ng 6 Digits sa Story.mp4',
+    duration: 22,
+    thumbnail: '/thumbnail/Paano Ako Kumita ng 6 Digits sa Story.png',
+    videoUrlOverride: '/lessons/Paano%20Ako%20Kumita%20ng%206%20Digits%20sa%20Story.mp4',
+  },
+  {
+    id: 17,
+    title: 'From Basic to Advanced Image Creation',
+    filename: 'From Basic to Advanced Image Creation.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/From Basic to Advanced Image Creation.png',
+    videoUrlOverride: '/lessons/From%20Basic%20to%20Advanced%20Image%20Creation.mp4',
+  },
+  {
+    id: 18,
+    title: 'Sample Edit About Reaction Video Niche',
+    filename: '15. Sample edit about Reaction video Niche.mp4',
+    duration: 18,
+    thumbnail: '/thumbnail/Sample Edit About Reaction Video Niche.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853545/Lesson-19_icp8fk.mp4',
+  },
+  {
+    id: 19,
+    title: 'Skeleton Content Niche',
+    filename: 'Skeleton Content Niche.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Skeleton Content Niche.png',
+    videoUrlOverride: '/lessons/Skeleton%20Content%20Niche.mp4',
+  },
+  {
+    id: 20,
+    title: 'Animation Niche',
+    filename: 'Animation Niche.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Animation Niche.png',
+    videoUrlOverride: '/lessons/Animation%20Niche.mp4',
+  },
+  {
     id: 21,
-    title: 'Saan Kukuha ng I-Repurpose Content - How to Re-edit',
-    filename: '17 & 18 SAAN KUKUHA NG I-REPURPOSE CONTENT - HOW TO REEDIT.mp4',
-    duration: 25,
-    thumbnail: '/thumbnail/Lesson-21.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853587/Lesson-21_oj3dns.mp4',
+    title: 'AI Remedies Niche',
+    filename: 'AI Remedies NIche.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/AI Remedies NIche.png',
+    videoUrlOverride: '/lessons/AI%20Remedies%20NIche.mp4',
   },
   {
     id: 22,
-    title: 'Script & Site That Unlocks Unlimited Content',
-    filename: '19. I Discovered a Script & Site That Unlocks Unlimite.mp4',
-    duration: 16,
-    thumbnail: '/thumbnail/Lesson-22.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853559/Lesson-22_lzpjao.mp4',
+    title: 'How to Make an AI Object Talk 100% Free | By Darwin',
+    filename: 'Lesson 27. How to Make an AI Object Talk 100% Free | By Darwin.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/Make AI Objects Talk for Free.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1769910581/27_LESSON_27_How_to_Make_an_AI_Object_Talk_100__ijnaph.mp4',
   },
   {
     id: 23,
     title: 'Awareness!!',
     filename: '21. Awareness!!.mp4',
     duration: 12,
-    thumbnail: '/thumbnail/Lesson-23.jpg',
+    thumbnail: '/thumbnail/Awareness !!.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690392/darwin-education/lessons/21._Awareness%21%21.mp4',
   },
   {
     id: 24,
-    title: "The Do's and Don'ts",
-    filename: "23 The Do's and Don'ts.mp4",
-    duration: 15,
-    thumbnail: '/thumbnail/Lesson-24.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767700930/darwin-education/lessons/23_The_Dos_and_Donts.mp4',
-  },
-  {
-    id: 25,
-    title: 'PC Unli Capcut Pro Hacks',
-    filename: '23. PC Unli Capcut Pro hacks.mp4',
-    duration: 20,
-    thumbnail: '/thumbnail/Lesson-25.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690577/darwin-education/lessons/23._PC_Unli_Capcut_Pro_hacks.mp4',
-  },
-  {
-    id: 26,
     title: 'How to Setup Payhip Store for your digital products',
     filename: 'Lesson 26. How to Setup Payhip Store for your digital products.mp4',
     duration: 15,
-    thumbnail: '/thumbnail/Lesson-26.jpg',
+    thumbnail: '/thumbnail/Set Up a Payhip Store for Digital Products.png',
     videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
-  },
-  {
-    id: 27,
-    title: 'How to Make an AI Object Talk 100% Free | By Darwin',
-    filename: 'Lesson 27. How to Make an AI Object Talk 100% Free | By Darwin.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Lesson-27.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1769910581/27_LESSON_27_How_to_Make_an_AI_Object_Talk_100__ijnaph.mp4',
-  },
-  {
-    id: 28,
-    title: 'Photo template on Canva',
-    filename: 'Lesson 28. HOW TO MAKE A SAMPLE OUTRO | QUICK FACTS.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Lesson-28.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770195854/PHOTO_TEMPLATE_ON_CANVA_pismhd.mp4',
-  },
-  {
-    id: 29,
-    title: 'HOW TO MAKE A SAMPLE OUTRO | QUICK FACTS',
-    filename: 'Lesson-29.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Lesson-29.jpg',
-    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1770375062/document_6059878188102721360_1_bvqytj.mp4',
   },
 ];
 
@@ -490,7 +450,7 @@ export default function CourseLearnPage() {
 
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<'lessons' | 'b-rolls' | 'files'>('lessons');
+  const [activeTab, setActiveTab] = useState<'lessons' | 'b-rolls' | 'files' | 'webinar'>('lessons');
   const [searchQuery, setSearchQuery] = useState('');
   const [brollCategory, setBrollCategory] = useState<'all' | 'anatomy' | 'foods' | 'people' | 'others'>('all');
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
@@ -514,6 +474,126 @@ export default function CourseLearnPage() {
   const [lessonVideoFallbackAttempts, setLessonVideoFallbackAttempts] = useState(0);
   const [lessonVideoRetryCount, setLessonVideoRetryCount] = useState(0);
 
+  // Comments state
+  const [comments, setComments] = useState<any[]>([]);
+  const [commentsLoading, setCommentsLoading] = useState(false);
+  const [commentInput, setCommentInput] = useState('');
+  const [commentSubmitting, setCommentSubmitting] = useState(false);
+  const [commentError, setCommentError] = useState<string | null>(null);
+  // replyTo: { id, name }
+  const [replyTo, setReplyTo] = useState<{ id: string; name: string } | null>(null);
+  const [replyInput, setReplyInput] = useState('');
+  const [replySubmitting, setReplySubmitting] = useState(false);
+  // editId: the comment being edited
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editInput, setEditInput] = useState('');
+  const [editSubmitting, setEditSubmitting] = useState(false);
+  // reactions picker open for which comment
+  const [reactPickerFor, setReactPickerFor] = useState<string | null>(null);
+
+  const EMOJIS = ['👍', '❤️', '😂', '😮', '🔥', '🙏'];
+
+  // Fetch comments when lesson changes
+  useEffect(() => {
+    if (!currentVideoLesson || !token) return;
+    setCommentsLoading(true);
+    setComments([]);
+    fetch(`${API_BASE_URL}/comments/${currentVideoLesson.id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => res.json())
+      .then(data => setComments(data.comments || []))
+      .catch(() => {})
+      .finally(() => setCommentsLoading(false));
+  }, [currentVideoLesson, token]);
+
+  const submitComment = async () => {
+    if (!commentInput.trim() || commentSubmitting || !token || !currentVideoLesson) return;
+    setCommentSubmitting(true);
+    setCommentError(null);
+    try {
+      const res = await fetch(`${API_BASE_URL}/comments/${currentVideoLesson.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ content: commentInput.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to post comment');
+      setComments(prev => [...prev, data.comment]);
+      setCommentInput('');
+    } catch (err: any) {
+      setCommentError(err.message || 'Failed to post comment');
+    } finally {
+      setCommentSubmitting(false);
+    }
+  };
+
+  const submitReply = async () => {
+    if (!replyInput.trim() || replySubmitting || !token || !currentVideoLesson || !replyTo) return;
+    setReplySubmitting(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/comments/${currentVideoLesson.id}/reply/${replyTo.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ content: replyInput.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setComments(prev => [...prev, data.comment]);
+      setReplyInput('');
+      setReplyTo(null);
+    } catch {}
+    finally { setReplySubmitting(false); }
+  };
+
+  const submitEdit = async (commentId: string) => {
+    if (!editInput.trim() || editSubmitting || !token) return;
+    setEditSubmitting(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/comments/${commentId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ content: editInput.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setComments(prev => prev.map(c => c.id === commentId ? { ...c, content: data.comment.content, edited: true } : c));
+      setEditId(null);
+      setEditInput('');
+    } catch {}
+    finally { setEditSubmitting(false); }
+  };
+
+  const deleteComment = async (commentId: string) => {
+    if (!token) return;
+    const res = await fetch(`${API_BASE_URL}/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) setComments(prev => prev.filter(c => c.id !== commentId && c.parent_id !== commentId));
+  };
+
+  const toggleReaction = async (commentId: string, emoji: string) => {
+    if (!token) return;
+    setReactPickerFor(null);
+    // Optimistic update
+    setComments(prev => prev.map(c => {
+      if (c.id !== commentId) return c;
+      const reactions: any[] = c.reactions || [];
+      const existing = reactions.find((r: any) => r.emoji === emoji && r.user_id === user?.id);
+      if (existing) {
+        return { ...c, reactions: reactions.filter((r: any) => !(r.emoji === emoji && r.user_id === user?.id)) };
+      } else {
+        return { ...c, reactions: [...reactions, { id: 'temp', comment_id: commentId, user_id: user?.id, emoji }] };
+      }
+    }));
+    await fetch(`${API_BASE_URL}/comments/${commentId}/react`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ emoji }),
+    });
+  };
+
   // When the current lesson changes, reset source to preferred (VIDEO_SOURCES or Cloudinary)
   useEffect(() => {
     if (!currentVideoLesson) return;
@@ -525,37 +605,11 @@ export default function CourseLearnPage() {
     setLessonVideoRetryCount(0); // Reset retry count on lesson change
   }, [currentVideoLesson]);
 
-  // Load completed lessons from localStorage after mount
-  useEffect(() => {
-    const saved = localStorage.getItem('completedLessons');
-    if (saved) {
-      setCompletedLessons(new Set(JSON.parse(saved)));
-    }
-  }, []);
+  // All lessons are immediately accessible
+  const isLessonUnlocked = (_lessonId: number) => true;
 
-  // Check if a lesson is unlocked
-  // Changed to always return true so lessons are immediately available
-  const isLessonUnlocked = (lessonId: number) => true;
-
-  // Mark lesson as completed
-  const markVideoLessonComplete = (lessonId: number) => {
-    setCompletedLessons(prev => {
-      const newSet = new Set(prev);
-      newSet.add(lessonId);
-      // Save to localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('completedLessons', JSON.stringify(Array.from(newSet)));
-      }
-      return newSet;
-    });
-  };
-
-  // Handle video end - mark as complete and show next lesson prompt
-  const handleVideoEnded = () => {
-    if (currentVideoLesson) {
-      markVideoLessonComplete(currentVideoLesson.id);
-    }
-  };
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const handleVideoEnded = () => {};
 
   // Navigate to next lesson
   const goToNextVideoLesson = () => {
@@ -961,6 +1015,19 @@ export default function CourseLearnPage() {
               >
                 Files
               </button>
+              <button
+                onClick={() => {
+                  setActiveTab('webinar');
+                  setSearchQuery('');
+                }}
+                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${
+                  activeTab === 'webinar'
+                    ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
+                    : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
+                }`}
+              >
+                Webinar Archive
+              </button>
             </div>
           </div>
 
@@ -973,13 +1040,10 @@ export default function CourseLearnPage() {
                   <h3 className="font-semibold text-gray-300 mb-2 text-sm uppercase tracking-wider">
                     Course Lessons
                   </h3>
-                  <div className="text-xs text-gray-500 mb-4">
-                    {completedLessons.size} of {LESSON_VIDEOS.length} completed
-                  </div>
+
                 </div>
                 <ul className="space-y-1">
-                  {LESSON_VIDEOS.map((lesson) => {
-                    const isCompleted = completedLessons.has(lesson.id);
+                  {LESSON_VIDEOS.filter(lesson => (lesson.thumbnail && lesson.thumbnail.trim() !== '') || (!!lesson.videoUrlOverride && lesson.videoUrlOverride.startsWith('/'))).map((lesson) => {
                     const isCurrent = currentVideoLesson?.id === lesson.id;
                     const isUnlocked = isLessonUnlocked(lesson.id);
                     
@@ -1000,9 +1064,7 @@ export default function CourseLearnPage() {
                                 : 'text-gray-600 cursor-not-allowed opacity-50'
                           }`}
                         >
-                          {isCompleted ? (
-                            <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                          ) : isUnlocked ? (
+                          {isUnlocked ? (
                             <Play className="w-4 h-4 flex-shrink-0" />
                           ) : (
                             <Lock className="w-4 h-4 flex-shrink-0 text-gray-600" />
@@ -1093,8 +1155,15 @@ export default function CourseLearnPage() {
 
             {/* Files Tab */}
             {activeTab === 'files' && (
-              <div className="text-center py-12">
-                <p className="text-gray-400 text-sm">Course files coming soon...</p>
+              <div className="text-center py-8">
+                <p className="text-gray-400 text-sm">View course files in the main content area</p>
+              </div>
+            )}
+
+            {/* Webinar Archive Tab */}
+            {activeTab === 'webinar' && (
+              <div className="text-center py-8">
+                <p className="text-gray-400 text-sm">View webinar recordings in the main content area</p>
               </div>
             )}
           </div>
@@ -1122,9 +1191,21 @@ export default function CourseLearnPage() {
           
           <div className="flex-1 min-w-0">
             <h1 className="font-semibold text-white truncate">
-              {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : currentVideoLesson ? `Lesson ${currentVideoLesson.id}: ${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
+              {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `Lesson ${currentVideoLesson.id}: ${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
             </h1>
           </div>
+
+          <a
+            href="https://t.me/+f8cGc0GZb_JiYWE9"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Join our Telegram Group"
+            className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-800 transition-colors text-[#229ED9] hover:text-[#1a8bbf] flex-shrink-0"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+          </a>
 
           <Link
             href="/profile"
@@ -1306,33 +1387,8 @@ export default function CourseLearnPage() {
                 Lesson {currentVideoLesson.id}: {currentVideoLesson.title}
               </h2>
               <div className="flex items-center gap-4 text-gray-400">
-                {completedLessons.has(currentVideoLesson.id) && (
-                  <span className="flex items-center gap-1 text-emerald-500">
-                    <CheckCircle className="w-4 h-4" />
-                    Completed
-                  </span>
-                )}
               </div>
             </div>
-
-            {/* Completion message */}
-            {completedLessons.has(currentVideoLesson.id) && currentVideoLesson.id < LESSON_VIDEOS.length && (
-              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-6 mb-8">
-                <div className="flex items-center gap-3 mb-3">
-                  <CheckCircle className="w-6 h-6 text-emerald-500" />
-                  <span className="text-emerald-400 font-semibold">Lesson Completed!</span>
-                </div>
-                <p className="text-gray-400 mb-4">
-                  Great job! You've unlocked the next lesson. Continue your learning journey.
-                </p>
-                <button
-                  onClick={goToNextVideoLesson}
-                  className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  Continue to Next Lesson →
-                </button>
-              </div>
-            )}
 
             {/* Navigation buttons */}
             <div className="flex items-center justify-between border-t border-gray-800 pt-6">
@@ -1345,24 +1401,348 @@ export default function CourseLearnPage() {
                 Previous
               </button>
 
-              {!completedLessons.has(currentVideoLesson.id) && (
-                <button
-                  onClick={() => markVideoLessonComplete(currentVideoLesson.id)}
-                  className="flex items-center gap-2 px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  Mark Complete
-                </button>
-              )}
-
               <button
                 onClick={goToNextVideoLesson}
-                disabled={currentVideoLesson.id === LESSON_VIDEOS.length || !isLessonUnlocked(currentVideoLesson.id + 1)}
+                disabled={currentVideoLesson.id === LESSON_VIDEOS.length}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
                 <ChevronRight className="w-4 h-4" />
               </button>
+            </div>
+
+            {/* Comments Section */}
+            <div className="mt-10 border-t border-gray-800 pt-8" onClick={() => setReactPickerFor(null)}>
+              <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+                <MessageCircle className="w-5 h-5 text-emerald-400" />
+                Discussion
+                {comments.length > 0 && (
+                  <span className="ml-2 text-sm font-normal text-gray-500">({comments.filter(c => !c.parent_id).length})</span>
+                )}
+              </h3>
+
+              {/* New comment input */}
+              <div className="flex gap-3 mb-8">
+                <div className="w-9 h-9 flex-shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center overflow-hidden">
+                  {user?.avatar_url ? (
+                    <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-emerald-400 text-sm font-bold">{user?.name?.[0]?.toUpperCase() || 'U'}</span>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <textarea
+                    value={commentInput}
+                    onChange={e => setCommentInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitComment(); }}
+                    placeholder="Ask a question or share your thoughts..."
+                    rows={3}
+                    maxLength={1000}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-emerald-500 resize-none text-sm"
+                  />
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs text-gray-600">{commentInput.length}/1000 · Ctrl+Enter to send</span>
+                    <div className="flex items-center gap-2">
+                      {commentError && <span className="text-xs text-red-400">{commentError}</span>}
+                      <button
+                        onClick={submitComment}
+                        disabled={!commentInput.trim() || commentSubmitting}
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+                      >
+                        {commentSubmitting ? 'Posting...' : 'Post Comment'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comments list */}
+              {commentsLoading ? (
+                <div className="flex items-center gap-3 text-gray-500 text-sm py-4">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-500"></div>
+                  Loading comments...
+                </div>
+              ) : comments.filter(c => !c.parent_id).length === 0 ? (
+                <div className="text-center py-10 text-gray-600">
+                  <MessageCircle className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                  <p className="text-sm">No comments yet. Be the first to ask a question!</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {comments.filter(c => !c.parent_id).map(comment => {
+                    const replies = comments.filter(c => c.parent_id === comment.id);
+                    const isOwner = user?.id === comment.user_id;
+                    const isAdmin = user?.role === 'admin';
+                    const isEditing = editId === comment.id;
+
+                    // Group reactions
+                    const reactionGroups: Record<string, string[]> = {};
+                    for (const r of (comment.reactions || [])) {
+                      if (!reactionGroups[r.emoji]) reactionGroups[r.emoji] = [];
+                      reactionGroups[r.emoji].push(r.user_id);
+                    }
+
+                    return (
+                      <div key={comment.id} className="group">
+                        {/* Main comment */}
+                        <div className="flex gap-3">
+                          <div className="w-9 h-9 flex-shrink-0 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
+                            {comment.users?.avatar_url ? (
+                              <img src={comment.users.avatar_url} alt={comment.users.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <span className="text-gray-300 text-sm font-bold">{comment.users?.name?.[0]?.toUpperCase() || 'U'}</span>
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <div className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-3">
+                              <div className="flex items-center justify-between mb-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-white text-sm font-semibold">{comment.users?.name || 'Student'}</span>
+                                  {comment.users?.role === 'admin' && (
+                                    <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Admin</span>
+                                  )}
+                                  {comment.edited && <span className="text-xs text-gray-600 italic">(edited)</span>}
+                                </div>
+                                <span className="text-xs text-gray-600">
+                                  {new Date(comment.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                </span>
+                              </div>
+
+                              {isEditing ? (
+                                <div>
+                                  <textarea
+                                    value={editInput}
+                                    onChange={e => setEditInput(e.target.value)}
+                                    rows={3}
+                                    maxLength={1000}
+                                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-200 focus:outline-none focus:border-emerald-500 resize-none text-sm mt-1"
+                                    autoFocus
+                                  />
+                                  <div className="flex gap-2 mt-2">
+                                    <button
+                                      onClick={() => submitEdit(comment.id)}
+                                      disabled={!editInput.trim() || editSubmitting}
+                                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-medium rounded-lg transition-colors"
+                                    >
+                                      {editSubmitting ? 'Saving...' : 'Save'}
+                                    </button>
+                                    <button
+                                      onClick={() => { setEditId(null); setEditInput(''); }}
+                                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 text-xs rounded-lg transition-colors"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <p className="text-gray-300 text-sm whitespace-pre-wrap">{comment.content}</p>
+                              )}
+                            </div>
+
+                            {/* Reaction chips + action row */}
+                            <div className="flex items-center gap-3 mt-1.5 px-1 flex-wrap">
+                              {/* Existing reaction chips */}
+                              {Object.entries(reactionGroups).map(([emoji, users]) => (
+                                <button
+                                  key={emoji}
+                                  onClick={e => { e.stopPropagation(); toggleReaction(comment.id, emoji); }}
+                                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs transition-colors border ${
+                                    users.includes(user?.id || '')
+                                      ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300'
+                                      : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'
+                                  }`}
+                                >
+                                  {emoji} {users.length}
+                                </button>
+                              ))}
+
+                              {/* React button */}
+                              <div className="relative">
+                                <button
+                                  onClick={e => { e.stopPropagation(); setReactPickerFor(prev => prev === comment.id ? null : comment.id); }}
+                                  className="text-gray-600 hover:text-yellow-400 transition-colors text-sm px-1"
+                                  title="React"
+                                >
+                                  😊
+                                </button>
+                                {reactPickerFor === comment.id && (
+                                  <div
+                                    onClick={e => e.stopPropagation()}
+                                    className="absolute bottom-7 left-0 flex gap-1 bg-gray-800 border border-gray-700 rounded-xl p-2 z-10 shadow-xl"
+                                  >
+                                    {EMOJIS.map(e => (
+                                      <button
+                                        key={e}
+                                        onClick={() => toggleReaction(comment.id, e)}
+                                        className="text-xl hover:scale-125 transition-transform px-1"
+                                      >
+                                        {e}
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Reply button */}
+                              <button
+                                onClick={() => { setReplyTo({ id: comment.id, name: comment.users?.name || 'Student' }); setReplyInput(''); }}
+                                className="text-xs text-gray-500 hover:text-emerald-400 transition-colors font-medium"
+                              >
+                                Reply
+                              </button>
+
+                              {/* Edit / Delete */}
+                              {isOwner && !isEditing && (
+                                <button
+                                  onClick={() => { setEditId(comment.id); setEditInput(comment.content); }}
+                                  className="text-xs text-gray-500 hover:text-blue-400 transition-colors font-medium"
+                                >
+                                  Edit
+                                </button>
+                              )}
+                              {(isOwner || isAdmin) && (
+                                <button
+                                  onClick={() => deleteComment(comment.id)}
+                                  className="text-xs text-gray-500 hover:text-red-400 transition-colors font-medium"
+                                >
+                                  Delete
+                                </button>
+                              )}
+                            </div>
+
+                            {/* Reply input box */}
+                            {replyTo?.id === comment.id && (
+                              <div className="mt-3 flex gap-2 pl-1">
+                                <div className="w-7 h-7 flex-shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center overflow-hidden">
+                                  {user?.avatar_url ? (
+                                    <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
+                                  ) : (
+                                    <span className="text-emerald-400 text-xs font-bold">{user?.name?.[0]?.toUpperCase() || 'U'}</span>
+                                  )}
+                                </div>
+                                <div className="flex-1">
+                                  <textarea
+                                    value={replyInput}
+                                    onChange={e => setReplyInput(e.target.value)}
+                                    onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitReply(); }}
+                                    placeholder={`Replying to ${replyTo?.name}...`}
+                                    rows={2}
+                                    maxLength={1000}
+                                    autoFocus
+                                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-emerald-500 resize-none text-sm"
+                                  />
+                                  <div className="flex gap-2 mt-1.5">
+                                    <button
+                                      onClick={submitReply}
+                                      disabled={!replyInput.trim() || replySubmitting}
+                                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-medium rounded-lg transition-colors"
+                                    >
+                                      {replySubmitting ? 'Sending...' : 'Send Reply'}
+                                    </button>
+                                    <button
+                                      onClick={() => setReplyTo(null)}
+                                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 text-xs rounded-lg transition-colors"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Replies */}
+                            {replies.length > 0 && (
+                              <div className="mt-3 space-y-3 pl-4 border-l-2 border-gray-800">
+                                {replies.map(reply => {
+                                  const rIsOwner = user?.id === reply.user_id;
+                                  const rIsEditing = editId === reply.id;
+                                  const rReactionGroups: Record<string, string[]> = {};
+                                  for (const r of (reply.reactions || [])) {
+                                    if (!rReactionGroups[r.emoji]) rReactionGroups[r.emoji] = [];
+                                    rReactionGroups[r.emoji].push(r.user_id);
+                                  }
+                                  return (
+                                    <div key={reply.id} className="flex gap-2">
+                                      <div className="w-7 h-7 flex-shrink-0 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
+                                        {reply.users?.avatar_url ? (
+                                          <img src={reply.users.avatar_url} alt="" className="w-full h-full object-cover" />
+                                        ) : (
+                                          <span className="text-gray-300 text-xs font-bold">{reply.users?.name?.[0]?.toUpperCase() || 'U'}</span>
+                                        )}
+                                      </div>
+                                      <div className="flex-1">
+                                        <div className="bg-gray-900/70 border border-gray-800 rounded-xl px-3 py-2">
+                                          <div className="flex items-center justify-between mb-1">
+                                            <div className="flex items-center gap-2">
+                                              <span className="text-white text-xs font-semibold">{reply.users?.name || 'Student'}</span>
+                                              {reply.users?.role === 'admin' && (
+                                                <span className="text-xs px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Admin</span>
+                                              )}
+                                              {reply.edited && <span className="text-xs text-gray-600 italic">(edited)</span>}
+                                            </div>
+                                            <span className="text-xs text-gray-600">
+                                              {new Date(reply.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                            </span>
+                                          </div>
+                                          {rIsEditing ? (
+                                            <div>
+                                              <textarea
+                                                value={editInput}
+                                                onChange={e => setEditInput(e.target.value)}
+                                                rows={2}
+                                                maxLength={1000}
+                                                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-200 focus:outline-none focus:border-emerald-500 resize-none text-sm mt-1"
+                                                autoFocus
+                                              />
+                                              <div className="flex gap-2 mt-1.5">
+                                                <button onClick={() => submitEdit(reply.id)} disabled={!editInput.trim() || editSubmitting} className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs rounded-lg">
+                                                  {editSubmitting ? 'Saving...' : 'Save'}
+                                                </button>
+                                                <button onClick={() => { setEditId(null); setEditInput(''); }} className="px-3 py-1 bg-gray-700 text-gray-300 text-xs rounded-lg">Cancel</button>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <p className="text-gray-300 text-sm whitespace-pre-wrap">{reply.content}</p>
+                                          )}
+                                        </div>
+                                        {/* Reply action row */}
+                                        <div className="flex items-center gap-3 mt-1 px-1 flex-wrap">
+                                          {Object.entries(rReactionGroups).map(([emoji, users]) => (
+                                            <button key={emoji} onClick={e => { e.stopPropagation(); toggleReaction(reply.id, emoji); }}
+                                              className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs border transition-colors ${users.includes(user?.id || '') ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'}`}>
+                                              {emoji} {users.length}
+                                            </button>
+                                          ))}
+                                          <div className="relative">
+                                            <button onClick={e => { e.stopPropagation(); setReactPickerFor(prev => prev === reply.id ? null : reply.id); }} className="text-gray-600 hover:text-yellow-400 transition-colors text-xs px-1" title="React">😊</button>
+                                            {reactPickerFor === reply.id && (
+                                              <div onClick={e => e.stopPropagation()} className="absolute bottom-7 left-0 flex gap-1 bg-gray-800 border border-gray-700 rounded-xl p-2 z-10 shadow-xl">
+                                                {EMOJIS.map(e => (
+                                                  <button key={e} onClick={() => toggleReaction(reply.id, e)} className="text-xl hover:scale-125 transition-transform px-1">{e}</button>
+                                                ))}
+                                              </div>
+                                            )}
+                                          </div>
+                                          {rIsOwner && !rIsEditing && (
+                                            <button onClick={() => { setEditId(reply.id); setEditInput(reply.content); }} className="text-xs text-gray-500 hover:text-blue-400 transition-colors font-medium">Edit</button>
+                                          )}
+                                          {(rIsOwner || isAdmin) && (
+                                            <button onClick={() => deleteComment(reply.id)} className="text-xs text-gray-500 hover:text-red-400 transition-colors font-medium">Delete</button>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         ) : currentLesson && activeTab === 'lessons' ? (
@@ -1429,16 +1809,6 @@ export default function CourseLearnPage() {
                 Previous
               </button>
 
-              {!progress[currentLesson.id]?.completed && (
-                <button
-                  onClick={() => markLessonComplete(currentLesson.id)}
-                  className="flex items-center gap-2 px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  Mark Complete
-                </button>
-              )}
-
               <button
                 onClick={() => navigateLesson('next')}
                 disabled={!hasNext}
@@ -1454,13 +1824,6 @@ export default function CourseLearnPage() {
             {/* Show search bar based on active tab */}
             {activeTab === 'lessons' && (
               <div className="w-full">
-                {/* Info header */}
-                <div className="mb-6 bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-                  <p className="text-blue-400 text-sm">
-                    <span className="font-semibold">📹 Watch to unlock:</span> Complete each video in full to unlock the next lesson
-                  </p>
-                </div>
-
                 <div className="w-full max-w-md mb-8">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -1492,13 +1855,13 @@ export default function CourseLearnPage() {
                 </div>
 
                 {/* Lesson Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {LESSON_VIDEOS.filter(lesson => 
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {LESSON_VIDEOS.filter(lesson =>
+                    ((lesson.thumbnail && lesson.thumbnail.trim() !== '') || (!!lesson.videoUrlOverride && lesson.videoUrlOverride.startsWith('/'))) &&
                     lesson.title.toLowerCase().includes(searchQuery.toLowerCase())
                   ).map((lesson) => {
                     const isUnlocked = isLessonUnlocked(lesson.id);
-                    const isCompleted = completedLessons.has(lesson.id);
-                    
+
                     return (
                       <div
                         key={lesson.id}
@@ -1536,11 +1899,7 @@ export default function CourseLearnPage() {
                                   <Play className="w-8 h-8 text-white ml-1" />
                                 </div>
                               </div>
-                              {isCompleted && (
-                                <div className="absolute top-2 right-2 bg-emerald-500 rounded-full p-1">
-                                  <CheckCircle className="w-5 h-5 text-white" />
-                                </div>
-                              )}
+
                             </>
                           ) : (
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80 px-4">
@@ -1554,20 +1913,14 @@ export default function CourseLearnPage() {
                         {/* Card Content */}
                         <div className="p-4">
                           <div className="flex items-start justify-between gap-2 mb-2">
-                            <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                              isCompleted 
-                                ? 'bg-emerald-500/20 text-emerald-400' 
-                                : isUnlocked 
-                                  ? 'bg-gray-800 text-gray-400'
-                                  : 'bg-gray-800 text-gray-600'
-                            }`}>
-                              {isCompleted ? 'Completed' : isUnlocked ? 'Available' : 'Locked'}
+                            <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-800 text-gray-400">
+                              Available
                             </span>
                           </div>
                           <h3 className={`font-semibold mb-2 line-clamp-2 ${
                             isUnlocked ? 'text-white group-hover:text-emerald-400 transition-colors' : 'text-gray-500'
                           }`}>
-                            Lesson {lesson.id}: {lesson.title}
+                            {lesson.title.replace(/^Lesson\s+\d+:\s*/i, '')}
                           </h3>
                         </div>
                       </div>
@@ -1834,6 +2187,40 @@ export default function CourseLearnPage() {
                     ))}
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Webinar Archive content */}
+            {activeTab === 'webinar' && (
+              <div className="w-full max-w-4xl">
+                <div className="grid gap-4">
+                  <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <div className="flex-shrink-0 w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                          <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 010 5.656l-1.414 1.414a4 4 0 01-5.656-5.656l1.414-1.414m3.536 3.536a4 4 0 010-5.656l1.414-1.414a4 4 0 115.656 5.656l-1.414 1.414" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-white font-medium truncate">Faceless FB Page From Scratch (5H)</h3>
+                          <p className="text-gray-400 text-sm">External link (Google Drive)</p>
+                        </div>
+                      </div>
+                      <a
+                        href="https://drive.google.com/drive/folders/1KJSsQRRyJKOazsxfaAvJfZ2_MOf5HjDq?usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-shrink-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3h7v7m0-7L10 14m-4 0h4v4H6a3 3 0 01-3-3V6a3 3 0 013-3h4v4H6v8z" />
+                        </svg>
+                        Open
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 

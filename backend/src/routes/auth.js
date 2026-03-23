@@ -201,6 +201,7 @@ router.get('/me', verifyToken, async (req, res) => {
         email: req.user.email,
         phone: req.user.phone,
         role: req.user.role,
+        avatar_url: req.user.avatar_url || null,
         created_at: req.user.created_at,
       },
     });
@@ -216,11 +217,12 @@ router.get('/me', verifyToken, async (req, res) => {
  */
 router.put('/profile', verifyToken, async (req, res) => {
   try {
-    const { name, phone } = req.body;
+    const { name, phone, avatar_url } = req.body;
     
     const updates = {};
     if (name) updates.name = name.trim();
     if (phone !== undefined) updates.phone = phone;
+    if (avatar_url !== undefined) updates.avatar_url = avatar_url;
 
     if (Object.keys(updates).length === 0) {
       return res.status(400).json({ error: 'No fields to update' });
@@ -230,7 +232,7 @@ router.put('/profile', verifyToken, async (req, res) => {
       .from('users')
       .update(updates)
       .eq('id', req.user.id)
-      .select('id, user_code, name, email, phone, role')
+      .select('id, user_code, name, email, phone, role, avatar_url')
       .single();
 
     if (error) {
@@ -278,6 +280,40 @@ router.get('/enrollments', verifyToken, async (req, res) => {
     res.json({ enrollments: enrollments || [] });
   } catch (error) {
     console.error('Get enrollments error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * POST /api/auth/reset-my-device
+ * Self-service: Reset your own device binding so you can login from a new device.
+ * The student must be logged in on their current device to perform this action.
+ * After reset, they will be logged out and can log in from any new device.
+ */
+router.post('/reset-my-device', verifyToken, async (req, res) => {
+  try {
+    if (req.user.role === 'admin') {
+      return res.status(400).json({ error: 'Admin accounts do not have device binding' });
+    }
+
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({
+        device_token: null,
+        device_bound_at: null
+      })
+      .eq('id', req.user.id);
+
+    if (updateError) {
+      console.error('Reset my device error:', updateError);
+      return res.status(500).json({ error: 'Failed to reset device binding' });
+    }
+
+    res.json({
+      message: 'Device binding reset successfully. You can now log in from a new device.'
+    });
+  } catch (error) {
+    console.error('Reset my device error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

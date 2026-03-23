@@ -54,7 +54,6 @@ interface AuthContextType {
   signup: (email: string, password: string, fullName: string) => Promise<{ success: boolean; error?: string; user_code?: string }>;
   logout: () => void;
   refreshUser: () => Promise<void>;
-  resetDevice: () => Promise<{ success: boolean; error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -214,34 +213,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
-  const resetDevice = useCallback(async (): Promise<{ success: boolean; error?: string }> => {
-    try {
-      const storedToken = localStorage.getItem('auth_token');
-      const response = await fetch(`${API_BASE_URL}/auth/reset-my-device`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${storedToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Clear everything — device is unbound, user must re-login from new device
-        clearDeviceToken();
-        localStorage.removeItem('auth_token');
-        setToken(null);
-        setUser(null);
-        return { success: true };
-      } else {
-        return { success: false, error: data.error || 'Failed to reset device' };
-      }
-    } catch (error) {
-      return { success: false, error: 'Network error. Please try again.' };
-    }
-  }, []);
-
   const refreshUser = useCallback(async () => {
     if (token) {
       await fetchUser(token);
@@ -257,7 +228,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signup,
     logout,
     refreshUser,
-    resetDevice,
   };
 
   return (
