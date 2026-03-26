@@ -128,28 +128,22 @@ router.post('/login', async (req, res) => {
     
     if (user.role !== 'admin') {
       if (user.device_token) {
-        // User already has a bound device
+        // An active session exists on a device
         if (clientDeviceToken && clientDeviceToken === user.device_token) {
-          // Same device, allow login
+          // Same device re-logging in — allow, reuse token
           deviceToken = user.device_token;
-        } else if (clientDeviceToken && clientDeviceToken !== user.device_token) {
-          // Different device token provided - reject
-          return res.status(403).json({ 
-            error: 'This account is already linked to another device. Please contact support if you need to transfer your account.',
-            code: 'DEVICE_MISMATCH'
-          });
         } else {
-          // No device token provided but user has one bound - reject (new device)
+          // Different device (or no stored device token) — block login because
+          // the previous session is still active (user never logged out)
           return res.status(403).json({ 
             error: 'This account is already linked to another device. Please contact support if you need to transfer your account.',
             code: 'DEVICE_MISMATCH'
           });
         }
       } else {
-        // No device bound yet - generate and bind new device token
+        // No active session — bind this device and allow login
         deviceToken = clientDeviceToken || generateDeviceToken();
         
-        // Bind device to user
         await supabase
           .from('users')
           .update({ 
@@ -183,6 +177,36 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * POST /api/auth/logout
+ * Log out the user and clear their active device binding.
+ * After this, the account is free to log in from any device.
+ */
+router.post('/logout', verifyToken, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      // Release the device binding so another device can log in after this logout
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({
+          device_token: null,
+          device_bound_at: null
+        })
+        .eq('id', req.user.id);
+
+      if (updateError) {
+        console.error('Logout clear device error:', updateError);
+        // Non-fatal: still respond with success so frontend clears local state
+      }
+    }
+
+    res.json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('Logout error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

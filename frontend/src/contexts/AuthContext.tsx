@@ -209,7 +209,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = useCallback(() => {
+    // Fire-and-forget: tell backend to clear the device binding so another
+    // device can log in after this logout — do not await, clear local state immediately
+    const storedToken = localStorage.getItem('auth_token');
+    if (storedToken) {
+      fetch(`${API_BASE_URL}/auth/logout`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${storedToken}`,
+          'Content-Type': 'application/json',
+        },
+      }).catch(() => {
+        // Ignore — local session is cleared regardless
+      });
+    }
+
+    // Clear all local session data immediately
     localStorage.removeItem('auth_token');
+    clearDeviceToken();
     setToken(null);
     setUser(null);
   }, []);
