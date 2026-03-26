@@ -327,6 +327,101 @@ router.post('/enrollments/:id/revoke', async (req, res) => {
 });
 
 /**
+ * POST /api/admin/enrollments/:id/lock
+ * Lock course access for a student (sets enrollment to 'locked' and revokes course_access)
+ */
+router.post('/enrollments/:id/lock', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { data: enrollment, error: getError } = await supabase
+      .from('enrollments')
+      .select('id, status')
+      .eq('id', id)
+      .single();
+
+    if (getError || !enrollment) {
+      return res.status(404).json({ error: 'Enrollment not found' });
+    }
+
+    if (enrollment.status !== 'approved' && enrollment.status !== 'active') {
+      return res.status(400).json({ error: 'Can only lock active or approved enrollments' });
+    }
+
+    const { error: updateError } = await supabase
+      .from('enrollments')
+      .update({ status: 'locked' })
+      .eq('id', id);
+
+    if (updateError) {
+      console.error('Lock enrollment error:', updateError);
+      return res.status(500).json({ error: 'Failed to lock enrollment' });
+    }
+
+    // Revoke course_access record if one exists
+    await supabase
+      .from('course_access')
+      .update({
+        status: 'revoked',
+        revoked_at: new Date().toISOString(),
+        revoked_reason: 'Locked by admin',
+      })
+      .eq('enrollment_id', id);
+
+    res.json({ message: 'Course access locked successfully' });
+  } catch (error) {
+    console.error('Lock enrollment error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * POST /api/admin/enrollments/:id/reactivate
+ * Reactivate a locked enrollment (sets status back to 'active' and re-enables course_access)
+ */
+router.post('/enrollments/:id/reactivate', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { data: enrollment, error: getError } = await supabase
+      .from('enrollments')
+      .select('id, status')
+      .eq('id', id)
+      .single();
+
+    if (getError || !enrollment) {
+      return res.status(404).json({ error: 'Enrollment not found' });
+    }
+
+    if (enrollment.status !== 'locked') {
+      return res.status(400).json({ error: 'Enrollment is not locked' });
+    }
+
+    const { error: updateError } = await supabase
+      .from('enrollments')
+      .update({ status: 'active' })
+      .eq('id', id);
+
+    if (updateError) {
+      console.error('Reactivate enrollment error:', updateError);
+      return res.status(500).json({ error: 'Failed to reactivate enrollment' });
+    }
+
+    // Re-enable course_access if a revoked record exists
+    await supabase
+      .from('course_access')
+      .update({ status: 'active' })
+      .eq('enrollment_id', id)
+      .eq('status', 'revoked');
+
+    res.json({ message: 'Course access reactivated successfully' });
+  } catch (error) {
+    console.error('Reactivate enrollment error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
  * GET /api/admin/stats
  * Get dashboard statistics
  */

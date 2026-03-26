@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { 
   Users, BookOpen, Clock, CheckCircle, XCircle, 
   Eye, Mail, MoreVertical, Search, Filter,
-  LogOut, Menu, X, AlertCircle, Loader2, Unlock, DollarSign, Calendar, Smartphone
+  LogOut, Menu, X, AlertCircle, Loader2, Unlock, Lock, DollarSign, Calendar, Smartphone
 } from 'lucide-react';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
@@ -391,6 +391,45 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error('Failed to mark as unpaid:', err);
       alert('Failed to mark as unpaid');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleLockAccess = async (enrollmentId: string) => {
+    if (!confirm('Lock this student\'s course access? They will lose access immediately.')) return;
+    setActionLoading(enrollmentId);
+    try {
+      if (!token) throw new Error('Missing admin token');
+      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/lock`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Failed to lock access');
+      await fetchData();
+    } catch (err: any) {
+      console.error('Failed to lock access:', err);
+      alert(err.message || 'Failed to lock access');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleUnlockAccess = async (enrollmentId: string) => {
+    setActionLoading(enrollmentId);
+    try {
+      if (!token) throw new Error('Missing admin token');
+      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/reactivate`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Failed to unlock access');
+      await fetchData();
+    } catch (err: any) {
+      console.error('Failed to unlock access:', err);
+      alert(err.message || 'Failed to unlock access');
     } finally {
       setActionLoading(null);
     }
@@ -817,6 +856,11 @@ export default function AdminDashboard() {
                                 {u.approved_enrollments} Active
                               </span>
                             ) : null}
+                            {u.enrollments?.some(e => e.status === 'locked') && (!u.approved_enrollments || u.approved_enrollments === 0) ? (
+                              <span className="px-2 py-1 bg-orange-500/20 text-orange-400 text-xs font-medium rounded">
+                                Locked
+                              </span>
+                            ) : null}
                             {(!u.total_enrollments || u.total_enrollments === 0) ? (
                               <span className="px-2 py-1 bg-gray-500/20 text-gray-400 text-xs font-medium rounded">
                                 No Courses
@@ -839,13 +883,16 @@ export default function AdminDashboard() {
                               )}
                               Reset Device
                             </button>
-                            <Link
-                              href={`/admin/unlock?userId=${u.id}&userCode=${u.user_code}`}
-                              className="px-3 py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded transition-colors"
-                            >
-                              <Unlock className="w-3 h-3 inline mr-1" />
-                              Unlock
-                            </Link>
+                            {/* Unlock link: only shown when student has no active access */}
+                            {(!u.approved_enrollments || u.approved_enrollments === 0) && (
+                              <Link
+                                href={`/admin/unlock?userId=${u.id}&userCode=${u.user_code}`}
+                                className="px-3 py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded transition-colors"
+                              >
+                                <Unlock className="w-3 h-3 inline mr-1" />
+                                Unlock
+                              </Link>
+                            )}
                             {u.enrollments && u.enrollments.length > 0 ? (
                               u.enrollments.map((enrollment) => (
                                 <div key={enrollment.id} className="flex items-center gap-1">
@@ -871,9 +918,33 @@ export default function AdminDashboard() {
                                       </button>
                                     </>
                                   ) : enrollment.status === 'approved' || enrollment.status === 'active' ? (
-                                    <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded" title={enrollment.courses?.title || 'Course'}>
-                                      ✓ Approved
-                                    </span>
+                                    <button
+                                      onClick={() => handleLockAccess(enrollment.id)}
+                                      disabled={actionLoading === enrollment.id}
+                                      className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+                                      title={`Lock: ${enrollment.courses?.title || 'Course'}`}
+                                    >
+                                      {actionLoading === enrollment.id ? (
+                                        <Loader2 className="w-3 h-3 inline mr-0.5 animate-spin" />
+                                      ) : (
+                                        <Lock className="w-3 h-3 inline mr-0.5" />
+                                      )}
+                                      Lock
+                                    </button>
+                                  ) : enrollment.status === 'locked' ? (
+                                    <button
+                                      onClick={() => handleUnlockAccess(enrollment.id)}
+                                      disabled={actionLoading === enrollment.id}
+                                      className="px-2 py-1 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+                                      title={`Unlock: ${enrollment.courses?.title || 'Course'}`}
+                                    >
+                                      {actionLoading === enrollment.id ? (
+                                        <Loader2 className="w-3 h-3 inline mr-0.5 animate-spin" />
+                                      ) : (
+                                        <Unlock className="w-3 h-3 inline mr-0.5" />
+                                      )}
+                                      Unlock
+                                    </button>
                                   ) : enrollment.status === 'rejected' ? (
                                     <span className="px-2 py-1 bg-red-500/20 text-red-400 text-xs font-medium rounded" title={enrollment.courses?.title || 'Course'}>
                                       ✗ Rejected
