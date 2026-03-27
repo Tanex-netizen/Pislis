@@ -57,6 +57,33 @@ const LESSON_VIDEO_URL_OVERRIDES: Record<string, string> = {};
 
 type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 
+type BgmFile = {
+  id: number;
+  name: string;
+  filename: string;
+};
+
+// BGM and SFX files served from /public/bgm/
+// Move files from src/Backround music/ to public/bgm/ so Next.js can serve them
+const BGM_FILES: BgmFile[] = [
+  { id: 1, name: 'Ace of Base - All That She Wants', filename: 'Ace of Base 🎼 All That She Wants.mp4' },
+  { id: 2, name: 'Else Paris', filename: 'Else Paris.mp4' },
+  { id: 3, name: 'Heaven Sent', filename: 'Heaven Sent .mp4' },
+  { id: 4, name: 'Hell Shee', filename: 'hell shee.mp4' },
+  { id: 5, name: 'Hindia - Secukupnya (Instrument Loop)', filename: 'hindia secukupnya instrument loop.mp4' },
+  { id: 6, name: 'Illusionary Daytime', filename: 'illusionarydaytime.mp4' },
+  { id: 7, name: 'Le Monde - From Talk to Me', filename: 'Le Monder - From talk to me.mp4' },
+  { id: 8, name: 'Not Like Us', filename: 'not like us.mp4' },
+  { id: 9, name: 'Scary Piano', filename: 'Scary Piano.mp4' },
+  { id: 10, name: 'Silent Hill', filename: 'Silent Hill.mp4' },
+  { id: 11, name: 'Sound Effects', filename: 'Sound Effects.mp4' },
+  { id: 12, name: 'Spooky Quiet Scary Piano - Haunting Horror', filename: 'Spooky Quiet Scary Piano  Haunting Horror.mp4' },
+  { id: 13, name: 'Tell Em (Slowed Instrumental)', filename: 'tell em-(slowed instrumental).mp4' },
+  { id: 14, name: 'The Way Life Goes', filename: 'The way life goes.mp4' },
+  { id: 15, name: 'Time Back', filename: 'Time back.mp4' },
+  { id: 16, name: 'Transgender', filename: 'Transgender.mp4' },
+];
+
 type LessonVideoEntry = {
   id: number;
   title: string;
@@ -450,7 +477,7 @@ export default function CourseLearnPage() {
 
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<'lessons' | 'b-rolls' | 'files' | 'webinar'>('lessons');
+  const [activeTab, setActiveTab] = useState<'lessons' | 'b-rolls' | 'files' | 'bgm' | 'webinar'>('lessons');
   const [searchQuery, setSearchQuery] = useState('');
   const [brollCategory, setBrollCategory] = useState<'all' | 'anatomy' | 'foods' | 'people' | 'others'>('all');
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
@@ -705,6 +732,12 @@ export default function CourseLearnPage() {
       return file.name.toLowerCase().includes(searchQuery.toLowerCase());
     });
   }, [courseFiles, searchQuery, activeTab]);
+
+  const filteredBgmFiles = useMemo(() => {
+    return BGM_FILES.filter((file) =>
+      file.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery]);
 
   const filteredBrolls = useMemo(() => {
     const filtered = brollVideos.filter((video) => {
@@ -1017,6 +1050,19 @@ export default function CourseLearnPage() {
               </button>
               <button
                 onClick={() => {
+                  setActiveTab('bgm');
+                  setSearchQuery('');
+                }}
+                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${
+                  activeTab === 'bgm'
+                    ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
+                    : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
+                }`}
+              >
+                BGM and SFX
+              </button>
+              <button
+                onClick={() => {
                   setActiveTab('webinar');
                   setSearchQuery('');
                 }}
@@ -1160,6 +1206,13 @@ export default function CourseLearnPage() {
               </div>
             )}
 
+            {/* BGM and SFX Tab */}
+            {activeTab === 'bgm' && (
+              <div className="text-center py-8">
+                <p className="text-gray-400 text-sm">View BGM and SFX files in the main content area</p>
+              </div>
+            )}
+
             {/* Webinar Archive Tab */}
             {activeTab === 'webinar' && (
               <div className="text-center py-8">
@@ -1191,7 +1244,7 @@ export default function CourseLearnPage() {
           
           <div className="flex-1 min-w-0">
             <h1 className="font-semibold text-white truncate">
-              {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `Lesson ${currentVideoLesson.id}: ${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
+              {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : activeTab === 'bgm' ? 'BGM and SFX' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `Lesson ${currentVideoLesson.id}: ${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
             </h1>
           </div>
 
@@ -2015,6 +2068,21 @@ export default function CourseLearnPage() {
               </div>
             )}
             
+            {activeTab === 'bgm' && (
+              <div className="w-full max-w-md mb-8">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <input
+                    type="text"
+                    placeholder="Search BGM and SFX..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+            )}
+            
             {/* B-rolls content */}
             {activeTab === 'b-rolls' && (() => {
               console.log('[B-rolls] Rendering:', { brollLoading, brollError, filteredBrollsLength: filteredBrolls.length });
@@ -2182,6 +2250,50 @@ export default function CourseLearnPage() {
                               Download
                             </a>
                           )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* BGM and SFX content */}
+            {activeTab === 'bgm' && (
+              <div className="w-full max-w-4xl">
+                {filteredBgmFiles.length === 0 ? (
+                  <div className="flex items-center justify-center h-[50vh]">
+                    <p className="text-gray-500">No matching files found</p>
+                  </div>
+                ) : (
+                  <div className="grid gap-4">
+                    {filteredBgmFiles.map((file) => (
+                      <div
+                        key={file.id}
+                        className="bg-gray-900 border border-gray-800 rounded-lg p-4 hover:border-emerald-500 transition-colors"
+                      >
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3 flex-1 min-w-0">
+                            <div className="flex-shrink-0 w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                              <svg className="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                              </svg>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-white font-medium truncate">{file.name}</h3>
+                              <p className="text-gray-400 text-sm">MP4 Audio</p>
+                            </div>
+                          </div>
+                          <a
+                            href={`/bgm/${encodeURIComponent(file.filename)}`}
+                            download={file.filename}
+                            className="flex-shrink-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-2"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Download
+                          </a>
                         </div>
                       </div>
                     ))}
