@@ -60,28 +60,27 @@ type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 type BgmFile = {
   id: number;
   name: string;
-  filename: string;
+  url: string;
 };
 
-// BGM and SFX files served from /public/bgm/
-// Move files from src/Backround music/ to public/bgm/ so Next.js can serve them
+// BGM and SFX files hosted on Cloudinary
 const BGM_FILES: BgmFile[] = [
-  { id: 1, name: 'Ace of Base - All That She Wants', filename: 'Ace of Base 🎼 All That She Wants.mp4' },
-  { id: 2, name: 'Else Paris', filename: 'Else Paris.mp4' },
-  { id: 3, name: 'Heaven Sent', filename: 'Heaven Sent .mp4' },
-  { id: 4, name: 'Hell Shee', filename: 'hell shee.mp4' },
-  { id: 5, name: 'Hindia - Secukupnya (Instrument Loop)', filename: 'hindia secukupnya instrument loop.mp4' },
-  { id: 6, name: 'Illusionary Daytime', filename: 'illusionarydaytime.mp4' },
-  { id: 7, name: 'Le Monde - From Talk to Me', filename: 'Le Monder - From talk to me.mp4' },
-  { id: 8, name: 'Not Like Us', filename: 'not like us.mp4' },
-  { id: 9, name: 'Scary Piano', filename: 'Scary Piano.mp4' },
-  { id: 10, name: 'Silent Hill', filename: 'Silent Hill.mp4' },
-  { id: 11, name: 'Sound Effects', filename: 'Sound Effects.mp4' },
-  { id: 12, name: 'Spooky Quiet Scary Piano - Haunting Horror', filename: 'Spooky Quiet Scary Piano  Haunting Horror.mp4' },
-  { id: 13, name: 'Tell Em (Slowed Instrumental)', filename: 'tell em-(slowed instrumental).mp4' },
-  { id: 14, name: 'The Way Life Goes', filename: 'The way life goes.mp4' },
-  { id: 15, name: 'Time Back', filename: 'Time back.mp4' },
-  { id: 16, name: 'Transgender', filename: 'Transgender.mp4' },
+  { id: 1, name: 'Ace of Base - All That She Wants', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620684/Ace_of_Base_All_That_She_Wants_lucpwz.mp4' },
+  { id: 2, name: 'Else Paris', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620685/Else_Paris_ecgwym.mp4' },
+  { id: 3, name: 'Heaven Sent', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620689/Heaven_Sent_zcpsw0.mp4' },
+  { id: 4, name: 'hell shee', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620684/hell_shee_zbwtbl.mp4' },
+  { id: 5, name: 'hindia secukupnya instrument loop', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620687/hindia_secukupnya_instrument_loop_tzh22v.mp4' },
+  { id: 6, name: 'illusionarydaytime', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620688/illusionarydaytime_diusvk.mp4' },
+  { id: 7, name: 'Le Monde - From Talk to Me', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620688/Le_Monder_-_From_talk_to_me_rjmg04.mp4' },
+  { id: 8, name: 'not like us', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620690/not_like_us_qt1kgw.mp4' },
+  { id: 9, name: 'Scary Piano', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620691/Scary_Piano_azklrm.mp4' },
+  { id: 10, name: 'Silent Hill', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620693/Silent_Hill_dri7vj.mp4' },
+  { id: 11, name: 'Sound Effects', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620691/Sound_Effects_obpult.mp4' },
+  { id: 12, name: 'Spooky Quiet Scary Piano Haunting Horror', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620700/Spooky_Quiet_Scary_Piano_Haunting_Horror_tyf6ud.mp4' },
+  { id: 13, name: 'tell em-(slowed instrumental)', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620697/tell_em-_slowed_instrumental_xv2ast.mp4' },
+  { id: 14, name: 'The way life goes', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620684/The_way_life_goes_hshu98.mp4' },
+  { id: 15, name: 'Time back', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620683/Time_back_yxfkcf.mp4' },
+  { id: 16, name: 'Transgender', url: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774620689/Transgender_z3robm.mp4' },
 ];
 
 type LessonVideoEntry = {
@@ -2260,41 +2259,41 @@ export default function CourseLearnPage() {
 
             {/* BGM and SFX content */}
             {activeTab === 'bgm' && (
-              <div className="w-full max-w-4xl">
+              <div className="w-full max-w-6xl">
                 {filteredBgmFiles.length === 0 ? (
                   <div className="flex items-center justify-center h-[50vh]">
                     <p className="text-gray-500">No matching files found</p>
                   </div>
                 ) : (
-                  <div className="grid gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredBgmFiles.map((file) => (
                       <div
                         key={file.id}
-                        className="bg-gray-900 border border-gray-800 rounded-lg p-4 hover:border-emerald-500 transition-colors"
+                        className="bg-gray-900 border border-gray-800 rounded-lg p-4 hover:border-emerald-500 transition-colors flex flex-col gap-3"
                       >
-                        <div className="flex items-center justify-between gap-4">
-                          <div className="flex items-center gap-3 flex-1 min-w-0">
-                            <div className="flex-shrink-0 w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center">
-                              <svg className="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                              </svg>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h3 className="text-white font-medium truncate">{file.name}</h3>
-                              <p className="text-gray-400 text-sm">MP4 Audio</p>
-                            </div>
-                          </div>
-                          <a
-                            href={`/bgm/${encodeURIComponent(file.filename)}`}
-                            download={file.filename}
-                            className="flex-shrink-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-2"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="flex-shrink-0 w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                             </svg>
-                            Download
-                          </a>
+                          </div>
+                          <div className="min-w-0">
+                            <h3 className="text-white font-medium text-sm leading-snug line-clamp-2">{file.name}</h3>
+                            <p className="text-gray-400 text-xs mt-0.5">MP4 Audio</p>
+                          </div>
                         </div>
+                        <a
+                          href={`${file.url}?fl_attachment=1`}
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm rounded-lg transition-colors flex items-center justify-center gap-2"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                          </svg>
+                          Download
+                        </a>
                       </div>
                     ))}
                   </div>
