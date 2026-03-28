@@ -288,6 +288,14 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/Set Up a Payhip Store for Digital Products.png',
     videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
   },
+  {
+    id: 25,
+    title: 'Simplify Your Tasks in Minutes',
+    filename: 'Simplify Your Tasks in Minutes.mp4',
+    duration: 15,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1774707548/e569dbbb-e1e9-4936-be8f-a5e3bb859469_r8j80o.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774707406/Simplify_Your_Tasks_in_Minutes_wquzul.mp4',
+  },
 ];
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
