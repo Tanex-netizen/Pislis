@@ -91,6 +91,12 @@ type LessonVideoEntry = {
   thumbnail: string | null;
   youtubeEmbedUrl?: string;
   videoUrlOverride?: string;
+  resources?: {
+    title: string;
+    url: string;
+  }[];
+  externalLinkTitle?: string;
+  externalLinkUrl?: string;
 };
 
 // Lesson videos from public/Lessons folder - ordered properly
@@ -98,6 +104,14 @@ type LessonVideoEntry = {
 const LESSON_VIDEOS: LessonVideoEntry[] = [
   {
     id: 1,
+    title: 'Introduction Video',
+    filename: 'introduction.mp4',
+    duration: 5,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1774256591/INTRODUCTION_ps5yc0.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776357196/INTRODUCTION_VIDEO_umbbb6.mp4',
+  },
+  {
+    id: 2,
     title: 'What is Facebook Automation in Simple Explanation',
     filename: 'LESSON 1. what is facebook automation in simple explanation.mp4',
     duration: 10,
@@ -105,7 +119,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853343/Lesson-1_voprmu.mp4',
   },
   {
-    id: 2,
+    id: 3,
     title: 'Niches That Print Money',
     filename: 'Niches That Print Money.mp4',
     duration: 15,
@@ -113,7 +127,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241166/Niches_That_Print_Money_mmnys4.mp4',
   },
   {
-    id: 3,
+    id: 4,
     title: 'How to Go Viral on Facebook Page',
     filename: 'HOW TO GO VIRAL ON FACEBOOK PAGE.mp4',
     duration: 15,
@@ -121,7 +135,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241277/HOW_TO_GO_VIRAL_ON_FACEBOOK_PAGE_f1jyeo.mp4',
   },
   {
-    id: 4,
+    id: 5,
     title: 'Branding Page Setup',
     filename: 'Branding Page Setup.mp4',
     duration: 15,
@@ -129,7 +143,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241297/Branding_Page_Setup_zespcz.mp4',
   },
   {
-    id: 5,
+    id: 6,
     title: 'Facebook Account Setup',
     filename: 'Facebook Account Setup.mp4',
     duration: 15,
@@ -137,7 +151,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241219/Facebook_Account_Setup_kcis63.mp4',
   },
   {
-    id: 6,
+    id: 7,
     title: 'Organic Growth How to Gain Followers Fast',
     filename: 'Organic Growth How to Gain Followers Fast.mp4',
     duration: 15,
@@ -145,7 +159,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241208/Organic_Growth_How_to_Gain_Followers_Fast_nbkfxb.mp4',
   },
   {
-    id: 7,
+    id: 8,
     title: "The Do's and Don'ts",
     filename: "23 The Do's and Don'ts.mp4",
     duration: 15,
@@ -153,7 +167,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767700930/darwin-education/lessons/23_The_Dos_and_Donts.mp4',
   },
   {
-    id: 8,
+    id: 9,
     title: 'Extra Tips Final',
     filename: '13 . Extra tips final.mp4',
     duration: 14,
@@ -161,7 +175,15 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853544/Lesson-17_u9l8jy.mp4',
   },
   {
-    id: 9,
+    id: 10,
+    title: 'HOW TO USE CAPCUT',
+    filename: 'HOW TO USE CAPCUT.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776346617/HOW_TO_USE_CAPCUT_h83cbz.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776346737/HOW_TO_USE_CAPCUT_ah2lre.mp4',
+  },
+  {
+    id: 11,
     title: 'PC CapCut Bypass',
     filename: 'pc capcut bypass.mp4',
     duration: 15,
@@ -169,7 +191,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241131/pc_capcut_bypass_kgotz8.mp4',
   },
   {
-    id: 10,
+    id: 12,
     title: 'Saan I-Download ang Nakuhang Content na 1080P',
     filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4',
     duration: 10,
@@ -177,7 +199,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690333/darwin-education/lessons/16._SAAN_I-DOWNLOAD_ANG_NAKUHANG_CONTENT_NA_1080P.mp4',
   },
   {
-    id: 11,
+    id: 13,
     title: 'Q&A Final',
     filename: '11. Q&A final.mp4',
     duration: 20,
@@ -185,7 +207,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853546/Lesson-15_kbmkan.mp4',
   },
   {
-    id: 12,
+    id: 14,
     title: 'Create Content with Free Tools',
     filename: 'Create Content with Free Tools.mp4',
     duration: 15,
@@ -193,7 +215,21 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774253399/Create_Content_with_Free_Tools_ra3hqb.mp4',
   },
   {
-    id: 13,
+    id: 15,
+    title: 'FACELESS FARM CONTENT GUIDE',
+    filename: 'FACLESS FARM CONTENT GUIDE.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776346612/FACLESS_FARM_CONTENT_GUIDE_haoxgu.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776346739/FACLESS_FARM_CONTENT_GUIDE_ubiuvi.mp4',
+    resources: [
+      {
+        title: 'FACELESS FARM CONTENT GUIDE',
+        url: '/files/FACELESS FARM CONTENT GUIDE.pdf',
+      }
+    ],
+  },
+  {
+    id: 16,
     title: 'Video Editing by My Video Editor',
     filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
     duration: 20,
@@ -201,7 +237,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
   },
   {
-    id: 14,
+    id: 17,
     title: 'Video Editing in CapCut',
     filename: 'hero.mp4',
     duration: 10,
@@ -209,7 +245,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
   },
   {
-    id: 15,
+    id: 18,
     title: 'Sample Edit by My Video Editor II',
     filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
     duration: 18,
@@ -217,7 +253,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
   },
   {
-    id: 16,
+    id: 19,
     title: 'Paano Ako Kumita ng 6 Digits sa Story',
     filename: 'Paano Ako Kumita ng 6 Digits sa Story.mp4',
     duration: 22,
@@ -225,7 +261,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774245612/Paano_Ako_Kumita_ng_6_Digits_sa_Story_ebugqb.mp4',
   },
   {
-    id: 17,
+    id: 20,
     title: 'From Basic to Advanced Image Creation',
     filename: 'From Basic to Advanced Image Creation.mp4',
     duration: 15,
@@ -233,7 +269,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241232/From_Basic_to_Advanced_Image_Creation_nvqfgh.mp4',
   },
   {
-    id: 18,
+    id: 21,
     title: 'Sample Edit About Reaction Video Niche',
     filename: '15. Sample edit about Reaction video Niche.mp4',
     duration: 18,
@@ -241,7 +277,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853545/Lesson-19_icp8fk.mp4',
   },
   {
-    id: 19,
+    id: 22,
     title: 'Skeleton Content Niche',
     filename: 'Skeleton Content Niche.mp4',
     duration: 15,
@@ -249,7 +285,49 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241392/Skeleton_Content_Niche_zydqcv.mp4',
   },
   {
-    id: 20,
+    id: 23,
+    title: 'SKELETON WORKFLOW',
+    filename: 'SKELETON WORKFLOW.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776346608/SKELETON_WORKFLOW_cu0vxv.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776346700/SKELETON_WORKFLOW_ffxcd9.mp4',
+    resources: [
+      {
+        title: 'SKELETON WORKFLOW',
+        url: '/files/SKELETON WORKFLOW.pdf',
+      }
+    ],
+  },
+  {
+    id: 24,
+    title: '3D ANIMATION WORKFLOW',
+    filename: '3D ANIMATION WORKFLOW.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776349001/3D_Animation_Workflow_kmvdas.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776346627/3D_ANIMATION_WORKFLOW_mp2ywr.mp4',
+    resources: [
+      {
+        title: '3D Animation Workflow',
+        url: '/files/3D Animation Workflow.pdf',
+      }
+    ],
+  },
+  {
+    id: 25,
+    title: 'AI REMEDIES WORKFLOW',
+    filename: 'AI REMEDIES WORKFLOW.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776346610/AI_REMEDIES_WORKFLOW_kxr7ia.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776346662/AI_REMEDIES_WORKFLOW_ljq3oj.mp4',
+    resources: [
+      {
+        title: 'AI REMEDIES WORKFLOW',
+        url: '/files/AI REMEDIES WORKFLOW.pdf',
+      }
+    ],
+  },
+  {
+    id: 26,
     title: 'Animation Niche',
     filename: 'Animation Niche.mp4',
     duration: 15,
@@ -257,7 +335,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241388/Animation_Niche_slz9ju.mp4',
   },
   {
-    id: 21,
+    id: 27,
     title: 'AI Remedies Niche',
     filename: 'AI Remedies NIche.mp4',
     duration: 15,
@@ -265,7 +343,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241426/AI_Remedies_NIche_ip5d8f.mp4',
   },
   {
-    id: 22,
+    id: 28,
     title: 'How to Make an AI Object Talk 100% Free | By Darwin',
     filename: 'Lesson 27. How to Make an AI Object Talk 100% Free | By Darwin.mp4',
     duration: 15,
@@ -273,7 +351,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1769910581/27_LESSON_27_How_to_Make_an_AI_Object_Talk_100__ijnaph.mp4',
   },
   {
-    id: 23,
+    id: 29,
     title: 'Awareness!!',
     filename: '21. Awareness!!.mp4',
     duration: 12,
@@ -281,12 +359,36 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767690392/darwin-education/lessons/21._Awareness%21%21.mp4',
   },
   {
-    id: 24,
+    id: 30,
     title: 'How to Setup Payhip Store for your digital products',
     filename: 'Lesson 26. How to Setup Payhip Store for your digital products.mp4',
     duration: 15,
     thumbnail: '/thumbnail/Set Up a Payhip Store for Digital Products.png',
     videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
+  },
+  {
+    id: 31,
+    title: 'SCREENSHOT METHOD',
+    filename: 'SCREENSHOT METHOD.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776349411/SCREENSHOTS_METHOD_maqnjm.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776346748/SCREENSHOT_METHOD_pl8eak.mp4',
+    resources: [
+      {
+        title: 'SCREENSHOTS METHOD',
+        url: '/files/SCREENSHOTS METHOD.pdf',
+      }
+    ],
+  },
+  {
+    id: 32,
+    title: 'INTRODUCING STREVIO',
+    filename: 'INTRODUCING STREVIO.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776346616/INTRODUCING_STREVIO_fg7lgn.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776346681/INTRODUCING_STREVIO_bicwpf.mp4',
+    externalLinkTitle: 'Open Strevio',
+    externalLinkUrl: 'https://strevio.com/',
   },
 ];
 
@@ -1472,6 +1574,45 @@ export default function CourseLearnPage() {
               <div className="flex items-center gap-4 text-gray-400">
               </div>
             </div>
+
+            {/* External Link or Lesson Resources */}
+            {currentVideoLesson.externalLinkUrl && currentVideoLesson.externalLinkTitle ? (
+              <div className="mb-6">
+                <a
+                  href={currentVideoLesson.externalLinkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  {currentVideoLesson.externalLinkTitle}
+                </a>
+              </div>
+            ) : currentVideoLesson.resources && currentVideoLesson.resources.length > 0 && (
+              <div className="mb-6">
+                <h3 className="font-semibold text-white mb-3 text-sm uppercase tracking-wider">
+                  Downloadable Resources
+                </h3>
+                <ul className="space-y-2">
+                  {currentVideoLesson.resources.map((resource, index) => (
+                    <li key={index}>
+                      <a 
+                        href={resource.url}
+                        download
+                        className="flex items-center justify-between px-4 py-2 bg-gray-850 hover:bg-gray-800 rounded-lg transition-colors text-emerald-400 hover:text-emerald-300 group"
+                      >
+                        <span className="text-sm font-medium truncate">{resource.title}</span>
+                        <svg className="w-4 h-4 flex-shrink-0 ml-3 stroke-emerald-400 group-hover:stroke-emerald-300 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Navigation buttons */}
             <div className="flex items-center justify-between border-t border-gray-800 pt-6">

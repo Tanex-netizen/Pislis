@@ -42,7 +42,7 @@ export default function ProfilePage() {
   const [resetError, setResetError] = useState('');
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [avatarError, setAvatarError] = useState('');
-  const [selectedCourse, setSelectedCourse] = useState<EnrolledCourse | null>(null);
+
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -336,7 +336,7 @@ export default function ProfilePage() {
                   return (
                   <button
                     key={enrollment.id}
-                    onClick={() => setSelectedCourse(enrollment)}
+                    onClick={() => router.push(`/courses/${enrollment.courses.slug}/learn`)}
                     className="group bg-gray-800/50 border border-gray-700 hover:border-emerald-500/50 rounded-xl overflow-hidden transition-all text-left"
                   >
                     <div className="aspect-video relative bg-gray-800">
@@ -395,69 +395,6 @@ export default function ProfilePage() {
         </div>
       </main>
       <Footer />
-
-      {/* Course Introduction Modal */}
-      {selectedCourse && (() => {
-        const modalOverrides: Record<string, { title?: string }> = {
-          'fb-automation-mastery': { title: 'Faceless Facebook Mastery' },
-        };
-        const modalOverride = modalOverrides[selectedCourse.courses.slug] || {};
-        const modalTitle = modalOverride.title ?? selectedCourse.courses.title;
-        return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-8">
-          <div className="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-              <h2 className="text-lg font-bold text-white truncate pr-4">
-                {modalTitle}
-              </h2>
-              <button
-                onClick={() => setSelectedCourse(null)}
-                className="flex-shrink-0 p-2 hover:bg-gray-800 rounded-lg transition-colors text-gray-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Introduction Video */}
-            <div className="mx-6 mt-6 aspect-video rounded-xl overflow-hidden relative bg-gray-800">
-              <video
-                className="w-full h-full object-cover"
-                controls
-                poster="https://res.cloudinary.com/dwcxvaswf/image/upload/v1774256591/INTRODUCTION_ps5yc0.png"
-                preload="none"
-              >
-                <source src="https://res.cloudinary.com/dwcxvaswf/video/upload/v1774259279/INTRODUCTION_VIDEO_v57yde.mp4" type="video/mp4" />
-              </video>
-            </div>
-
-            {/* Course Info */}
-            <div className="px-6 py-5">
-              <p className="text-white font-semibold text-sm mb-6 tracking-wide uppercase">
-                Introduction Video
-              </p>
-
-              {/* Actions */}
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setSelectedCourse(null)}
-                  className="flex-1 px-4 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors font-medium"
-                >
-                  Close
-                </button>
-                <Link
-                  href={`/courses/${selectedCourse.courses.slug}/learn`}
-                  className="flex-1 px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium text-center"
-                  onClick={() => setSelectedCourse(null)}
-                >
-                  Continue Learning
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        );
-      })()}
 
       {/* Reset Device Confirmation Modal */}
       {showResetConfirm && (

@@ -63,16 +63,9 @@ const verifyToken = async (req, res, next) => {
       });
     }
 
-    // Device binding verification (skip for admins)
-    if (user.role !== 'admin' && user.device_token) {
-      // Check if the device token in JWT matches the one stored in database
-      if (decoded.deviceToken && decoded.deviceToken !== user.device_token) {
-        return res.status(403).json({
-          error: 'Session invalid. This account is now linked to a different device.',
-          code: 'DEVICE_CHANGED'
-        });
-      }
-    }
+    // Device binding verification disabled - allow multi-device access
+    // Users can now access their account from any device without device token restrictions
+    // Device token is still tracked in database and JWT for potential future use, but no blocking occurs
 
     req.user = user;
     req.tokenData = decoded;

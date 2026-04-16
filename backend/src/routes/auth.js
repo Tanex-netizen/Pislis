@@ -123,25 +123,15 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Device binding check (skip for admins)
+    // Device binding check disabled - allow multi-device login
+    // Users can now log in from multiple devices without restrictions
     let deviceToken = clientDeviceToken;
     
     if (user.role !== 'admin') {
-      if (user.device_token) {
-        // An active session exists on a device
-        if (clientDeviceToken && clientDeviceToken === user.device_token) {
-          // Same device re-logging in — allow, reuse token
-          deviceToken = user.device_token;
-        } else {
-          // Different device (or no stored device token) — block login because
-          // the previous session is still active (user never logged out)
-          return res.status(403).json({ 
-            error: 'This account is already linked to another device. Please contact support if you need to transfer your account.',
-            code: 'DEVICE_MISMATCH'
-          });
-        }
-      } else {
-        // No active session — bind this device and allow login
+      // Allow login regardless of existing device binding
+      // Each login receives a device token (existing or new) but no blocking occurs
+      if (!user.device_token) {
+        // First login - assign a device token
         deviceToken = clientDeviceToken || generateDeviceToken();
         
         await supabase
@@ -151,6 +141,10 @@ router.post('/login', async (req, res) => {
             device_bound_at: new Date().toISOString()
           })
           .eq('id', user.id);
+      } else {
+        // Account already has a device token - continue using current system
+        // but allow login from other devices (no mismatch blocking)
+        deviceToken = clientDeviceToken || user.device_token;
       }
     }
 
