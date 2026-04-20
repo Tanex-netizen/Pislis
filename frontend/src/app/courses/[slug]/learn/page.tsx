@@ -97,6 +97,10 @@ type LessonVideoEntry = {
   }[];
   externalLinkTitle?: string;
   externalLinkUrl?: string;
+  externalLinks?: {
+    title: string;
+    url: string;
+  }[];
 };
 
 // Lesson videos from public/Lessons folder - ordered properly
