@@ -159,6 +159,30 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241208/Organic_Growth_How_to_Gain_Followers_Fast_nbkfxb.mp4',
   },
   {
+    id: 35,
+    title: "LET'S TALK ABOUT MONETIZATION",
+    filename: "LET'S TALK ABOUT MONETIZATION.mp4",
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680808/LET_S_TALK_ABOUT_MONETIZATION_g3keea.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776680915/LET_S_TALK_ABOUT_MONETIZATION_fvz9ii.mp4',
+    externalLinks: [
+      {
+        title: 'How to Apply for Digital TIN ID Using ORUS',
+        url: 'https://youtu.be/YcuU-unmryA?si=aFsSfDsICWTICDCb',
+      },
+      {
+        title: 'HOW TO SET UP',
+        url: 'https://youtu.be/4R3EWyVhKM0?si=z_Var33jyZ7E9dxT',
+      },
+    ],
+    resources: [
+      {
+        title: "LET'S TALK ABOUT MONETIZATION",
+        url: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680820/LET_S_TALK_ABOUT_MONETIZATION_hqtc89.pdf',
+      }
+    ],
+  },
+  {
     id: 8,
     title: "The Do's and Don'ts",
     filename: "23 The Do's and Don'ts.mp4",
@@ -173,6 +197,36 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 14,
     thumbnail: '/thumbnail/Extra Tips Final.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853544/Lesson-17_u9l8jy.mp4',
+  },
+  {
+    id: 34,
+    title: 'RESTRICT A SPECIFIC COUNTRY',
+    filename: 'RESTRICT A SPECIFIC COUNTRY.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680814/Restrict_a_Specific_Country_prhdgj.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776680932/Restrict_a_Specific_Country_h0etp7.mp4',
+  },
+  {
+    id: 33,
+    title: 'Free 3 MONTHS CHATGPT GO',
+    filename: 'Free 3 MONTHS CHATGPT GO.mp4',
+    duration: 12,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680808/Free_3_MONTHS_CHATGPT_GO_vl4dco.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776681041/FREE_3_MONTHS_CHATGPTGO_tn9eub.mp4',
+  },
+  {
+    id: 36,
+    title: 'Free Capcut Pro',
+    filename: 'Free Capcut Pro.mp4',
+    duration: 10,
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776685668/Free_Cacput_Pro_kuhgjd.png',
+    videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1776684088/Free_Cacput_Pro_jxk0zn.mp4',
+    externalLinks: [
+      {
+        title: 'Join Telegram Access',
+        url: 'https://t.me/+XVXDbe5gwaZhMWE1',
+      },
+    ],
   },
   {
     id: 10,
@@ -224,32 +278,32 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     resources: [
       {
         title: 'FACELESS FARM CONTENT GUIDE',
-        url: '/files/FACELESS FARM CONTENT GUIDE.pdf',
+        url: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776682970/FACELESS_FARM_CONTENT_GUIDE_eyy1jq.pdf',
       }
     ],
   },
   {
     id: 16,
-    title: 'Video Editing by My Video Editor',
+    title: 'HOW TO AVOID COPYRIGHT STRIKES',
     filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
     duration: 20,
-    thumbnail: '/thumbnail/Video Editing by My Video Editor.png',
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776685681/HOW_TO_AVOID_COPYRGHT_STRIKES_tfuvgw.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853331/LESSON_5___How_to_Edit_Using_Your_Phone_Paano_Hindi_Ma_Copyright_360p_ymdduu.mp4',
   },
   {
     id: 17,
-    title: 'Video Editing in CapCut',
+    title: 'HOW TO REUSE VIDEOS WITHOUT COPYRIGHT',
     filename: 'hero.mp4',
     duration: 10,
-    thumbnail: '/thumbnail/Video Editing in CapCut.png',
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776685686/HOW_TO_REUSE_VIDEOS_WITHOUT_COPYRIGHT_r5469g.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853322/LESSON_6__VIDEO_EDITING_BY_MY_VIDEO_EDITOR_720p_f6nwwm.mp4',
   },
   {
     id: 18,
-    title: 'Sample Edit by My Video Editor II',
+    title: 'CONTENT CREATION VS DISTRIBUTION',
     filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
     duration: 18,
-    thumbnail: '/thumbnail/Sample Edit by My Video Editor II.png',
+    thumbnail: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776685739/CONTENT_CREATION_vs_DISTRIBUTION_cwnttn.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1767853428/LESSON_4___VIDEO_TUTORIAL_I_360p_wmri1r.mp4',
   },
   {
@@ -267,6 +321,12 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 15,
     thumbnail: '/thumbnail/From Basic to Advanced Image Creation.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241232/From_Basic_to_Advanced_Image_Creation_nvqfgh.mp4',
+    resources: [
+      {
+        title: 'Photo prompt',
+        url: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680804/Photo_prompt_ffk94k.pdf',
+      }
+    ],
   },
   {
     id: 21,
@@ -283,6 +343,12 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 15,
     thumbnail: '/thumbnail/Skeleton Content Niche.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241392/Skeleton_Content_Niche_zydqcv.mp4',
+    resources: [
+      {
+        title: 'Skeleton Prompt',
+        url: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680811/Skeleton_Prompt_lian3y.pdf',
+      }
+    ],
   },
   {
     id: 23,
@@ -333,6 +399,12 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 15,
     thumbnail: '/thumbnail/Animation Niche.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241388/Animation_Niche_slz9ju.mp4',
+    resources: [
+      {
+        title: '3D Animation Prompt',
+        url: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680804/3D_Animation_Prompt_zq6ijh.pdf',
+      }
+    ],
   },
   {
     id: 27,
@@ -341,6 +413,12 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 15,
     thumbnail: '/thumbnail/AI Remedies NIche.png',
     videoUrlOverride: 'https://res.cloudinary.com/dwcxvaswf/video/upload/v1774241426/AI_Remedies_NIche_ip5d8f.mp4',
+    resources: [
+      {
+        title: 'Remedies',
+        url: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680805/Remedies_bkwn0o.pdf',
+      }
+    ],
   },
   {
     id: 28,
@@ -365,6 +443,12 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     duration: 15,
     thumbnail: '/thumbnail/Set Up a Payhip Store for Digital Products.png',
     videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
+    externalLinks: [
+      {
+        title: 'PAYHIP STORE SET UP',
+        url: 'https://youtu.be/V_fDDWyaMcg?si=Jzes_A2gjvGFdNPS',
+      },
+    ],
   },
   {
     id: 31,
@@ -1259,7 +1343,7 @@ export default function CourseLearnPage() {
                             </div>
 
                             <span className="truncate text-sm">
-                              {lesson.id}. {lesson.title}
+                              {lesson.title}
                             </span>
                           </div>
                         </button>
@@ -1376,7 +1460,7 @@ export default function CourseLearnPage() {
           
           <div className="flex-1 min-w-0">
             <h1 className="font-semibold text-white truncate">
-              {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : activeTab === 'bgm' ? 'BGM and SFX' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `Lesson ${currentVideoLesson.id}: ${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
+              {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : activeTab === 'bgm' ? 'BGM and SFX' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
             </h1>
           </div>
 
@@ -1569,13 +1653,31 @@ export default function CourseLearnPage() {
             {/* Lesson info */}
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-white mb-2">
-                Lesson {currentVideoLesson.id}: {currentVideoLesson.title}
+                {currentVideoLesson.title}
               </h2>
               <div className="flex items-center gap-4 text-gray-400">
               </div>
             </div>
 
-            {/* External Link or Lesson Resources */}
+            {/* External Links (Multiple) */}
+            {currentVideoLesson.externalLinks && currentVideoLesson.externalLinks.length > 0 && (
+              <div className="mb-6 space-y-2">
+                {currentVideoLesson.externalLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    {link.title}
+                  </a>
+                ))}
+              </div>
+            )}
             {currentVideoLesson.externalLinkUrl && currentVideoLesson.externalLinkTitle ? (
               <div className="mb-6">
                 <a
@@ -1635,339 +1737,7 @@ export default function CourseLearnPage() {
               </button>
             </div>
 
-            {/* Comments Section */}
-            <div className="mt-10 border-t border-gray-800 pt-8" onClick={() => setReactPickerFor(null)}>
-              <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-                <MessageCircle className="w-5 h-5 text-emerald-400" />
-                Discussion
-                {comments.length > 0 && (
-                  <span className="ml-2 text-sm font-normal text-gray-500">({comments.filter(c => !c.parent_id).length})</span>
-                )}
-              </h3>
 
-              {/* New comment input */}
-              <div className="flex gap-3 mb-8">
-                <div className="w-9 h-9 flex-shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center overflow-hidden">
-                  {user?.avatar_url ? (
-                    <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-emerald-400 text-sm font-bold">{user?.name?.[0]?.toUpperCase() || 'U'}</span>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <textarea
-                    value={commentInput}
-                    onChange={e => setCommentInput(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitComment(); }}
-                    placeholder="Ask a question or share your thoughts..."
-                    rows={3}
-                    maxLength={1000}
-                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-emerald-500 resize-none text-sm"
-                  />
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-gray-600">{commentInput.length}/1000 · Ctrl+Enter to send</span>
-                    <div className="flex items-center gap-2">
-                      {commentError && <span className="text-xs text-red-400">{commentError}</span>}
-                      <button
-                        onClick={submitComment}
-                        disabled={!commentInput.trim() || commentSubmitting}
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
-                      >
-                        {commentSubmitting ? 'Posting...' : 'Post Comment'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Comments list */}
-              {commentsLoading ? (
-                <div className="flex items-center gap-3 text-gray-500 text-sm py-4">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-500"></div>
-                  Loading comments...
-                </div>
-              ) : comments.filter(c => !c.parent_id).length === 0 ? (
-                <div className="text-center py-10 text-gray-600">
-                  <MessageCircle className="w-10 h-10 mx-auto mb-3 opacity-30" />
-                  <p className="text-sm">No comments yet. Be the first to ask a question!</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {comments.filter(c => !c.parent_id).map(comment => {
-                    const replies = comments.filter(c => c.parent_id === comment.id);
-                    const isOwner = user?.id === comment.user_id;
-                    const isAdmin = user?.role === 'admin';
-                    const isEditing = editId === comment.id;
-
-                    // Group reactions
-                    const reactionGroups: Record<string, string[]> = {};
-                    for (const r of (comment.reactions || [])) {
-                      if (!reactionGroups[r.emoji]) reactionGroups[r.emoji] = [];
-                      reactionGroups[r.emoji].push(r.user_id);
-                    }
-
-                    return (
-                      <div key={comment.id} className="group">
-                        {/* Main comment */}
-                        <div className="flex gap-3">
-                          <div className="w-9 h-9 flex-shrink-0 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
-                            {comment.users?.avatar_url ? (
-                              <img src={comment.users.avatar_url} alt={comment.users.name} className="w-full h-full object-cover" />
-                            ) : (
-                              <span className="text-gray-300 text-sm font-bold">{comment.users?.name?.[0]?.toUpperCase() || 'U'}</span>
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <div className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-3">
-                              <div className="flex items-center justify-between mb-1">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-white text-sm font-semibold">{comment.users?.name || 'Student'}</span>
-                                  {comment.users?.role === 'admin' && (
-                                    <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Admin</span>
-                                  )}
-                                  {comment.edited && <span className="text-xs text-gray-600 italic">(edited)</span>}
-                                </div>
-                                <span className="text-xs text-gray-600">
-                                  {new Date(comment.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                </span>
-                              </div>
-
-                              {isEditing ? (
-                                <div>
-                                  <textarea
-                                    value={editInput}
-                                    onChange={e => setEditInput(e.target.value)}
-                                    rows={3}
-                                    maxLength={1000}
-                                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-200 focus:outline-none focus:border-emerald-500 resize-none text-sm mt-1"
-                                    autoFocus
-                                  />
-                                  <div className="flex gap-2 mt-2">
-                                    <button
-                                      onClick={() => submitEdit(comment.id)}
-                                      disabled={!editInput.trim() || editSubmitting}
-                                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-medium rounded-lg transition-colors"
-                                    >
-                                      {editSubmitting ? 'Saving...' : 'Save'}
-                                    </button>
-                                    <button
-                                      onClick={() => { setEditId(null); setEditInput(''); }}
-                                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 text-xs rounded-lg transition-colors"
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <p className="text-gray-300 text-sm whitespace-pre-wrap">{comment.content}</p>
-                              )}
-                            </div>
-
-                            {/* Reaction chips + action row */}
-                            <div className="flex items-center gap-3 mt-1.5 px-1 flex-wrap">
-                              {/* Existing reaction chips */}
-                              {Object.entries(reactionGroups).map(([emoji, users]) => (
-                                <button
-                                  key={emoji}
-                                  onClick={e => { e.stopPropagation(); toggleReaction(comment.id, emoji); }}
-                                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs transition-colors border ${
-                                    users.includes(user?.id || '')
-                                      ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300'
-                                      : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'
-                                  }`}
-                                >
-                                  {emoji} {users.length}
-                                </button>
-                              ))}
-
-                              {/* React button */}
-                              <div className="relative">
-                                <button
-                                  onClick={e => { e.stopPropagation(); setReactPickerFor(prev => prev === comment.id ? null : comment.id); }}
-                                  className="text-gray-600 hover:text-yellow-400 transition-colors text-sm px-1"
-                                  title="React"
-                                >
-                                  😊
-                                </button>
-                                {reactPickerFor === comment.id && (
-                                  <div
-                                    onClick={e => e.stopPropagation()}
-                                    className="absolute bottom-7 left-0 flex gap-1 bg-gray-800 border border-gray-700 rounded-xl p-2 z-10 shadow-xl"
-                                  >
-                                    {EMOJIS.map(e => (
-                                      <button
-                                        key={e}
-                                        onClick={() => toggleReaction(comment.id, e)}
-                                        className="text-xl hover:scale-125 transition-transform px-1"
-                                      >
-                                        {e}
-                                      </button>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Reply button */}
-                              <button
-                                onClick={() => { setReplyTo({ id: comment.id, name: comment.users?.name || 'Student' }); setReplyInput(''); }}
-                                className="text-xs text-gray-500 hover:text-emerald-400 transition-colors font-medium"
-                              >
-                                Reply
-                              </button>
-
-                              {/* Edit / Delete */}
-                              {isOwner && !isEditing && (
-                                <button
-                                  onClick={() => { setEditId(comment.id); setEditInput(comment.content); }}
-                                  className="text-xs text-gray-500 hover:text-blue-400 transition-colors font-medium"
-                                >
-                                  Edit
-                                </button>
-                              )}
-                              {(isOwner || isAdmin) && (
-                                <button
-                                  onClick={() => deleteComment(comment.id)}
-                                  className="text-xs text-gray-500 hover:text-red-400 transition-colors font-medium"
-                                >
-                                  Delete
-                                </button>
-                              )}
-                            </div>
-
-                            {/* Reply input box */}
-                            {replyTo?.id === comment.id && (
-                              <div className="mt-3 flex gap-2 pl-1">
-                                <div className="w-7 h-7 flex-shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center overflow-hidden">
-                                  {user?.avatar_url ? (
-                                    <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
-                                  ) : (
-                                    <span className="text-emerald-400 text-xs font-bold">{user?.name?.[0]?.toUpperCase() || 'U'}</span>
-                                  )}
-                                </div>
-                                <div className="flex-1">
-                                  <textarea
-                                    value={replyInput}
-                                    onChange={e => setReplyInput(e.target.value)}
-                                    onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitReply(); }}
-                                    placeholder={`Replying to ${replyTo?.name}...`}
-                                    rows={2}
-                                    maxLength={1000}
-                                    autoFocus
-                                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-emerald-500 resize-none text-sm"
-                                  />
-                                  <div className="flex gap-2 mt-1.5">
-                                    <button
-                                      onClick={submitReply}
-                                      disabled={!replyInput.trim() || replySubmitting}
-                                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-medium rounded-lg transition-colors"
-                                    >
-                                      {replySubmitting ? 'Sending...' : 'Send Reply'}
-                                    </button>
-                                    <button
-                                      onClick={() => setReplyTo(null)}
-                                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 text-xs rounded-lg transition-colors"
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Replies */}
-                            {replies.length > 0 && (
-                              <div className="mt-3 space-y-3 pl-4 border-l-2 border-gray-800">
-                                {replies.map(reply => {
-                                  const rIsOwner = user?.id === reply.user_id;
-                                  const rIsEditing = editId === reply.id;
-                                  const rReactionGroups: Record<string, string[]> = {};
-                                  for (const r of (reply.reactions || [])) {
-                                    if (!rReactionGroups[r.emoji]) rReactionGroups[r.emoji] = [];
-                                    rReactionGroups[r.emoji].push(r.user_id);
-                                  }
-                                  return (
-                                    <div key={reply.id} className="flex gap-2">
-                                      <div className="w-7 h-7 flex-shrink-0 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
-                                        {reply.users?.avatar_url ? (
-                                          <img src={reply.users.avatar_url} alt="" className="w-full h-full object-cover" />
-                                        ) : (
-                                          <span className="text-gray-300 text-xs font-bold">{reply.users?.name?.[0]?.toUpperCase() || 'U'}</span>
-                                        )}
-                                      </div>
-                                      <div className="flex-1">
-                                        <div className="bg-gray-900/70 border border-gray-800 rounded-xl px-3 py-2">
-                                          <div className="flex items-center justify-between mb-1">
-                                            <div className="flex items-center gap-2">
-                                              <span className="text-white text-xs font-semibold">{reply.users?.name || 'Student'}</span>
-                                              {reply.users?.role === 'admin' && (
-                                                <span className="text-xs px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Admin</span>
-                                              )}
-                                              {reply.edited && <span className="text-xs text-gray-600 italic">(edited)</span>}
-                                            </div>
-                                            <span className="text-xs text-gray-600">
-                                              {new Date(reply.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                            </span>
-                                          </div>
-                                          {rIsEditing ? (
-                                            <div>
-                                              <textarea
-                                                value={editInput}
-                                                onChange={e => setEditInput(e.target.value)}
-                                                rows={2}
-                                                maxLength={1000}
-                                                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-200 focus:outline-none focus:border-emerald-500 resize-none text-sm mt-1"
-                                                autoFocus
-                                              />
-                                              <div className="flex gap-2 mt-1.5">
-                                                <button onClick={() => submitEdit(reply.id)} disabled={!editInput.trim() || editSubmitting} className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs rounded-lg">
-                                                  {editSubmitting ? 'Saving...' : 'Save'}
-                                                </button>
-                                                <button onClick={() => { setEditId(null); setEditInput(''); }} className="px-3 py-1 bg-gray-700 text-gray-300 text-xs rounded-lg">Cancel</button>
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <p className="text-gray-300 text-sm whitespace-pre-wrap">{reply.content}</p>
-                                          )}
-                                        </div>
-                                        {/* Reply action row */}
-                                        <div className="flex items-center gap-3 mt-1 px-1 flex-wrap">
-                                          {Object.entries(rReactionGroups).map(([emoji, users]) => (
-                                            <button key={emoji} onClick={e => { e.stopPropagation(); toggleReaction(reply.id, emoji); }}
-                                              className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs border transition-colors ${users.includes(user?.id || '') ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'}`}>
-                                              {emoji} {users.length}
-                                            </button>
-                                          ))}
-                                          <div className="relative">
-                                            <button onClick={e => { e.stopPropagation(); setReactPickerFor(prev => prev === reply.id ? null : reply.id); }} className="text-gray-600 hover:text-yellow-400 transition-colors text-xs px-1" title="React">😊</button>
-                                            {reactPickerFor === reply.id && (
-                                              <div onClick={e => e.stopPropagation()} className="absolute bottom-7 left-0 flex gap-1 bg-gray-800 border border-gray-700 rounded-xl p-2 z-10 shadow-xl">
-                                                {EMOJIS.map(e => (
-                                                  <button key={e} onClick={() => toggleReaction(reply.id, e)} className="text-xl hover:scale-125 transition-transform px-1">{e}</button>
-                                                ))}
-                                              </div>
-                                            )}
-                                          </div>
-                                          {rIsOwner && !rIsEditing && (
-                                            <button onClick={() => { setEditId(reply.id); setEditInput(reply.content); }} className="text-xs text-gray-500 hover:text-blue-400 transition-colors font-medium">Edit</button>
-                                          )}
-                                          {(rIsOwner || isAdmin) && (
-                                            <button onClick={() => deleteComment(reply.id)} className="text-xs text-gray-500 hover:text-red-400 transition-colors font-medium">Delete</button>
-                                          )}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
           </div>
         ) : currentLesson && activeTab === 'lessons' ? (
           <div className="p-6 lg:p-8 max-w-4xl mx-auto">

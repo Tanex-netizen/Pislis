@@ -1,44 +1,23 @@
 [
   {
     "id": 1,
-    "name": "Animation Prompt.pdf",
-    "type": "pdf",
-    "size": 0,
-    "url": "/files/Animation%20Prompt.pdf"
-  },
-  {
-    "id": 2,
-    "name": "Photo Prompt.pdf",
-    "type": "pdf",
-    "size": 0,
-    "url": "/files/Photo%20prompt.pdf"
-  },
-  {
-    "id": 3,
-    "name": "Fundamentals of Reels Animation.pdf",
-    "type": "pdf",
-    "size": 570,
-    "url": "/files/Fundamentals%20of%20Reels%20Animation.pdf"
-  },
-  {
-    "id": 4,
     "name": "READY TO USE VIDEOS (Google Drive Folder)",
     "type": "link",
     "size": 0,
     "url": "https://drive.google.com/drive/folders/1rIAjcq50_u5_hnUADo-byjVYEXt9NVUD"
   },
   {
-    "id": 5,
+    "id": 2,
     "name": "DIFFERENT WAYS TO MAKE MONEY ONLINE (Google Drive Folder)",
     "type": "link",
     "size": 0,
     "url": "https://drive.google.com/drive/folders/1--hnXWV791TvH2SOxTjbzGQx6qxNi1ZG"
   },
   {
-    "id": 6,
-    "name": "SKELETON NICHE (Google Drive Folder)",
-    "type": "link",
+    "id": 3,
+    "name": "Scripting Prompt.pdf",
+    "type": "pdf",
     "size": 0,
-    "url": "https://drive.google.com/drive/folders/1W08_VwesJ4d0wb5X7deMZPJSJ8UTpM9Z?usp=sharing"
+    "url": "https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680810/Scripting_Prompt_vl5b7z.pdf"
   }
 ]
