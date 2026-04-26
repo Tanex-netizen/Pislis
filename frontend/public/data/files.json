@@ -5,5 +5,12 @@
     "type": "pdf",
     "size": 0,
     "url": "https://res.cloudinary.com/dwcxvaswf/image/upload/v1776680810/Scripting_Prompt_vl5b7z.pdf"
+  },
+  {
+    "id": 2,
+    "name": "Photo Workflow.pdf",
+    "type": "pdf",
+    "size": 0,
+    "url": "/files/Photo Workflow.pdf"
   }
 ]
