@@ -92,7 +92,7 @@ type LessonVideoEntry = {
   filename: string;
   duration: number;
   thumbnail: string | null;
-  category: LessonCategory;
+  category?: LessonCategory;
   youtubeEmbedUrl?: string;
   vimeoId?: string;
   videoUrlOverride?: string;
