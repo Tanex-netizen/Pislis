@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/Navbar';
 import {
-  Play, 
-  CheckCircle, 
-  Lock, 
+  Play,
+  CheckCircle,
+  Lock,
   ChevronLeft,
   ChevronRight,
   Menu,
@@ -66,22 +66,22 @@ type BgmFile = {
 
 // BGM and SFX files served locally from public/bgm-and-sfx
 const BGM_FILES: BgmFile[] = [
-  { id: 1,  name: 'Ace of Base - All That She Wants',        url: '/bgm-and-sfx/Ace of Base 🎼 All That She Wants.mp3' },
-  { id: 2,  name: 'Else Paris',                               url: '/bgm-and-sfx/Else Paris.mp3' },
-  { id: 3,  name: 'Heaven Sent',                              url: '/bgm-and-sfx/Heaven Sent .mp3' },
-  { id: 4,  name: 'hell shee',                                url: '/bgm-and-sfx/hell shee.mp3' },
-  { id: 5,  name: 'hindia secukupnya instrument loop',        url: '/bgm-and-sfx/hindia secukupnya instrument loop.mp3' },
-  { id: 6,  name: 'illusionarydaytime',                       url: '/bgm-and-sfx/illusionarydaytime.mp3' },
-  { id: 7,  name: 'Le Monde - From Talk to Me',               url: '/bgm-and-sfx/Le Monder - From talk to me.mp3' },
-  { id: 8,  name: 'not like us',                              url: '/bgm-and-sfx/not like us.mp3' },
-  { id: 9,  name: 'Scary Piano',                              url: '/bgm-and-sfx/Scary Piano.mp3' },
-  { id: 10, name: 'Silent Hill',                              url: '/bgm-and-sfx/Silent Hill.mp3' },
-  { id: 11, name: 'Sound Effects',                            url: '/bgm-and-sfx/Sound Effects.mp3' },
+  { id: 1, name: 'Ace of Base - All That She Wants', url: '/bgm-and-sfx/Ace of Base 🎼 All That She Wants.mp3' },
+  { id: 2, name: 'Else Paris', url: '/bgm-and-sfx/Else Paris.mp3' },
+  { id: 3, name: 'Heaven Sent', url: '/bgm-and-sfx/Heaven Sent .mp3' },
+  { id: 4, name: 'hell shee', url: '/bgm-and-sfx/hell shee.mp3' },
+  { id: 5, name: 'hindia secukupnya instrument loop', url: '/bgm-and-sfx/hindia secukupnya instrument loop.mp3' },
+  { id: 6, name: 'illusionarydaytime', url: '/bgm-and-sfx/illusionarydaytime.mp3' },
+  { id: 7, name: 'Le Monde - From Talk to Me', url: '/bgm-and-sfx/Le Monder - From talk to me.mp3' },
+  { id: 8, name: 'not like us', url: '/bgm-and-sfx/not like us.mp3' },
+  { id: 9, name: 'Scary Piano', url: '/bgm-and-sfx/Scary Piano.mp3' },
+  { id: 10, name: 'Silent Hill', url: '/bgm-and-sfx/Silent Hill.mp3' },
+  { id: 11, name: 'Sound Effects', url: '/bgm-and-sfx/Sound Effects.mp3' },
   { id: 12, name: 'Spooky Quiet Scary Piano Haunting Horror', url: '/bgm-and-sfx/Spooky Quiet Scary Piano  Haunting Horror.mp3' },
-  { id: 13, name: 'tell em-(slowed instrumental)',             url: '/bgm-and-sfx/tell em-(slowed instrumental).mp3' },
-  { id: 14, name: 'The way life goes',                        url: '/bgm-and-sfx/The way life goes.mp3' },
-  { id: 15, name: 'Time back',                                url: '/bgm-and-sfx/Time back.mp3' },
-  { id: 16, name: 'Transgender',                              url: '/bgm-and-sfx/Transgender.mp3' },
+  { id: 13, name: 'tell em-(slowed instrumental)', url: '/bgm-and-sfx/tell em-(slowed instrumental).mp3' },
+  { id: 14, name: 'The way life goes', url: '/bgm-and-sfx/The way life goes.mp3' },
+  { id: 15, name: 'Time back', url: '/bgm-and-sfx/Time back.mp3' },
+  { id: 16, name: 'Transgender', url: '/bgm-and-sfx/Transgender.mp3' },
 ];
 
 type LessonCategory = 'ALL' | 'LEARN' | 'HACKS' | 'CREATE' | 'HISTORY';
@@ -557,9 +557,9 @@ const LESSON_CATEGORY_MAP: Record<number, LessonCategory> = {
   28: 'CREATE', // How to Make an AI Object Talk 100% Free | By Darwin
   30: 'CREATE', // How to Setup Payhip Store for your digital products
   31: 'CREATE', // SCREENSHOT METHOD
-  8:  'CREATE', // The Do's and Don'ts
+  8: 'CREATE', // The Do's and Don'ts
   35: 'CREATE', // LET'S TALK ABOUT MONETIZATION
-  4:  'CREATE', // How to Go Viral on Facebook Page
+  4: 'CREATE', // How to Go Viral on Facebook Page
 };
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
@@ -622,17 +622,17 @@ const getLessonVideoUrl = (
   r2Variant: 'lessons' | 'root' = 'lessons'
 ) => {
   const normalizedFilename = normalizeFilenameKey(filename);
-  
+
   // Determine the source: explicit override > VIDEO_SOURCES mapping > default cloudinary
   const source = sourceOverride || VIDEO_SOURCES[normalizedFilename] || 'cloudinary';
-  
+
   // For R2 source, use override URL if available, otherwise generate URL
   if (source === 'r2') {
     const overrideUrl = LESSON_VIDEO_URL_OVERRIDES[normalizedFilename];
     if (overrideUrl) return overrideUrl;
     return getLessonR2VideoUrl(normalizedFilename, r2Variant);
   }
-  
+
   // For Cloudinary source, always use generated URL (not R2 overrides)
   return getLessonCloudinaryVideoUrl(normalizedFilename);
 };
@@ -819,7 +819,7 @@ export default function CourseLearnPage() {
     };
     setWatchHistory(prev => {
       const next = { ...prev, [String(lesson.id)]: entry };
-      try { localStorage.setItem(key, JSON.stringify(next)); } catch {}
+      try { localStorage.setItem(key, JSON.stringify(next)); } catch { }
       return next;
     });
   }, [user?.id]);
@@ -865,7 +865,7 @@ export default function CourseLearnPage() {
     })
       .then(res => res.json())
       .then(data => setComments(data.comments || []))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setCommentsLoading(false));
   }, [currentVideoLesson, token]);
 
@@ -904,7 +904,7 @@ export default function CourseLearnPage() {
       setComments(prev => [...prev, data.comment]);
       setReplyInput('');
       setReplyTo(null);
-    } catch {}
+    } catch { }
     finally { setReplySubmitting(false); }
   };
 
@@ -922,7 +922,7 @@ export default function CourseLearnPage() {
       setComments(prev => prev.map(c => c.id === commentId ? { ...c, content: data.comment.content, edited: true } : c));
       setEditId(null);
       setEditInput('');
-    } catch {}
+    } catch { }
     finally { setEditSubmitting(false); }
   };
 
@@ -983,7 +983,7 @@ export default function CourseLearnPage() {
       };
       trySeek();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVideoLesson]);
 
   // ─── Vimeo Player: resume + progress save ────────────────────────────────────
@@ -1002,9 +1002,9 @@ export default function CourseLearnPage() {
         saved.duration > 0 &&
         saved.currentTime < saved.duration - 10
       ) {
-        player.setCurrentTime(saved.currentTime).catch(() => {});
+        player.setCurrentTime(saved.currentTime).catch(() => { });
       }
-    }).catch(() => {});
+    }).catch(() => { });
 
     // Save progress on every timeupdate tick
     const handleTimeUpdate = ({ seconds, duration }: { seconds: number; duration: number }) => {
@@ -1018,7 +1018,7 @@ export default function CourseLearnPage() {
       };
       setWatchHistory(prev => {
         const next = { ...prev, [String(currentVideoLesson.id)]: entry };
-        try { localStorage.setItem(key, JSON.stringify(next)); } catch {}
+        try { localStorage.setItem(key, JSON.stringify(next)); } catch { }
         return next;
       });
     };
@@ -1035,7 +1035,7 @@ export default function CourseLearnPage() {
       };
       setWatchHistory(prev => {
         const next = { ...prev, [String(currentVideoLesson.id)]: entry };
-        try { localStorage.setItem(key, JSON.stringify(next)); } catch {}
+        try { localStorage.setItem(key, JSON.stringify(next)); } catch { }
         return next;
       });
     };
@@ -1046,9 +1046,9 @@ export default function CourseLearnPage() {
     return () => {
       player.off('timeupdate', handleTimeUpdate);
       player.off('pause', handlePause);
-      player.destroy().catch(() => {});
+      player.destroy().catch(() => { });
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVideoLesson]);
   // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1066,7 +1066,7 @@ export default function CourseLearnPage() {
   const isLessonUnlocked = (_lessonId: number) => true;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const handleVideoEnded = () => {};
+  const handleVideoEnded = () => { };
 
   // Filtered lessons for the category grid (includes HISTORY)
   const filteredLessons = useMemo(() => {
@@ -1105,7 +1105,7 @@ export default function CourseLearnPage() {
             lastWatchedAt: Date.now(),
           };
           localStorage.setItem(key, JSON.stringify(existing));
-        } catch {}
+        } catch { }
       }
     };
     window.addEventListener('beforeunload', handleUnload);
@@ -1145,13 +1145,13 @@ export default function CourseLearnPage() {
   useEffect(() => {
     if (activeTab !== 'b-rolls') return;
     if (brollVideos.length > 0) return; // Already have data
-    
+
     let isMounted = true;
-    
+
     setBrollLoading(true);
     setBrollError(null);
     console.log('[B-rolls] Fetching videos...');
-    
+
     fetch('/data/brolls.json')
       .then(res => {
         if (!isMounted) return;
@@ -1171,7 +1171,7 @@ export default function CourseLearnPage() {
         setBrollError(err.message || 'Failed to load');
         setBrollLoading(false);
       });
-    
+
     return () => {
       isMounted = false;
     };
@@ -1181,12 +1181,12 @@ export default function CourseLearnPage() {
   useEffect(() => {
     if (activeTab !== 'files') return;
     if (courseFiles.length > 0) return;
-    
+
     let isMounted = true;
-    
+
     setFilesLoading(true);
     setFilesError(null);
-    
+
     fetch('/data/files.json')
       .then(res => {
         if (!isMounted) return;
@@ -1203,7 +1203,7 @@ export default function CourseLearnPage() {
         setFilesError(err.message || 'Failed to load files');
         setFilesLoading(false);
       });
-    
+
     return () => {
       isMounted = false;
     };
@@ -1285,7 +1285,7 @@ export default function CourseLearnPage() {
       }
 
       const slugData = await slugResponse.json();
-      
+
       if (!slugData.isEnrolled) {
         setNotEnrolled(true);
         setLoading(false);
@@ -1388,7 +1388,7 @@ export default function CourseLearnPage() {
   const navigateLesson = (direction: 'prev' | 'next') => {
     const allLessons = getAllLessons();
     const currentIndex = allLessons.findIndex(l => l.id === currentLesson?.id);
-    
+
     if (direction === 'prev' && currentIndex > 0) {
       setCurrentLesson(allLessons[currentIndex - 1]);
     } else if (direction === 'next' && currentIndex < allLessons.length - 1) {
@@ -1427,11 +1427,11 @@ export default function CourseLearnPage() {
               <div className="w-20 h-20 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-6">
                 <Lock className="w-10 h-10 text-gray-500" />
               </div>
-              
+
               <h1 className="text-2xl font-bold text-white mb-4">
                 Course Access Required
               </h1>
-              
+
               <p className="text-gray-400 mb-8">
                 You need to be enrolled in this course to access the content.
                 Contact us on Telegram to purchase access.
@@ -1506,10 +1506,9 @@ export default function CourseLearnPage() {
   return (
     <div className="h-screen bg-gray-950 flex overflow-hidden">
       {/* Sidebar */}
-      <aside 
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-80 bg-gray-900 border-r border-gray-800 transform transition-transform duration-300 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:overflow-hidden'
-        }`}
+      <aside
+        className={`fixed lg:static inset-y-0 left-0 z-40 w-80 bg-gray-900 border-r border-gray-800 transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:overflow-hidden'
+          }`}
       >
         <div className="h-full flex flex-col">
           {/* Header */}
@@ -1518,7 +1517,7 @@ export default function CourseLearnPage() {
               <ChevronLeft className="w-4 h-4" />
               Back to Profile
             </Link>
-            
+
             {/* Tabs */}
             <div className="flex flex-col space-y-1">
               <button
@@ -1526,11 +1525,10 @@ export default function CourseLearnPage() {
                   setActiveTab('lessons');
                   setSearchQuery('');
                 }}
-                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${
-                  activeTab === 'lessons'
+                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${activeTab === 'lessons'
                     ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
                     : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
-                }`}
+                  }`}
               >
                 Lessons
               </button>
@@ -1539,11 +1537,10 @@ export default function CourseLearnPage() {
                   setActiveTab('b-rolls');
                   setSearchQuery('');
                 }}
-                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${
-                  activeTab === 'b-rolls'
+                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${activeTab === 'b-rolls'
                     ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
                     : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
-                }`}
+                  }`}
               >
                 B-rolls
               </button>
@@ -1552,11 +1549,10 @@ export default function CourseLearnPage() {
                   setActiveTab('files');
                   setSearchQuery('');
                 }}
-                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${
-                  activeTab === 'files'
+                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${activeTab === 'files'
                     ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
                     : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
-                }`}
+                  }`}
               >
                 Files
               </button>
@@ -1565,11 +1561,10 @@ export default function CourseLearnPage() {
                   setActiveTab('bgm');
                   setSearchQuery('');
                 }}
-                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${
-                  activeTab === 'bgm'
+                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${activeTab === 'bgm'
                     ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
                     : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
-                }`}
+                  }`}
               >
                 BGM and SFX
               </button>
@@ -1578,11 +1573,10 @@ export default function CourseLearnPage() {
                   setActiveTab('webinar');
                   setSearchQuery('');
                 }}
-                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${
-                  activeTab === 'webinar'
+                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${activeTab === 'webinar'
                     ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
                     : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
-                }`}
+                  }`}
               >
                 Webinar Archive
               </button>
@@ -1604,7 +1598,7 @@ export default function CourseLearnPage() {
                   {LESSON_VIDEOS.filter(lesson => (lesson.thumbnail && lesson.thumbnail.trim() !== '') || (!!lesson.videoUrlOverride && lesson.videoUrlOverride.startsWith('/'))).map((lesson) => {
                     const isCurrent = currentVideoLesson?.id === lesson.id;
                     const isUnlocked = isLessonUnlocked(lesson.id);
-                    
+
                     return (
                       <li key={lesson.id}>
                         <button
@@ -1614,13 +1608,12 @@ export default function CourseLearnPage() {
                             }
                           }}
                           disabled={!isUnlocked}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                            isCurrent 
-                              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' 
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${isCurrent
+                              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                               : isUnlocked
                                 ? 'text-gray-400 hover:bg-gray-800 hover:text-gray-300'
                                 : 'text-gray-600 cursor-not-allowed opacity-50'
-                          }`}
+                            }`}
                         >
                           {isUnlocked ? (
                             <Play className="w-4 h-4 flex-shrink-0" />
@@ -1737,7 +1730,7 @@ export default function CourseLearnPage() {
 
       {/* Sidebar overlay for mobile */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -1753,7 +1746,7 @@ export default function CourseLearnPage() {
           >
             {sidebarOpen ? <X className="w-5 h-5 text-gray-400" /> : <Menu className="w-5 h-5 text-gray-400" />}
           </button>
-          
+
           <div className="flex-1 min-w-0">
             <h1 className="font-semibold text-white truncate">
               {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : activeTab === 'bgm' ? 'BGM and SFX' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
@@ -1768,7 +1761,7 @@ export default function CourseLearnPage() {
             className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-800 transition-colors text-[#229ED9] hover:text-[#1a8bbf] flex-shrink-0"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
             </svg>
           </a>
 
@@ -1793,7 +1786,7 @@ export default function CourseLearnPage() {
             </button>
 
             {/* Video player */}
-            <div 
+            <div
               className="aspect-video bg-gray-900 rounded-xl mb-8 overflow-hidden relative"
               onContextMenu={(e) => e.preventDefault()}
             >
@@ -1864,7 +1857,7 @@ export default function CourseLearnPage() {
                         console.error('[Video] Failed URL:', resolvedUrl);
                         console.error('[Video] Source was:', lessonVideoSource, 'R2 variant:', lessonVideoR2Variant);
                         console.error('[Video] Fallback attempts:', lessonVideoFallbackAttempts, 'Retry count:', lessonVideoRetryCount);
-                        
+
                         // If this lesson uses an explicit override URL, don't auto-switch sources.
                         if (currentVideoLesson.videoUrlOverride) {
                           setLessonVideoError('Video failed to load from the configured Cloudinary URL. Please verify the asset exists and is public.');
@@ -1913,7 +1906,7 @@ export default function CourseLearnPage() {
                           setLessonVideoR2Variant('lessons');
                           return;
                         }
-                        
+
                         // Should not reach here, but just in case
                         console.error('[Video] Unexpected state for:', currentVideoLesson.filename);
                         setLessonVideoError(
@@ -2021,7 +2014,7 @@ export default function CourseLearnPage() {
                 <ul className="space-y-2">
                   {currentVideoLesson.resources.map((resource, index) => (
                     <li key={index}>
-                      <a 
+                      <a
                         href={resource.url}
                         download
                         className="flex items-center justify-between px-4 py-2 bg-gray-850 hover:bg-gray-800 rounded-lg transition-colors text-emerald-400 hover:text-emerald-300 group"
@@ -2086,7 +2079,7 @@ export default function CourseLearnPage() {
 
             {/* Lesson content */}
             <div className="prose prose-invert prose-gray max-w-none mb-8">
-              <div 
+              <div
                 className="text-gray-300"
                 dangerouslySetInnerHTML={{ __html: currentLesson.content || '' }}
               />
@@ -2099,7 +2092,7 @@ export default function CourseLearnPage() {
                 <ul className="space-y-2">
                   {currentLesson.resources.map((resource, index) => (
                     <li key={index}>
-                      <a 
+                      <a
                         href={resource.url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2159,19 +2152,18 @@ export default function CourseLearnPage() {
                     <button
                       key={cat}
                       onClick={() => setLessonCategory(cat)}
-                      className={`px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 ${
-                        lessonCategory === cat
+                      className={`px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 ${lessonCategory === cat
                           ? cat === 'ALL'
                             ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/20'
                             : cat === 'LEARN'
-                            ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
-                            : cat === 'HACKS'
-                            ? 'bg-yellow-500 text-gray-900 shadow-lg shadow-yellow-500/20'
-                            : cat === 'HISTORY'
-                            ? 'bg-red-500 text-white shadow-lg shadow-red-500/20'
-                            : 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
+                              ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                              : cat === 'HACKS'
+                                ? 'bg-yellow-500 text-gray-900 shadow-lg shadow-yellow-500/20'
+                                : cat === 'HISTORY'
+                                  ? 'bg-red-500 text-white shadow-lg shadow-red-500/20'
+                                  : 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
                           : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white border border-gray-700'
-                      }`}
+                        }`}
                     >
                       {cat === 'HISTORY' ? '🕒 HISTORY' : cat}
                     </button>
@@ -2188,101 +2180,98 @@ export default function CourseLearnPage() {
                     <p className="text-gray-600 text-sm">Start watching lessons and they'll appear here.</p>
                   </div>
                 ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                  {filteredLessons.map((lesson) => {
-                    const isUnlocked = isLessonUnlocked(lesson.id);
-                    const histEntry = watchHistory[String(lesson.id)];
-                    const progress = histEntry?.duration
-                      ? Math.min((histEntry.currentTime / histEntry.duration) * 100, 100)
-                      : 0;
-                    const catLabel = LESSON_CATEGORY_MAP[lesson.id] ?? 'ALL';
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {filteredLessons.map((lesson) => {
+                      const isUnlocked = isLessonUnlocked(lesson.id);
+                      const histEntry = watchHistory[String(lesson.id)];
+                      const progress = histEntry?.duration
+                        ? Math.min((histEntry.currentTime / histEntry.duration) * 100, 100)
+                        : 0;
+                      const catLabel = LESSON_CATEGORY_MAP[lesson.id] ?? 'ALL';
 
-                    return (
-                      <div
-                        key={lesson.id}
-                        onClick={() => {
-                          if (isUnlocked) {
-                            setCurrentVideoLesson(lesson);
-                          }
-                        }}
-                        className={`bg-gray-900 border border-gray-800 rounded-xl overflow-hidden transition-all ${
-                          isUnlocked
-                            ? 'hover:border-emerald-500/50 cursor-pointer group'
-                            : 'opacity-60 cursor-not-allowed'
-                        }`}
-                      >
-                        {/* Video Thumbnail */}
-                        <div className="aspect-video bg-gray-800 relative">
-                          {isUnlocked ? (
-                            <>
-                              {lesson.thumbnail ? (
-                                <img
-                                  src={lesson.thumbnail}
-                                  alt={lesson.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <video
-                                  src={getLessonVideoUrl(lesson.filename)}
-                                  className="w-full h-full object-cover"
-                                  preload="none"
-                                  muted
-                                />
-                              )}
-                              <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center">
-                                  <Play className="w-8 h-8 text-white ml-1" />
-                                </div>
-                              </div>
-                              {/* Red progress bar at bottom of thumbnail */}
-                              {progress > 0 && (
-                                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
-                                  <div
-                                    className="h-full bg-red-500 transition-all duration-300"
-                                    style={{ width: `${progress}%` }}
+                      return (
+                        <div
+                          key={lesson.id}
+                          onClick={() => {
+                            if (isUnlocked) {
+                              setCurrentVideoLesson(lesson);
+                            }
+                          }}
+                          className={`bg-gray-900 border border-gray-800 rounded-xl overflow-hidden transition-all ${isUnlocked
+                              ? 'hover:border-emerald-500/50 cursor-pointer group'
+                              : 'opacity-60 cursor-not-allowed'
+                            }`}
+                        >
+                          {/* Video Thumbnail */}
+                          <div className="aspect-video bg-gray-800 relative">
+                            {isUnlocked ? (
+                              <>
+                                {lesson.thumbnail ? (
+                                  <img
+                                    src={lesson.thumbnail}
+                                    alt={lesson.title}
+                                    className="w-full h-full object-cover"
                                   />
+                                ) : (
+                                  <video
+                                    src={getLessonVideoUrl(lesson.filename)}
+                                    className="w-full h-full object-cover"
+                                    preload="none"
+                                    muted
+                                  />
+                                )}
+                                <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center">
+                                    <Play className="w-8 h-8 text-white ml-1" />
+                                  </div>
                                 </div>
-                              )}
-                            </>
-                          ) : (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80 px-4">
-                              <Lock className="w-12 h-12 text-gray-600 mb-3" />
-                              <span className="text-gray-400 text-sm text-center font-medium mb-1">Watch the full video</span>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Card Content */}
-                        <div className="p-4">
-                          <div className="flex items-start justify-between gap-2 mb-2">
-                            <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                              catLabel === 'LEARN' ? 'bg-emerald-500/10 text-emerald-400' :
-                              catLabel === 'HACKS' ? 'bg-yellow-500/10 text-yellow-400' :
-                              'bg-blue-500/10 text-blue-400'
-                            }`}>
-                              {catLabel}
-                            </span>
+                                {/* Red progress bar at bottom of thumbnail */}
+                                {progress > 0 && (
+                                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
+                                    <div
+                                      className="h-full bg-red-500 transition-all duration-300"
+                                      style={{ width: `${progress}%` }}
+                                    />
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80 px-4">
+                                <Lock className="w-12 h-12 text-gray-600 mb-3" />
+                                <span className="text-gray-400 text-sm text-center font-medium mb-1">Watch the full video</span>
+                              </div>
+                            )}
                           </div>
-                          <h3 className={`font-semibold mb-2 line-clamp-2 ${
-                            isUnlocked ? 'text-white group-hover:text-emerald-400 transition-colors' : 'text-gray-500'
-                          }`}>
-                            {lesson.title.replace(/^Lesson\s+\d+:\s*/i, '')}
-                          </h3>
-                          {/* Last watched label — visible in ALL tabs if watched, prominent in HISTORY */}
-                          {histEntry && (
-                            <p className="text-xs text-gray-500 mt-1">
-                              Last watched {timeAgo(histEntry.lastWatchedAt)}
-                            </p>
-                          )}
+
+                          {/* Card Content */}
+                          <div className="p-4">
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <span className={`text-xs font-medium px-2 py-1 rounded-full ${catLabel === 'LEARN' ? 'bg-emerald-500/10 text-emerald-400' :
+                                  catLabel === 'HACKS' ? 'bg-yellow-500/10 text-yellow-400' :
+                                    'bg-blue-500/10 text-blue-400'
+                                }`}>
+                                {catLabel}
+                              </span>
+                            </div>
+                            <h3 className={`font-semibold mb-2 line-clamp-2 ${isUnlocked ? 'text-white group-hover:text-emerald-400 transition-colors' : 'text-gray-500'
+                              }`}>
+                              {lesson.title.replace(/^Lesson\s+\d+:\s*/i, '')}
+                            </h3>
+                            {/* Last watched label — visible in ALL tabs if watched, prominent in HISTORY */}
+                            {histEntry && (
+                              <p className="text-xs text-gray-500 mt-1">
+                                Last watched {timeAgo(histEntry.lastWatchedAt)}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      );
+                    })}
+                  </div>
                 )}
               </div>
             )}
-            
+
             {activeTab === 'b-rolls' && (
               <div className="w-full max-w-4xl mb-8">
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -2296,55 +2285,50 @@ export default function CourseLearnPage() {
                       className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                     />
                   </div>
-                  
+
                   <div className="flex gap-2">
                     <button
                       onClick={() => setBrollCategory('all')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        brollCategory === 'all'
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'all'
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                      }`}
+                        }`}
                     >
                       All
                     </button>
                     <button
                       onClick={() => setBrollCategory('anatomy')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        brollCategory === 'anatomy'
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'anatomy'
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                      }`}
+                        }`}
                     >
                       Anatomy
                     </button>
                     <button
                       onClick={() => setBrollCategory('foods')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        brollCategory === 'foods'
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'foods'
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                      }`}
+                        }`}
                     >
                       Foods
                     </button>
                     <button
                       onClick={() => setBrollCategory('people')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        brollCategory === 'people'
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'people'
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                      }`}
+                        }`}
                     >
                       People
                     </button>
                     <button
                       onClick={() => setBrollCategory('others')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        brollCategory === 'others'
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'others'
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                      }`}
+                        }`}
                     >
                       Others
                     </button>
@@ -2352,7 +2336,7 @@ export default function CourseLearnPage() {
                 </div>
               </div>
             )}
-            
+
             {activeTab === 'files' && (
               <div className="w-full max-w-md mb-8">
                 <div className="relative">
@@ -2367,7 +2351,7 @@ export default function CourseLearnPage() {
                 </div>
               </div>
             )}
-            
+
             {activeTab === 'bgm' && (
               <div className="w-full max-w-md mb-8">
                 <div className="relative">
@@ -2382,88 +2366,88 @@ export default function CourseLearnPage() {
                 </div>
               </div>
             )}
-            
+
             {/* B-rolls content */}
             {activeTab === 'b-rolls' && (() => {
               console.log('[B-rolls] Rendering:', { brollLoading, brollError, filteredBrollsLength: filteredBrolls.length });
               return (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
-                {brollLoading ? (
-                  <div className="col-span-full flex flex-col items-center justify-center h-[50vh] gap-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
-                    <p className="text-gray-400">Loading b-roll videos...</p>
-                    <p className="text-gray-600 text-sm">This may take a moment</p>
-                  </div>
-                ) : brollError ? (
-                  <div className="col-span-full flex flex-col items-center justify-center h-[50vh] gap-4">
-                    <div className="text-red-500 text-center">
-                      <p className="font-semibold mb-2">Failed to load b-rolls</p>
-                      <p className="text-sm text-gray-400">{brollError}</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
+                  {brollLoading ? (
+                    <div className="col-span-full flex flex-col items-center justify-center h-[50vh] gap-4">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+                      <p className="text-gray-400">Loading b-roll videos...</p>
+                      <p className="text-gray-600 text-sm">This may take a moment</p>
                     </div>
-                    <button
-                      onClick={() => {
-                        setBrollVideos([]);
-                        setBrollError(null);
-                        setBrollLoading(false);
-                      }}
-                      className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
-                    >
-                      Retry
-                    </button>
-                  </div>
-                ) : filteredBrolls.length === 0 ? (
-                  <div className="col-span-full flex items-center justify-center h-[50vh]">
-                    <p className="text-gray-500">
-                      {brollVideos.length === 0 ? 'No b-roll videos available' : 'No matching b-rolls found'}
-                    </p>
-                  </div>
-                ) : (
-                  filteredBrolls.map((video) => (
-                    <div
-                      key={`broll-${video.id}-${video.url}`}
-                      className="group relative bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden hover:border-emerald-500/50 transition-all"
-                    >
-                      <div className="aspect-video bg-gray-800 flex items-center justify-center overflow-hidden relative">
-                        <VideoThumbnail src={video.url} title={video.title} />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                          <button
-                            onClick={() => {
-                              setPlayingVideoError(false);
-                              setPlayingVideo(video.url);
-                            }}
-                            className="p-3 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
-                            title="Play video"
-                          >
-                            <Play className="w-6 h-6 text-white" />
-                          </button>
-                          <a
-                            href={video.url}
-                            download={video.filename}
-                            onClick={(e) => e.stopPropagation()}
-                            className="p-3 bg-emerald-500 hover:bg-emerald-600 rounded-full transition-colors"
-                            title="Download video"
-                          >
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                          </a>
+                  ) : brollError ? (
+                    <div className="col-span-full flex flex-col items-center justify-center h-[50vh] gap-4">
+                      <div className="text-red-500 text-center">
+                        <p className="font-semibold mb-2">Failed to load b-rolls</p>
+                        <p className="text-sm text-gray-400">{brollError}</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setBrollVideos([]);
+                          setBrollError(null);
+                          setBrollLoading(false);
+                        }}
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+                      >
+                        Retry
+                      </button>
+                    </div>
+                  ) : filteredBrolls.length === 0 ? (
+                    <div className="col-span-full flex items-center justify-center h-[50vh]">
+                      <p className="text-gray-500">
+                        {brollVideos.length === 0 ? 'No b-roll videos available' : 'No matching b-rolls found'}
+                      </p>
+                    </div>
+                  ) : (
+                    filteredBrolls.map((video) => (
+                      <div
+                        key={`broll-${video.id}-${video.url}`}
+                        className="group relative bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden hover:border-emerald-500/50 transition-all"
+                      >
+                        <div className="aspect-video bg-gray-800 flex items-center justify-center overflow-hidden relative">
+                          <VideoThumbnail src={video.url} title={video.title} />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                            <button
+                              onClick={() => {
+                                setPlayingVideoError(false);
+                                setPlayingVideo(video.url);
+                              }}
+                              className="p-3 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
+                              title="Play video"
+                            >
+                              <Play className="w-6 h-6 text-white" />
+                            </button>
+                            <a
+                              href={video.url}
+                              download={video.filename}
+                              onClick={(e) => e.stopPropagation()}
+                              className="p-3 bg-emerald-500 hover:bg-emerald-600 rounded-full transition-colors"
+                              title="Download video"
+                            >
+                              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <h4 className="text-white font-medium group-hover:text-emerald-400 transition-colors">
+                            {video.title}
+                          </h4>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded-full capitalize">
+                              {video.category}
+                            </span>
+                            <span className="text-xs text-gray-500">MP4</span>
+                          </div>
                         </div>
                       </div>
-                      <div className="p-4">
-                        <h4 className="text-white font-medium group-hover:text-emerald-400 transition-colors">
-                          {video.title}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded-full capitalize">
-                            {video.category}
-                          </span>
-                          <span className="text-xs text-gray-500">MP4</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
+                    ))
+                  )}
+                </div>
               );
             })()}
 
@@ -2610,11 +2594,10 @@ export default function CourseLearnPage() {
                             href={file.url || '#'}
                             download={file.name + '.mp3'}
                             aria-disabled={!file.url}
-                            className={`flex-1 px-3 py-2 text-white text-sm rounded-lg transition-colors flex items-center justify-center gap-2 ${
-                              file.url
+                            className={`flex-1 px-3 py-2 text-white text-sm rounded-lg transition-colors flex items-center justify-center gap-2 ${file.url
                                 ? 'bg-emerald-600 hover:bg-emerald-700'
                                 : 'bg-gray-700 opacity-40 cursor-not-allowed pointer-events-none'
-                            }`}
+                              }`}
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -2681,7 +2664,7 @@ export default function CourseLearnPage() {
 
       {/* Video Player Modal */}
       {playingVideo && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
           onClick={() => setPlayingVideo(null)}
         >
