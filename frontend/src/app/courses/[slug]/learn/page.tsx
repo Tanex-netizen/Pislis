@@ -2015,8 +2015,9 @@ export default function CourseLearnPage() {
                   {currentVideoLesson.resources.map((resource, index) => (
                     <li key={index}>
                       <a
-                        href={resource.url}
+                        href={encodeURI(resource.url)}
                         download
+                        onClick={() => console.log('Downloading:', encodeURI(resource.url))}
                         className="flex items-center justify-between px-4 py-2 bg-gray-850 hover:bg-gray-800 rounded-lg transition-colors text-emerald-400 hover:text-emerald-300 group"
                       >
                         <span className="text-sm font-medium truncate">{resource.title}</span>
