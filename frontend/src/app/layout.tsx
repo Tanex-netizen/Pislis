@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
+import MaintenanceGate from '@/components/MaintenanceGate';
 
 // Preload critical fonts
 import { Inter, Playfair_Display } from 'next/font/google';
@@ -83,9 +84,12 @@ export default function RootLayout({
       </head>
       <body className="antialiased font-sans">
         <AuthProvider>
-          {children}
+          <MaintenanceGate>
+            {children}
+          </MaintenanceGate>
         </AuthProvider>
       </body>
     </html>
   );
 }
+
