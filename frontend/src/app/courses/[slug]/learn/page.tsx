@@ -134,7 +134,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'NICHE AND STYLE.mp4',
     duration: 12,
     thumbnail: '/thumbnail/NICHE AND STYLE.png',
-    vimeoId: '1192460255',
+    vimeoId: '1192460255?h=fc32eb57ce',
     resources: [{ title: 'NICHES & STYLE', url: '/files/NICHES AND STYLE.pdf' }],
   },
   // 4
@@ -144,7 +144,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'HOW TO TARGET US AUDIENCE.mp4',
     duration: 12,
     thumbnail: '/thumbnail/HOW TO TARGET US AUDIENCE.png',
-    vimeoId: '1192460266',
+    vimeoId: '1192460266?h=33bc3c5c00',
     resources: [{ title: 'How to Target US Audience', url: '/files/def.pdf' }],
   },
   // 5
@@ -154,7 +154,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'FB SET UP AND PAGE SET UP.mp4',
     duration: 12,
     thumbnail: '/thumbnail/FB SET UP AND PAGE SET UP.png',
-    vimeoId: '1192460383',
+    vimeoId: '1192460383?h=aea5136aec',
     resources: [{ title: 'PROMPT', url: '/files/PROMPT.pdf' }],
   },
   // 6
@@ -164,7 +164,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'AI Generated Policies.mp4',
     duration: 12,
     thumbnail: '/thumbnail/AI GENERATED POICIES..png',
-    vimeoId: '1192461093',
+    vimeoId: '1192461093?h=c5dab1dfbf',
     resources: [{ title: 'AI Generated Policies', url: '/files/AI generated Policies.jpg' }],
   },
   // 7
@@ -340,7 +340,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'COMMON QUESTION.mp4',
     duration: 12,
     thumbnail: '/thumbnail/COMMON QUESTION.png',
-    vimeoId: '1192464311',
+    vimeoId: '1192464311?h=cf68c13f3c',
   },
   // 25
   {
@@ -349,7 +349,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: '3D Animation Style & General Niche.mp4',
     duration: 12,
     thumbnail: '/thumbnail/3D Animation Style and General Niche.png',
-    vimeoId: '1192460265',
+    vimeoId: '1192460265?h=395d9910fc',
     resources: [{ title: '3D Animation Prompt', url: '/files/3D Animation Prompt.pdf' }],
   },
   // 26
@@ -359,7 +359,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     filename: 'SKELETON STYLE.mp4',
     duration: 12,
     thumbnail: '/thumbnail/SKELETON STYLE.png',
-    vimeoId: '1192464047',
+    vimeoId: '1192464047?h=6e80cbe423',
     resources: [
       { title: 'SKELETON STRUCTURE PROMPT', url: '/files/SKELETON STRUCTURE PROMPT.pdf' },
       { title: 'SKELETON WORKFLOW', url: '/files/SKELETON WORKFLOW.pdf' },
