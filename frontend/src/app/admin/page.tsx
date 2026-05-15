@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Users, BookOpen, Clock, CheckCircle, XCircle, 
-  Eye, Mail, MoreVertical, Search, Filter,
-  LogOut, Menu, X, AlertCircle, Loader2, Unlock, Lock, DollarSign, Calendar, Smartphone
+  Eye, Mail, MoreVertical, Search, Filter, BarChart2, History,
+  LogOut, Menu, X, AlertCircle, Loader2, Unlock, Lock, DollarSign, Calendar, Smartphone, Shield, TrendingUp
 } from 'lucide-react';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
@@ -31,8 +31,19 @@ interface Enrollment {
 interface Stats {
   pendingEnrollments: number;
   approvedEnrollments: number;
-  totalCourses: number;
+  lockedStudents: number;
+  activeToday: number;
   totalStudents: number;
+  totalCourses: number;
+  todayApprovals: number;
+  weekApprovals: number;
+  monthApprovals: number;
+}
+
+interface Toast {
+  id: number;
+  message: string;
+  type: 'success' | 'error';
 }
 
 interface AdminUser {
@@ -84,14 +95,21 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats>({
     pendingEnrollments: 0,
     approvedEnrollments: 0,
-    totalCourses: 0,
+    lockedStudents: 0,
+    activeToday: 0,
     totalStudents: 0,
+    totalCourses: 0,
+    todayApprovals: 0,
+    weekApprovals: 0,
+    monthApprovals: 0,
   });
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [studentSearchQuery, setStudentSearchQuery] = useState('');
+  const [studentFilterStatus, setStudentFilterStatus] = useState<string>('all');
+  const [studentSortBy, setStudentSortBy] = useState<string>('newest');
   const [selectedEnrollment, setSelectedEnrollment] = useState<Enrollment | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [recentLogins, setRecentLogins] = useState<AdminUser[]>([]);
@@ -100,6 +118,12 @@ export default function AdminDashboard() {
   const [monthlyPayments, setMonthlyPayments] = useState<MonthlyPayment[]>([]);
   const [paymentFilterStatus, setPaymentFilterStatus] = useState<string>('all');
   const [paymentSearchQuery, setPaymentSearchQuery] = useState('');
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [securityModal, setSecurityModal] = useState<{ open: boolean; code: string; onConfirm: (() => void) | null; loading: boolean }>({
+    open: false, code: '', onConfirm: null, loading: false,
+  });
+  const [studentPage, setStudentPage] = useState(1);
+  const STUDENTS_PER_PAGE = 20;
 
   // Check authentication on mount and when user changes
   useEffect(() => {
@@ -136,8 +160,41 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = () => { logout(); };
+
+  // ── Toast helpers ──────────────────────────────────────────────────────────
+  const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
+    const id = Date.now();
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3500);
+  }, []);
+
+  // ── Security modal ─────────────────────────────────────────────────────────
+  const requireActionCode = (onConfirm: () => void) => {
+    setSecurityModal({ open: true, code: '', onConfirm, loading: false });
+  };
+
+  const handleSecurityConfirm = async () => {
+    if (!securityModal.onConfirm) return;
+    setSecurityModal(s => ({ ...s, loading: true }));
+    try {
+      const res = await fetch(`${API_BASE_URL}/admin/verify-action-code`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: securityModal.code }),
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setSecurityModal({ open: false, code: '', onConfirm: null, loading: false });
+        securityModal.onConfirm();
+      } else {
+        showToast('Invalid security code. Action blocked.', 'error');
+        setSecurityModal(s => ({ ...s, loading: false, code: '' }));
+      }
+    } catch {
+      showToast('Could not verify code. Try again.', 'error');
+      setSecurityModal(s => ({ ...s, loading: false }));
+    }
   };
 
   const fetchData = async () => {
@@ -226,20 +283,29 @@ export default function AdminDashboard() {
 
       // Use stats from the dedicated stats endpoint for accurate counts
       if (statsData.stats) {
-        setStats(statsData.stats);
-      } else {
-        // Fallback to counting from fetched data (limited accuracy)
-        const students = mappedLogins.filter((u: AdminUser) => u.role === 'student');
-        const pendingEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) === 0).length;
-        const approvedEnrollments = students.filter((u: AdminUser) => (u.approved_enrollments || 0) > 0).length;
-        const totalCourses = (coursesData.courses || []).length;
-        const totalStudents = recentLoginsData.total || students.length;
-
         setStats({
-          pendingEnrollments,
-          approvedEnrollments,
-          totalCourses,
-          totalStudents,
+          pendingEnrollments: statsData.stats.pendingEnrollments || 0,
+          approvedEnrollments: statsData.stats.approvedEnrollments || 0,
+          lockedStudents: statsData.stats.lockedStudents || 0,
+          activeToday: statsData.stats.activeToday || 0,
+          totalStudents: statsData.stats.totalStudents || 0,
+          totalCourses: statsData.stats.totalCourses || (coursesData.courses || []).length,
+          todayApprovals: statsData.stats.todayApprovals || 0,
+          weekApprovals: statsData.stats.weekApprovals || 0,
+          monthApprovals: statsData.stats.monthApprovals || 0,
+        });
+      } else {
+        const students = mappedLogins.filter((u: AdminUser) => u.role === 'student');
+        setStats({
+          pendingEnrollments: students.filter((u: AdminUser) => (u.approved_enrollments || 0) === 0).length,
+          approvedEnrollments: students.filter((u: AdminUser) => (u.approved_enrollments || 0) > 0).length,
+          lockedStudents: 0,
+          activeToday: 0,
+          totalStudents: recentLoginsData.total || students.length,
+          totalCourses: (coursesData.courses || []).length,
+          todayApprovals: 0,
+          weekApprovals: 0,
+          monthApprovals: 0,
         });
       }
     } catch (err) {
@@ -249,90 +315,46 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleApprove = async (enrollmentId: string) => {
-    setActionLoading(enrollmentId);
-    try {
-      if (!token) {
-        throw new Error('Missing admin token');
+  const handleApprove = (enrollmentId: string) => {
+    requireActionCode(async () => {
+      setActionLoading(enrollmentId);
+      try {
+        if (!token) throw new Error('Missing admin token');
+        const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/approve`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ expiresInDays: 365 }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || 'Failed to approve enrollment');
+        setSelectedEnrollment(null);
+        await fetchData();
+        showToast(data.accessUrl ? `Approved! Access URL: ${data.accessUrl}` : 'Enrollment approved successfully.');
+      } catch (err: any) {
+        showToast(err.message || 'Failed to approve enrollment', 'error');
+      } finally {
+        setActionLoading(null);
       }
-
-      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/approve`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ expiresInDays: 365 }),
-      });
-
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to approve enrollment');
-      }
-
-      setSelectedEnrollment(null);
-      await fetchData();
-      alert(data.accessUrl ? `Enrollment approved. Access URL: ${data.accessUrl}` : 'Enrollment approved.');
-    } catch (err) {
-      console.error('Failed to approve:', err);
-    } finally {
-      setActionLoading(null);
-    }
+    });
   };
 
   const handleReject = async (enrollmentId: string) => {
     const reason = prompt('Reason for rejection (optional):');
     setActionLoading(enrollmentId);
     try {
-      if (!token) {
-        throw new Error('Missing admin token');
-      }
-
+      if (!token) throw new Error('Missing admin token');
       const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/reject`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason: reason || undefined }),
       });
-
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to reject enrollment');
-      }
-
+      if (!response.ok) throw new Error(data.error || 'Failed to reject enrollment');
       setSelectedEnrollment(null);
       await fetchData();
-    } catch (err) {
-      console.error('Failed to reject:', err);
-    } finally {
-      setActionLoading(null);
-    }
-  };
-
-  const handleResendLink = async (enrollmentId: string) => {
-    setActionLoading(enrollmentId);
-    try {
-      if (!token) {
-        throw new Error('Missing admin token');
-      }
-
-      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/resend-link`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to resend link');
-      }
-
-      alert('Access link resent.');
-    } catch (err) {
-      console.error('Failed to resend link:', err);
+      showToast('Enrollment rejected.');
+    } catch (err: any) {
+      showToast(err.message || 'Failed to reject enrollment', 'error');
     } finally {
       setActionLoading(null);
     }
@@ -341,79 +363,54 @@ export default function AdminDashboard() {
   const handleMarkPaid = async (enrollmentId: string) => {
     setActionLoading(enrollmentId);
     try {
-      if (!token) {
-        throw new Error('Missing admin token');
-      }
-
+      if (!token) throw new Error('Missing admin token');
       const response = await fetch(`${API_BASE_URL}/admin/monthly-payments/${enrollmentId}/mark-paid`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        method: 'POST', headers: { Authorization: `Bearer ${token}` },
       });
-
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to mark as paid');
-      }
-
-      alert(data.message || 'Payment marked as paid');
+      if (!response.ok) throw new Error(data.error || 'Failed to mark as paid');
+      showToast(data.message || 'Payment marked as paid');
       await fetchData();
-    } catch (err) {
-      console.error('Failed to mark as paid:', err);
-      alert('Failed to mark as paid');
-    } finally {
-      setActionLoading(null);
-    }
+    } catch (err: any) {
+      showToast(err.message || 'Failed to mark as paid', 'error');
+    } finally { setActionLoading(null); }
   };
 
   const handleMarkUnpaid = async (enrollmentId: string) => {
     setActionLoading(enrollmentId);
     try {
-      if (!token) {
-        throw new Error('Missing admin token');
-      }
-
-      const response = await fetch(`${API_BASE_URL}/admin/monthly-payments/${enrollmentId}/mark-unpaid`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to mark as unpaid');
-      }
-
-      alert(data.message || 'Payment marked as unpaid');
-      await fetchData();
-    } catch (err) {
-      console.error('Failed to mark as unpaid:', err);
-      alert('Failed to mark as unpaid');
-    } finally {
-      setActionLoading(null);
-    }
-  };
-
-  const handleLockAccess = async (enrollmentId: string) => {
-    if (!confirm('Lock this student\'s course access? They will lose access immediately.')) return;
-    setActionLoading(enrollmentId);
-    try {
       if (!token) throw new Error('Missing admin token');
-      const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/lock`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await fetch(`${API_BASE_URL}/admin/monthly-payments/${enrollmentId}/mark-unpaid`, {
+        method: 'POST', headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || 'Failed to lock access');
+      if (!response.ok) throw new Error(data.error || 'Failed to mark as unpaid');
+      showToast(data.message || 'Payment marked as unpaid');
       await fetchData();
     } catch (err: any) {
-      console.error('Failed to lock access:', err);
-      alert(err.message || 'Failed to lock access');
-    } finally {
-      setActionLoading(null);
-    }
+      showToast(err.message || 'Failed to mark as unpaid', 'error');
+    } finally { setActionLoading(null); }
+  };
+
+  const handleLockAccess = (enrollmentId: string) => {
+    requireActionCode(async () => {
+      setActionLoading(enrollmentId);
+      try {
+        if (!token) throw new Error('Missing admin token');
+        const response = await fetch(`${API_BASE_URL}/admin/enrollments/${enrollmentId}/lock`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || 'Failed to lock access');
+        showToast('Student access locked.');
+        await fetchData();
+      } catch (err: any) {
+        showToast(err.message || 'Failed to lock access', 'error');
+      } finally {
+        setActionLoading(null);
+      }
+    });
   };
 
   const handleUnlockAccess = async (enrollmentId: string) => {
@@ -435,36 +432,24 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleResetDevice = async (userId: string, userName: string) => {
-    if (!confirm(`Are you sure you want to reset the device binding for ${userName}? This will allow them to login from a new device.`)) {
-      return;
-    }
-    
-    setActionLoading(`device-${userId}`);
-    try {
-      if (!token) {
-        throw new Error('Missing admin token');
+  const handleResetDevice = (userId: string, userName: string) => {
+    requireActionCode(async () => {
+      setActionLoading(`device-${userId}`);
+      try {
+        if (!token) throw new Error('Missing admin token');
+        const response = await fetch(`${API_BASE_URL}/auth/reset-device/${userId}`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || 'Failed to reset device');
+        showToast(`Device reset for ${userName}.`);
+      } catch (err: any) {
+        showToast(err.message || 'Failed to reset device', 'error');
+      } finally {
+        setActionLoading(null);
       }
-
-      const response = await fetch(`${API_BASE_URL}/auth/reset-device/${userId}`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to reset device');
-      }
-
-      alert(data.message || 'Device binding reset successfully');
-    } catch (err: any) {
-      console.error('Failed to reset device:', err);
-      alert(err.message || 'Failed to reset device');
-    } finally {
-      setActionLoading(null);
-    }
+    });
   };
 
   // Server-side search for students
@@ -566,10 +551,28 @@ export default function AdminDashboard() {
     return matchesStatus && matchesSearch;
   });
 
-  // Use server-side search results if available, otherwise show loaded users
-  const filteredStudents = studentSearchQuery.trim()
-    ? (studentSearchResults || [])
-    : recentLogins;
+  // Use server-side search results if available, otherwise filter/sort loaded users
+  const filteredAndSortedStudents = (() => {
+    let list = studentSearchQuery.trim() ? (studentSearchResults || []) : recentLogins;
+    // Filter by enrollment status
+    if (studentFilterStatus !== 'all') {
+      list = list.filter(u => {
+        const enrs = u.enrollments || [];
+        if (studentFilterStatus === 'approved') return enrs.some(e => e.status === 'approved' || e.status === 'active');
+        if (studentFilterStatus === 'pending') return enrs.some(e => e.status === 'pending');
+        if (studentFilterStatus === 'locked') return enrs.some(e => e.status === 'locked');
+        if (studentFilterStatus === 'none') return enrs.length === 0;
+        return true;
+      });
+    }
+    // Sort
+    if (studentSortBy === 'oldest') list = [...list].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    else if (studentSortBy === 'lastlogin') list = [...list].sort((a, b) => (b.last_login ? new Date(b.last_login).getTime() : 0) - (a.last_login ? new Date(a.last_login).getTime() : 0));
+    else list = [...list].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    return list;
+  })();
+  const paginatedStudents = filteredAndSortedStudents.slice((studentPage - 1) * STUDENTS_PER_PAGE, studentPage * STUDENTS_PER_PAGE);
+  const totalStudentPages = Math.ceil(filteredAndSortedStudents.length / STUDENTS_PER_PAGE);
 
   const normalizedPaymentSearch = paymentSearchQuery.trim().toLowerCase();
   const filteredPayments = monthlyPayments.filter((p) => {
@@ -704,10 +707,14 @@ export default function AdminDashboard() {
             <Unlock className="w-5 h-5" />
             <span>Unlock Course</span>
           </Link>
-          <a href="#" className="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-dark-300 rounded-lg transition-colors">
-            <BookOpen className="w-5 h-5" />
-            <span>Courses</span>
-          </a>
+          <Link href="/admin/reports" className="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-dark-300 rounded-lg transition-colors">
+            <BarChart2 className="w-5 h-5" />
+            <span>Reports</span>
+          </Link>
+          <Link href="/admin/history" className="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-dark-300 rounded-lg transition-colors">
+            <History className="w-5 h-5" />
+            <span>History</span>
+          </Link>
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-primary-900/30">
@@ -735,49 +742,107 @@ export default function AdminDashboard() {
         </header>
 
         <div className="p-6">
-          {/* Stats Cards */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="card">
+          {/* Stats Cards - 9 cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+            <div className="card p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Pending</p>
-                  <p className="text-3xl font-bold text-yellow-400">{stats.pendingEnrollments}</p>
+                  <p className="text-gray-400 text-xs">Pending</p>
+                  <p className="text-2xl font-bold text-yellow-400">{stats.pendingEnrollments}</p>
                 </div>
-                <div className="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-yellow-400" />
+                <div className="w-10 h-10 bg-yellow-500/10 rounded-lg flex items-center justify-center">
+                  <Clock className="w-5 h-5 text-yellow-400" />
                 </div>
               </div>
             </div>
-            <div className="card">
+            <div className="card p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Approved</p>
-                  <p className="text-3xl font-bold text-green-400">{stats.approvedEnrollments}</p>
+                  <p className="text-gray-400 text-xs">Approved</p>
+                  <p className="text-2xl font-bold text-green-400">{stats.approvedEnrollments}</p>
                 </div>
-                <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-green-400" />
+                <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
                 </div>
               </div>
             </div>
-            <div className="card">
+            <div className="card p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Total Students</p>
-                  <p className="text-3xl font-bold text-primary-400">{stats.totalStudents}</p>
+                  <p className="text-gray-400 text-xs">Locked</p>
+                  <p className="text-2xl font-bold text-red-400">{stats.lockedStudents}</p>
                 </div>
-                <div className="w-12 h-12 bg-primary-500/10 rounded-lg flex items-center justify-center">
-                  <Users className="w-6 h-6 text-primary-400" />
+                <div className="w-10 h-10 bg-red-500/10 rounded-lg flex items-center justify-center">
+                  <Lock className="w-5 h-5 text-red-400" />
                 </div>
               </div>
             </div>
-            <div className="card">
+            <div className="card p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Courses</p>
-                  <p className="text-3xl font-bold text-blue-400">{stats.totalCourses}</p>
+                  <p className="text-gray-400 text-xs">Active Today</p>
+                  <p className="text-2xl font-bold text-primary-400">{stats.activeToday}</p>
                 </div>
-                <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-blue-400" />
+                <div className="w-10 h-10 bg-primary-500/10 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-primary-400" />
+                </div>
+              </div>
+            </div>
+            <div className="card p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-xs">Total Students</p>
+                  <p className="text-2xl font-bold text-blue-400">{stats.totalStudents}</p>
+                </div>
+                <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                  <Users className="w-5 h-5 text-blue-400" />
+                </div>
+              </div>
+            </div>
+            <div className="card p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-xs">Courses</p>
+                  <p className="text-2xl font-bold text-purple-400">{stats.totalCourses}</p>
+                </div>
+                <div className="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-5 h-5 text-purple-400" />
+                </div>
+              </div>
+            </div>
+            <div className="card p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-xs">Today</p>
+                  <p className="text-2xl font-bold text-emerald-400">{stats.todayApprovals}</p>
+                  <p className="text-xs text-gray-500">approvals</p>
+                </div>
+                <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-emerald-400" />
+                </div>
+              </div>
+            </div>
+            <div className="card p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-xs">This Week</p>
+                  <p className="text-2xl font-bold text-orange-400">{stats.weekApprovals}</p>
+                  <p className="text-xs text-gray-500">approvals</p>
+                </div>
+                <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                  <BarChart2 className="w-5 h-5 text-orange-400" />
+                </div>
+              </div>
+            </div>
+            <div className="card p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-xs">This Month</p>
+                  <p className="text-2xl font-bold text-cyan-400">{stats.monthApprovals}</p>
+                  <p className="text-xs text-gray-500">approvals</p>
+                </div>
+                <div className="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-cyan-400" />
                 </div>
               </div>
             </div>
@@ -785,24 +850,42 @@ export default function AdminDashboard() {
 
           {/* All Students */}
           <div className="card mb-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white">All Students</h2>
-              <span className="text-sm text-gray-400">
-                {studentSearchQuery ? filteredStudents.length : stats.totalStudents} student{(studentSearchQuery ? filteredStudents.length : stats.totalStudents) === 1 ? '' : 's'}
-              </span>
+              <span className="text-sm text-gray-400">{filteredAndSortedStudents.length} student{filteredAndSortedStudents.length === 1 ? '' : 's'}</span>
             </div>
-
-            <div className="mb-6">
-              <div className="relative max-w-md">
+            {/* Filter + Search bar */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
+              <div className="relative flex-1">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <input
                   type="text"
                   value={studentSearchQuery}
-                  onChange={(e) => setStudentSearchQuery(e.target.value)}
-                  placeholder="Search by name or Student ID (USR-XXXXXX)"
-                  className="w-full pl-12 pr-4 py-3 bg-dark-400 border border-primary-900/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary-500"
+                  onChange={(e) => { setStudentSearchQuery(e.target.value); setStudentPage(1); }}
+                  placeholder="Search by name, email, or Student ID"
+                  className="w-full pl-12 pr-4 py-2.5 bg-dark-400 border border-primary-900/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 text-sm"
                 />
               </div>
+              <select
+                value={studentFilterStatus}
+                onChange={(e) => { setStudentFilterStatus(e.target.value); setStudentPage(1); }}
+                className="px-3 py-2.5 bg-dark-400 border border-primary-900/30 rounded-lg text-white text-sm focus:outline-none focus:border-primary-500"
+              >
+                <option value="all">All Status</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="locked">Locked</option>
+                <option value="none">No Course</option>
+              </select>
+              <select
+                value={studentSortBy}
+                onChange={(e) => { setStudentSortBy(e.target.value); setStudentPage(1); }}
+                className="px-3 py-2.5 bg-dark-400 border border-primary-900/30 rounded-lg text-white text-sm focus:outline-none focus:border-primary-500"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="lastlogin">Last Login</option>
+              </select>
             </div>
 
             <div className="overflow-x-auto">
@@ -819,19 +902,11 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {loading || studentSearching ? (
-                    <tr>
-                      <td colSpan={6} className="py-8 text-center text-gray-400">
-                        <Loader2 className="w-6 h-6 animate-spin mx-auto" />
-                      </td>
-                    </tr>
-                  ) : filteredStudents.length === 0 ? (
-                    <tr>
-                      <td colSpan={6} className="py-8 text-center text-gray-400">
-                        {studentSearchQuery.trim() ? 'No matching students found' : 'No login activity yet'}
-                      </td>
-                    </tr>
+                    <tr><td colSpan={6} className="py-8 text-center text-gray-400"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></td></tr>
+                  ) : paginatedStudents.length === 0 ? (
+                    <tr><td colSpan={6} className="py-8 text-center text-gray-400">{studentSearchQuery.trim() || studentFilterStatus !== 'all' ? 'No matching students found' : 'No students yet'}</td></tr>
                   ) : (
-                    filteredStudents.map((u) => (
+                    paginatedStudents.map((u) => (
                       <tr key={u.id} className="border-b border-primary-900/20 hover:bg-dark-300/30">
                         <td className="py-4 px-4">
                           <div>
@@ -1214,6 +1289,63 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
+
+      {/* Security Action Modal */}
+      {securityModal.open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="card max-w-sm w-full p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-yellow-500/10 rounded-lg flex items-center justify-center">
+                <Shield className="w-5 h-5 text-yellow-400" />
+              </div>
+              <div>
+                <h3 className="text-white font-bold">Security Confirmation</h3>
+                <p className="text-gray-400 text-sm">Enter your admin action code to continue</p>
+              </div>
+            </div>
+            <input
+              type="password"
+              value={securityModal.code}
+              onChange={(e) => setSecurityModal(s => ({ ...s, code: e.target.value }))}
+              onKeyDown={(e) => e.key === 'Enter' && handleSecurityConfirm()}
+              placeholder="Enter security code"
+              autoFocus
+              className="w-full px-4 py-3 bg-dark-400 border border-primary-900/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500 mb-4 tracking-widest text-center text-lg"
+            />
+            <div className="flex gap-3">
+              <button
+                onClick={() => setSecurityModal({ open: false, code: '', onConfirm: null, loading: false })}
+                className="flex-1 px-4 py-2.5 bg-dark-400 text-gray-300 rounded-lg hover:bg-dark-300 transition-colors text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSecurityConfirm}
+                disabled={securityModal.loading || !securityModal.code}
+                className="flex-1 px-4 py-2.5 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors text-sm font-medium disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {securityModal.loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notifications */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none">
+        {toasts.map(t => (
+          <div
+            key={t.id}
+            className={`px-4 py-3 rounded-lg text-sm font-medium shadow-lg pointer-events-auto flex items-center gap-2 ${
+              t.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+            }`}
+          >
+            {t.type === 'success' ? <CheckCircle className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
+            {t.message}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

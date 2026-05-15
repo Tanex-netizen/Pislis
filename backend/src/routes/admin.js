@@ -423,68 +423,57 @@ router.post('/enrollments/:id/reactivate', async (req, res) => {
 
 /**
  * GET /api/admin/stats
- * Get dashboard statistics
+ * Get dashboard statistics — accurate, real-time counts
  */
 router.get('/stats', async (req, res) => {
   try {
-    // Get total courses
-    const { count: totalCourses } = await supabase
-      .from('courses')
-      .select('id', { count: 'exact', head: true });
+    const now = new Date();
+    const todayStart = new Date(now); todayStart.setHours(0,0,0,0);
+    const weekStart = new Date(now); weekStart.setDate(now.getDate() - 7);
+    const monthStart = new Date(now); monthStart.setDate(now.getDate() - 30);
 
-    // Get total students
-    const { count: totalUsers } = await supabase
+    // Run all counts in parallel
+    const [
+      { count: totalCourses },
+      { count: totalStudents },
+      { data: enrollmentStatuses },
+      { count: todayApprovals },
+      { count: weekApprovals },
+      { count: monthApprovals },
+    ] = await Promise.all([
+      supabase.from('courses').select('id', { count: 'exact', head: true }),
+      supabase.from('users').select('id', { count: 'exact', head: true }).eq('role', 'student'),
+      supabase.from('enrollments').select('user_id, status').in('status', ['approved', 'active', 'locked', 'pending']),
+      supabase.from('enrollments').select('id', { count: 'exact', head: true }).in('status', ['approved', 'active']).gte('approved_at', todayStart.toISOString()),
+      supabase.from('enrollments').select('id', { count: 'exact', head: true }).in('status', ['approved', 'active']).gte('approved_at', weekStart.toISOString()),
+      supabase.from('enrollments').select('id', { count: 'exact', head: true }).in('status', ['approved', 'active']).gte('approved_at', monthStart.toISOString()),
+    ]);
+
+    // Compute unique student counts per status
+    const rows = enrollmentStatuses || [];
+    const approvedIds = new Set(rows.filter(e => e.status === 'approved' || e.status === 'active').map(e => e.user_id));
+    const lockedIds  = new Set(rows.filter(e => e.status === 'locked').map(e => e.user_id));
+    const pendingIds = new Set(rows.filter(e => e.status === 'pending').map(e => e.user_id));
+
+    // Active today: students who logged in today
+    const { count: activeToday } = await supabase
       .from('users')
       .select('id', { count: 'exact', head: true })
-      .eq('role', 'student');
-
-    // Get all students with their enrollment status counts
-    const { data: allUsers } = await supabase
-      .from('users')
-      .select(`
-        id,
-        enrollments!inner(status)
-      `)
-      .eq('role', 'student');
-
-    // Count students with no approved enrollments (pending students)
-    const { data: studentsWithApprovedEnrollments } = await supabase
-      .from('users')
-      .select('id')
       .eq('role', 'student')
-      .in('id', 
-        supabase
-          .from('enrollments')
-          .select('user_id')
-          .or('status.eq.approved,status.eq.active')
-      );
-
-    // Alternative approach: Get users with approved enrollments via a single query
-    const { data: usersWithEnrollments } = await supabase
-      .from('enrollments')
-      .select('user_id, status')
-      .or('status.eq.approved,status.eq.active');
-
-    // Get unique users with approved enrollments
-    const approvedUserIds = new Set(usersWithEnrollments?.map(e => e.user_id) || []);
-    const approvedCount = approvedUserIds.size;
-    const pendingCount = (totalUsers || 0) - approvedCount;
-
-    // Get recent enrollments
-    const { data: recentEnrollments } = await supabase
-      .from('enrollments')
-      .select('id, name, email, status, created_at, courses(title)')
-      .order('created_at', { ascending: false })
-      .limit(5);
+      .gte('last_login', todayStart.toISOString());
 
     res.json({
       stats: {
-        pendingEnrollments: Math.max(0, pendingCount),
-        approvedEnrollments: approvedCount,
+        pendingEnrollments: pendingIds.size,
+        approvedEnrollments: approvedIds.size,
+        lockedStudents: lockedIds.size,
+        activeToday: activeToday || 0,
+        totalStudents: totalStudents || 0,
         totalCourses: totalCourses || 0,
-        totalStudents: totalUsers || 0,
+        todayApprovals: todayApprovals || 0,
+        weekApprovals: weekApprovals || 0,
+        monthApprovals: monthApprovals || 0,
       },
-      recentEnrollments,
     });
   } catch (error) {
     console.error('Get stats error:', error);
@@ -492,9 +481,140 @@ router.get('/stats', async (req, res) => {
   }
 });
 
+/**
+ * POST /api/admin/verify-action-code
+ * Validate the admin security action code — never exposes the real code
+ */
+router.post('/verify-action-code', async (req, res) => {
+  try {
+    const { code } = req.body;
+    const validCode = process.env.ADMIN_ACTION_CODE;
+    if (!validCode) {
+      return res.status(500).json({ valid: false, error: 'Action code not configured on server' });
+    }
+    if (!code || String(code).trim() !== String(validCode).trim()) {
+      return res.status(403).json({ valid: false, error: 'Invalid security code' });
+    }
+    res.json({ valid: true });
+  } catch (error) {
+    console.error('Verify action code error:', error);
+    res.status(500).json({ valid: false, error: 'Internal server error' });
+  }
+});
+
+/**
+ * GET /api/admin/analytics
+ * Returns analytics data for the Reports page (last 30 days)
+ */
+router.get('/analytics', async (req, res) => {
+  try {
+    const now = new Date();
+    const thirtyDaysAgo = new Date(now); thirtyDaysAgo.setDate(now.getDate() - 30);
+
+    // Approvals over last 30 days (grouped by day)
+    const { data: approvals } = await supabase
+      .from('enrollments')
+      .select('approved_at')
+      .in('status', ['approved', 'active'])
+      .gte('approved_at', thirtyDaysAgo.toISOString())
+      .order('approved_at', { ascending: true });
+
+    // Enrollment counts (new signups per day for last 30 days)
+    const { data: signups } = await supabase
+      .from('users')
+      .select('created_at')
+      .eq('role', 'student')
+      .gte('created_at', thirtyDaysAgo.toISOString())
+      .order('created_at', { ascending: true });
+
+    // Status breakdown for pie chart
+    const { data: statusBreakdown } = await supabase
+      .from('enrollments')
+      .select('status');
+
+    const statusCounts = { approved: 0, active: 0, locked: 0, pending: 0, rejected: 0 };
+    (statusBreakdown || []).forEach(e => {
+      if (statusCounts[e.status] !== undefined) statusCounts[e.status]++;
+    });
+
+    // Group approvals by day
+    const approvalsByDay = {};
+    (approvals || []).forEach(e => {
+      const day = e.approved_at?.substring(0, 10);
+      if (day) approvalsByDay[day] = (approvalsByDay[day] || 0) + 1;
+    });
+
+    // Group signups by day
+    const signupsByDay = {};
+    (signups || []).forEach(e => {
+      const day = e.created_at?.substring(0, 10);
+      if (day) signupsByDay[day] = (signupsByDay[day] || 0) + 1;
+    });
+
+    // Build 30-day arrays
+    const days = [];
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(now.getDate() - i);
+      const key = d.toISOString().substring(0, 10);
+      days.push({
+        date: key,
+        approvals: approvalsByDay[key] || 0,
+        signups: signupsByDay[key] || 0,
+      });
+    }
+
+    res.json({
+      dailyData: days,
+      statusBreakdown: [
+        { name: 'Active', value: statusCounts.active + statusCounts.approved, color: '#22c55e' },
+        { name: 'Locked', value: statusCounts.locked, color: '#f97316' },
+        { name: 'Pending', value: statusCounts.pending, color: '#eab308' },
+        { name: 'Rejected', value: statusCounts.rejected, color: '#ef4444' },
+      ],
+    });
+  } catch (error) {
+    console.error('Analytics error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // ============================================================================
 // USER MANAGEMENT ENDPOINTS (for manual course unlocking)
 // ============================================================================
+
+/**
+ * GET /api/admin/logs
+ * Get admin activity logs from admin_logs table
+ */
+router.get('/logs', async (req, res) => {
+  try {
+    const { search, action, limit = 200 } = req.query;
+
+    let query = supabase
+      .from('admin_logs')
+      .select('id, action, admin_name, student_name, student_code, details, ip_address, created_at')
+      .order('created_at', { ascending: false })
+      .limit(Number(limit));
+
+    if (action && action !== 'all') query = query.eq('action', action);
+    if (search) query = query.or(`student_name.ilike.%${search}%,action.ilike.%${search}%`);
+
+    const { data: logs, error } = await query;
+
+    if (error) {
+      // Table may not exist yet — return empty gracefully
+      console.warn('admin_logs table query error:', error.message);
+      return res.json({ logs: [] });
+    }
+
+    res.json({ logs: logs || [] });
+  } catch (error) {
+    console.error('Get logs error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 /**
  * GET /api/admin/users
