@@ -48,6 +48,20 @@ const verifyToken = async (req, res, next) => {
         code: 'TOKEN_INVALID' 
       });
     }
+
+    // ============================================================
+    // FORCE GLOBAL LOGOUT
+    // Any token issued BEFORE this date is rejected.
+    // All users must re-login after this timestamp.
+    // To disable: set date far in the past (e.g. '2020-01-01')
+    // ============================================================
+    const FORCE_LOGOUT_BEFORE = new Date('2026-05-15T14:30:00Z');
+    if (decoded.iat && decoded.iat < Math.floor(FORCE_LOGOUT_BEFORE.getTime() / 1000)) {
+      return res.status(401).json({
+        error: 'Session expired. Please login again.',
+        code: 'TOKEN_EXPIRED'
+      });
+    }
     
     // Fetch user from database (include device_token for binding verification)
     const { data: user, error } = await supabase
