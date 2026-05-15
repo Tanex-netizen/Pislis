@@ -327,7 +327,7 @@ export default function ProfilePage() {
                   const courseOverrides: Record<string, { title?: string; thumbnail_url?: string }> = {
                     'fb-automation-mastery': {
                       title: 'Faceless Facebook Mastery',
-                      thumbnail_url: 'https://res.cloudinary.com/dwcxvaswf/image/upload/v1774255173/Faceless_Facebook_Mastery_uhlstt.png',
+                      thumbnail_url: '/thumbnail/FACEBOOK MASTERY.png',
                     },
                   };
                   const overrides = courseOverrides[enrollment.courses.slug] || {};

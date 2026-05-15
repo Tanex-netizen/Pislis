@@ -30,10 +30,10 @@ const R2_LESSONS_BASE_URL =
 
 // Debug: Log Cloudinary config
 if (typeof window !== 'undefined') {
-  console.log('🎬 Video Config:', { CLOUDINARY_CLOUD_NAME, R2_BUCKET });
-  console.log('🎥 R2 Lessons Base URL:', R2_LESSONS_BASE_URL);
+  console.log('Ã°Å¸Å½Â¬ Video Config:', { CLOUDINARY_CLOUD_NAME, R2_BUCKET });
+  console.log('Ã°Å¸Å½Â¥ R2 Lessons Base URL:', R2_LESSONS_BASE_URL);
   if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME) {
-    console.warn('⚠️ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is not set. Falling back to default cloud name; set it in your hosting env to avoid surprises.');
+    console.warn('Ã¢Å¡Â Ã¯Â¸Â NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is not set. Falling back to default cloud name; set it in your hosting env to avoid surprises.');
   }
 }
 
@@ -42,8 +42,8 @@ if (typeof window !== 'undefined') {
 // See R2_CORS_SETUP.md for instructions to enable R2 public access
 const normalizeFilenameKey = (value: string) =>
   value
-    .replace(/[’‘]/g, "'")
-    .replace(/[“”]/g, '"')
+    .replace(/[Ã¢â‚¬â„¢Ã¢â‚¬Ëœ]/g, "'")
+    .replace(/[Ã¢â‚¬Å“Ã¢â‚¬Â]/g, '"')
     .trim();
 
 const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = Object.fromEntries(
@@ -56,7 +56,6 @@ const VIDEO_SOURCES: Record<string, 'cloudinary' | 'r2'> = Object.fromEntries(
 // No longer using R2 - all videos are on Cloudinary with direct URLs in videoUrlOverride
 const LESSON_VIDEO_URL_OVERRIDES: Record<string, string> = {};
 
-type BrollCategory = 'anatomy' | 'foods' | 'people' | 'others';
 
 type BgmFile = {
   id: number;
@@ -66,7 +65,7 @@ type BgmFile = {
 
 // BGM and SFX files served locally from public/bgm-and-sfx
 const BGM_FILES: BgmFile[] = [
-  { id: 1, name: 'Ace of Base - All That She Wants', url: '/bgm-and-sfx/Ace of Base 🎼 All That She Wants.mp3' },
+  { id: 1, name: 'Ace of Base - All That She Wants', url: '/bgm-and-sfx/Ace of Base Ã°Å¸Å½Â¼ All That She Wants.mp3' },
   { id: 2, name: 'Else Paris', url: '/bgm-and-sfx/Else Paris.mp3' },
   { id: 3, name: 'Heaven Sent', url: '/bgm-and-sfx/Heaven Sent .mp3' },
   { id: 4, name: 'hell shee', url: '/bgm-and-sfx/hell shee.mp3' },
@@ -84,7 +83,7 @@ const BGM_FILES: BgmFile[] = [
   { id: 16, name: 'Transgender', url: '/bgm-and-sfx/Transgender.mp3' },
 ];
 
-type LessonCategory = 'ALL' | 'LEARN' | 'HACKS' | 'CREATE' | 'HISTORY';
+type LessonCategory = 'ALL' | 'LEARN' | 'FREE WAY' | 'PAID AI' | 'HACKS' | 'CREATE' | 'HISTORY';
 
 type LessonVideoEntry = {
   id: number;
@@ -108,163 +107,128 @@ type LessonVideoEntry = {
   }[];
 };
 
-// Lesson videos from public/Lessons folder - ordered properly
-// All videos are on Cloudinary with direct URLs
+// Lesson videos â€” ordered per course curriculum
 const LESSON_VIDEOS: LessonVideoEntry[] = [
+  // 1
   {
-    id: 1,
-    title: 'Introduction Video',
-    filename: 'introduction.mp4',
-    duration: 5,
-    thumbnail: '/thumbnail/INTRODUCTION.png',
-    vimeoId: '1186742022',
+    id: 101,
+    title: 'FACEBOOK FACELESS',
+    filename: 'FACEBOOK FACELESS.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/FACEBOOK FACELESS.png',
+    vimeoId: '1192460249?h=a872a340d9',
   },
-  {
-    id: 2,
-    title: 'What is Facebook Automation in Simple Explanation',
-    filename: 'LESSON 1. what is facebook automation in simple explanation.mp4',
-    duration: 10,
-    thumbnail: '/thumbnail/Facebook Automation Explained Simply.png',
-    vimeoId: '1186114323',
-  },
+  // 2
   {
     id: 3,
     title: 'Niches That Print Money',
     filename: 'Niches That Print Money.mp4',
     duration: 15,
-    thumbnail: '/thumbnail/Niches That Print Money.png',
+    thumbnail: '/thumbnail/NICHES THAT PRINT MONEY.png',
     vimeoId: '1186114388',
   },
+  // 3
+  {
+    id: 102,
+    title: 'NICHE AND STYLE',
+    filename: 'NICHE AND STYLE.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/NICHE AND STYLE.png',
+    vimeoId: '1192460255',
+    resources: [{ title: 'NICHES & STYLE', url: '/files/NICHES AND STYLE.pdf' }],
+  },
+  // 4
+  {
+    id: 103,
+    title: 'HOW TO TARGET US AUDIENCE',
+    filename: 'HOW TO TARGET US AUDIENCE.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/HOW TO TARGET US AUDIENCE.png',
+    vimeoId: '1192460266',
+    resources: [{ title: 'How to Target US Audience', url: '/files/def.pdf' }],
+  },
+  // 5
+  {
+    id: 105,
+    title: 'FB SET UP AND PAGE SET UP',
+    filename: 'FB SET UP AND PAGE SET UP.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/FB SET UP AND PAGE SET UP.png',
+    vimeoId: '1192460383',
+    resources: [{ title: 'PROMPT', url: '/files/PROMPT.pdf' }],
+  },
+  // 6
+  {
+    id: 106,
+    title: 'AI Generated Policies',
+    filename: 'AI Generated Policies.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/AI GENERATED POICIES..png',
+    vimeoId: '1192461093',
+    resources: [{ title: 'AI Generated Policies', url: '/files/AI generated Policies.jpg' }],
+  },
+  // 7
   {
     id: 4,
     title: 'How to Go Viral on Facebook Page',
     filename: 'HOW TO GO VIRAL ON FACEBOOK PAGE.mp4',
     duration: 15,
-    thumbnail: '/thumbnail/HOW TO GO VIRAL ON FACEBOOK PAGE.png',
+    thumbnail: '/thumbnail/HOW TO GO VIRAL ON FACEBOOK.png',
     vimeoId: '1186114435',
   },
-  {
-    id: 5,
-    title: 'Branding Page Setup',
-    filename: 'Branding Page Setup.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Branding Page Setup.png',
-    vimeoId: '1186114612',
-  },
-  {
-    id: 6,
-    title: 'Facebook Account Setup',
-    filename: 'Facebook Account Setup.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Facebook Account Setup.png',
-    vimeoId: '1186114787',
-  },
+  // 8
   {
     id: 7,
     title: 'Organic Growth How to Gain Followers Fast',
     filename: 'Organic Growth How to Gain Followers Fast.mp4',
     duration: 15,
-    thumbnail: '/thumbnail/Organic Growth How to Gain Followers Fast.png',
+    thumbnail: '/thumbnail/ORGANIC GROWTH HOW TO GAIN FOLLOWERS FAST.png',
     vimeoId: '1186114872',
   },
+  // 9
   {
     id: 35,
     title: "LET'S TALK ABOUT MONETIZATION",
     filename: "LET'S TALK ABOUT MONETIZATION.mp4",
     duration: 12,
-    thumbnail: "/thumbnail/LET'S TALK ABOUT MONETIZATION.png",
+    thumbnail: '/thumbnail/LETS TALK ABOUT MONETIZATION.png',
     vimeoId: '1186114930',
     externalLinks: [
-      {
-        title: 'How to Apply for Digital TIN ID Using ORUS',
-        url: 'https://youtu.be/YcuU-unmryA?si=aFsSfDsICWTICDCb',
-      },
-      {
-        title: 'HOW TO SET UP',
-        url: 'https://youtu.be/4R3EWyVhKM0?si=z_Var33jyZ7E9dxT',
-      },
+      { title: 'How to Apply for Digital TIN ID Using ORUS', url: 'https://youtu.be/YcuU-unmryA?si=aFsSfDsICWTICDCb' },
+      { title: 'HOW TO SET UP', url: 'https://youtu.be/4R3EWyVhKM0?si=z_Var33jyZ7E9dxT' },
     ],
-    resources: [
-      {
-        title: "LET'S TALK ABOUT MONETIZATION",
-        url: "/files/LET'S TALK ABOUT MONETIZATION.pdf",
-      }
-    ],
+    resources: [{ title: "LET'S TALK ABOUT MONETIZATION", url: "/files/LET'S TALK ABOUT MONETIZATION.pdf" }],
   },
+  // 10
   {
     id: 38,
     title: 'Avoiding Violations (Fix & Prevent)',
     filename: 'Avoiding Violations (Fix & Prevent).mp4',
     duration: 12,
-    thumbnail: '/thumbnail/Avoiding Violations (Fix & Prevent).png',
+    thumbnail: '/thumbnail/AVOIDING VIOLATIONS.png',
     vimeoId: '1186722240',
-    resources: [
-      {
-        title: 'Facebook Violations Guide',
-        url: '/files/FACEBOOK VIOLATIONS GUIDE.pdf',
-      }
-    ],
+    resources: [{ title: 'Facebook Violations Guide', url: '/files/FACEBOOK VIOLATIONS GUIDE.pdf' }],
   },
-  {
-    id: 8,
-    title: "The Do's and Don'ts",
-    filename: "23 The Do's and Don'ts.mp4",
-    duration: 15,
-    thumbnail: "/thumbnail/The Do's and Don'ts.png",
-    vimeoId: '1186114976',
-  },
-  {
-    id: 9,
-    title: 'Extra Tips Final',
-    filename: '13 . Extra tips final.mp4',
-    duration: 14,
-    thumbnail: '/thumbnail/Extra Tips Final.png',
-    vimeoId: '1186115002',
-  },
+  // 11
   {
     id: 37,
     title: 'AI Tools for Faceless Content',
     filename: 'AI Tools for Faceless Content.mp4',
     duration: 12,
-    thumbnail: '/thumbnail/AI Tools for Faceless Content.png',
+    thumbnail: '/thumbnail/AI TOOLS FOR FACELESS CONTENT.png',
     vimeoId: '1186722144',
-    resources: [
-      {
-        title: 'AI Tools for Faceless Content',
-        url: '/files/AI Tools for Faceless Content.pdf',
-      }
-    ],
+    resources: [{ title: 'AI Tools for Faceless Content', url: '/files/AI Tools for Faceless Content.pdf' }],
   },
+  // 12
   {
     id: 34,
     title: 'RESTRICT A SPECIFIC COUNTRY',
     filename: 'RESTRICT A SPECIFIC COUNTRY.mp4',
     duration: 12,
-    thumbnail: '/thumbnail/Restrict a Specific Country.png',
+    thumbnail: '/thumbnail/RESTRICT A SPECIFIC COUNTRY.png',
     vimeoId: '1186115214',
   },
-  {
-    id: 33,
-    title: 'Free 3 MONTHS CHATGPT GO',
-    filename: 'Free 3 MONTHS CHATGPT GO.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/Free 3 MONTHS CHATGPT GO.png',
-    vimeoId: '1186115251',
-  },
-  {
-    id: 36,
-    title: 'Free Capcut Pro',
-    filename: 'Free Capcut Pro.mp4',
-    duration: 10,
-    thumbnail: '/thumbnail/Free Cacput Pro.png',
-    vimeoId: '1186115378',
-    externalLinks: [
-      {
-        title: 'Join Telegram Access',
-        url: 'https://t.me/+XVXDbe5gwaZhMWE1',
-      },
-    ],
-  },
+  // 13
   {
     id: 10,
     title: 'HOW TO USE CAPCUT',
@@ -273,238 +237,26 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnail/HOW TO USE CAPCUT.png',
     vimeoId: '1186115127',
   },
+  // 14
   {
     id: 11,
     title: 'PC CapCut Bypass',
     filename: 'pc capcut bypass.mp4',
     duration: 15,
-    thumbnail: '/thumbnail/pc capcut bypass.png',
+    thumbnail: '/thumbnail/PC CAPCUT PRO BYPASS.png',
     vimeoId: '1186115654',
   },
+  // 15
   {
-    id: 12,
-    title: 'Saan I-Download ang Nakuhang Content na 1080P',
-    filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4',
+    id: 36,
+    title: 'Free Capcut Pro',
+    filename: 'Free Capcut Pro.mp4',
     duration: 10,
-    thumbnail: '/thumbnail/Where to Download 1080P Content.png',
-    vimeoId: '1186115684',
+    thumbnail: '/thumbnail/FREE CAPCUT PRO.png',
+    vimeoId: '1186115378',
+    externalLinks: [{ title: 'Join Telegram Access', url: 'https://t.me/+XVXDbe5gwaZhMWE1' }],
   },
-  {
-    id: 13,
-    title: 'Q&A Final',
-    filename: '11. Q&A final.mp4',
-    duration: 20,
-    thumbnail: '/thumbnail/Q&A.png',
-    vimeoId: '1186115711',
-  },
-  {
-    id: 14,
-    title: 'Create Content with Free Tools',
-    filename: 'Create Content with Free Tools.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Create Content with Free Tools.png',
-    vimeoId: '1186115563',
-  },
-  {
-    id: 15,
-    title: 'FACELESS FARM CONTENT GUIDE',
-    filename: 'FACLESS FARM CONTENT GUIDE.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/FACLESS FARM CONTENT GUIDE.png',
-    vimeoId: '1186116116',
-    resources: [
-      {
-        title: 'FACELESS FARM CONTENT GUIDE',
-        url: '/files/FACELESS FARM CONTENT GUIDE.pdf',
-      }
-    ],
-  },
-  {
-    id: 16,
-    title: 'HOW TO AVOID COPYRIGHT STRIKES',
-    filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
-    duration: 20,
-    thumbnail: '/thumbnail/HOW TO AVOID COPYRGHT STRIKES.png',
-    vimeoId: '1186116343',
-  },
-  {
-    id: 17,
-    title: 'HOW TO REUSE VIDEOS WITHOUT COPYRIGHT',
-    filename: 'hero.mp4',
-    duration: 10,
-    thumbnail: '/thumbnail/HOW TO REUSE VIDEOS WITHOUT COPYRIGHT.png',
-    vimeoId: '1186116375',
-  },
-  {
-    id: 18,
-    title: 'CONTENT CREATION VS DISTRIBUTION',
-    filename: 'Lesson-6-Sample Edit by my video editor II.mp4',
-    duration: 18,
-    thumbnail: '/thumbnail/CONTENT CREATION vs DISTRIBUTION.png',
-    vimeoId: '1186116393',
-  },
-  {
-    id: 19,
-    title: 'Paano Ako Kumita ng 6 Digits sa Story',
-    filename: 'Paano Ako Kumita ng 6 Digits sa Story.mp4',
-    duration: 22,
-    thumbnail: '/thumbnail/Paano Ako Kumita ng 6 Digits sa Story.png',
-    vimeoId: '1186116432',
-  },
-  {
-    id: 20,
-    title: 'From Basic to Advanced Image Creation',
-    filename: 'From Basic to Advanced Image Creation.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/From Basic to Advanced Image Creation.png',
-    vimeoId: '1186116467',
-    resources: [
-      {
-        title: 'Photo prompt',
-        url: '/files/Photo prompt.pdf',
-      }
-    ],
-  },
-  {
-    id: 21,
-    title: 'Sample Edit About Reaction Video Niche',
-    filename: '15. Sample edit about Reaction video Niche.mp4',
-    duration: 18,
-    thumbnail: '/thumbnail/Sample Edit About Reaction Video Niche.png',
-    vimeoId: '1186116545',
-  },
-  {
-    id: 22,
-    title: 'Skeleton Content Niche',
-    filename: 'Skeleton Content Niche.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Skeleton Content Niche.png',
-    vimeoId: '1186116645',
-    resources: [
-      {
-        title: 'Skeleton Prompt',
-        url: '/files/Skeleton Prompt.pdf',
-      }
-    ],
-  },
-  {
-    id: 23,
-    title: 'SKELETON WORKFLOW',
-    filename: 'SKELETON WORKFLOW.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/SKELETON WORKFLOW.png',
-    vimeoId: '1186116952',
-    resources: [
-      {
-        title: 'SKELETON WORKFLOW',
-        url: '/files/SKELETON WORKFLOW.pdf',
-      }
-    ],
-  },
-  {
-    id: 24,
-    title: '3D ANIMATION WORKFLOW',
-    filename: '3D ANIMATION WORKFLOW.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/3D Animation Workflow.png',
-    vimeoId: '1186117008',
-    resources: [
-      {
-        title: '3D Animation Workflow',
-        url: '/files/3D Animation Workflow.pdf',
-      }
-    ],
-  },
-  {
-    id: 25,
-    title: 'AI REMEDIES WORKFLOW',
-    filename: 'AI REMEDIES WORKFLOW.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/AI Remedies NIche.png',
-    vimeoId: '1186117031',
-    resources: [
-      {
-        title: 'AI REMEDIES WORKFLOW',
-        url: '/files/AI REMEDIES WORKFLOW.pdf',
-      }
-    ],
-  },
-  {
-    id: 26,
-    title: 'Animation Niche',
-    filename: 'Animation Niche.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Animation Niche.png',
-    vimeoId: '1186117066',
-    resources: [
-      {
-        title: '3D Animation Prompt',
-        url: '/files/3D Animation Prompt.pdf',
-      },
-      {
-        title: 'Fundamentals of Reels Animation',
-        url: '/files/Fundamentals of Reels Animation.pdf',
-      },
-    ],
-  },
-  {
-    id: 27,
-    title: 'AI Remedies Niche',
-    filename: 'AI Remedies NIche.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/AI Remedies NIche.png',
-    vimeoId: '1186117367',
-    resources: [
-      {
-        title: 'Remedies',
-        url: '/files/Remedies.pdf',
-      }
-    ],
-  },
-  {
-    id: 28,
-    title: 'How to Make an AI Object Talk 100% Free | By Darwin',
-    filename: 'Lesson 27. How to Make an AI Object Talk 100% Free | By Darwin.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Make AI Objects Talk for Free.png',
-    vimeoId: '1186117763',
-  },
-  {
-    id: 29,
-    title: 'Awareness!!',
-    filename: '21. Awareness!!.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/Awareness !!.png',
-    vimeoId: '1186117734',
-  },
-  {
-    id: 30,
-    title: 'How to Setup Payhip Store for your digital products',
-    filename: 'Lesson 26. How to Setup Payhip Store for your digital products.mp4',
-    duration: 15,
-    thumbnail: '/thumbnail/Set Up a Payhip Store for Digital Products.png',
-    videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
-    externalLinks: [
-      {
-        title: 'PAYHIP STORE SET UP',
-        url: 'https://youtu.be/V_fDDWyaMcg?si=Jzes_A2gjvGFdNPS',
-      },
-    ],
-  },
-  {
-    id: 31,
-    title: 'SCREENSHOT METHOD',
-    filename: 'SCREENSHOT METHOD.mp4',
-    duration: 12,
-    thumbnail: '/thumbnail/Screenshots Methods.png',
-    vimeoId: '1186117883',
-    resources: [
-      {
-        title: 'SCREENSHOTS METHOD',
-        url: '/files/SCREENSHOTS METHOD.pdf',
-      }
-    ],
-  },
+  // 16
   {
     id: 32,
     title: 'INTRODUCING STREVIO',
@@ -515,51 +267,149 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     externalLinkTitle: 'Open Strevio',
     externalLinkUrl: 'https://strevio.com/',
   },
+  // 17
+  {
+    id: 12,
+    title: 'Saan I-Download ang Nakuhang Content na 1080P',
+    filename: '16. SAAN I-DOWNLOAD ANG NAKUHANG CONTENT NA 1080P.mp4',
+    duration: 10,
+    thumbnail: '/thumbnail/SAAN I DOWNLOAD ANG NAKUHANG CLIP 1080P.png',
+    vimeoId: '1186115684',
+  },
+  // 18
+  {
+    id: 14,
+    title: 'Create Content with Free Tools',
+    filename: 'Create Content with Free Tools.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/CREATE CONTENT WITH FREE TOOLS.png',
+    vimeoId: '1186115563',
+  },
+  // 19
+  {
+    id: 15,
+    title: 'FACELESS FARM CONTENT GUIDE',
+    filename: 'FACLESS FARM CONTENT GUIDE.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/FACELESS FARM CONTENT.png',
+    vimeoId: '1186116116',
+    resources: [{ title: 'FACELESS FARM CONTENT GUIDE', url: '/files/FACELESS FARM CONTENT GUIDE.pdf' }],
+  },
+  // 20
+  {
+    id: 16,
+    title: 'HOW TO AVOID COPYRIGHT STRIKES',
+    filename: 'LESSON 5. VID EDITING BY MY VID EDITOR.mp4',
+    duration: 20,
+    thumbnail: '/thumbnail/HOW TO AVOID COPYRIGHT STRIKES.png',
+    vimeoId: '1186116343',
+  },
+  // 21
+  {
+    id: 20,
+    title: 'From Basic to Advanced Image Creation',
+    filename: 'From Basic to Advanced Image Creation.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/FROM BASIC TO ADVANCED IMAGE CREATION.png',
+    vimeoId: '1186116467',
+    resources: [{ title: 'Photo prompt', url: '/files/Photo prompt.pdf' }],
+  },
+  // 22
+  {
+    id: 19,
+    title: 'Paano Ako Kumita ng 6 Digits sa Story',
+    filename: 'Paano Ako Kumita ng 6 Digits sa Story.mp4',
+    duration: 22,
+    thumbnail: '/thumbnail/PAANO AKO KUMITA NG 6 DIGIITS SA STORY.png',
+    vimeoId: '1186116432',
+  },
+  // 23
+  {
+    id: 30,
+    title: 'How to Setup Payhip Store for your digital products',
+    filename: 'Lesson 26. How to Setup Payhip Store for your digital products.mp4',
+    duration: 15,
+    thumbnail: '/thumbnail/HOW TO SETUP PAYHIP STORE FOR YOUR DIGITAL PRODUCTS.png',
+    videoUrlOverride: 'https://vwpbdtglrkgmxuprtgpk.supabase.co/storage/v1/object/public/Pislis/Lesson%2026.%20How%20to%20Setup%20Payhip%20Store%20for%20your%20digital%20products.mp4',
+    externalLinks: [{ title: 'PAYHIP STORE SET UP', url: 'https://youtu.be/V_fDDWyaMcg?si=Jzes_A2gjvGFdNPS' }],
+  },
+  // 24
+  {
+    id: 108,
+    title: 'COMMON QUESTION',
+    filename: 'COMMON QUESTION.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/COMMON QUESTION.png',
+    vimeoId: '1192464311',
+  },
+  // 25
+  {
+    id: 104,
+    title: '3D Animation Style & General Niche',
+    filename: '3D Animation Style & General Niche.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/3D Animation Style and General Niche.png',
+    vimeoId: '1192460265',
+    resources: [{ title: '3D Animation Prompt', url: '/files/3D Animation Prompt.pdf' }],
+  },
+  // 26
+  {
+    id: 107,
+    title: 'SKELETON STYLE',
+    filename: 'SKELETON STYLE.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/SKELETON STYLE.png',
+    vimeoId: '1192464047',
+    resources: [
+      { title: 'SKELETON STRUCTURE PROMPT', url: '/files/SKELETON STRUCTURE PROMPT.pdf' },
+      { title: 'SKELETON WORKFLOW', url: '/files/SKELETON WORKFLOW.pdf' },
+    ],
+  },
+  // 27
+  {
+    id: 29,
+    title: 'Awareness!!',
+    filename: '21. Awareness!!.mp4',
+    duration: 12,
+    thumbnail: '/thumbnail/awareness!.png',
+    vimeoId: '1186117734',
+  },
 ];
 
-// Maps lesson ID → category (LEARN / HACKS / CREATE)
+// Maps lesson ID â†’ category
 const LESSON_CATEGORY_MAP: Record<number, LessonCategory> = {
   // LEARN
-  1: 'LEARN',  // Introduction Video
-  2: 'LEARN',  // What is Facebook Automation in Simple Explanation
-  6: 'LEARN',  // Facebook Account Setup
-  5: 'LEARN',  // Branding Page Setup
-  3: 'LEARN',  // Niches That Print Money
-  7: 'LEARN',  // Organic Growth How to Gain Followers Fast
-  38: 'LEARN', // Avoiding Violations (Fix & Prevent)
-  9: 'LEARN',  // Extra Tips Final
-  37: 'LEARN', // AI Tools for Faceless Content
-  13: 'LEARN', // Q&A Final
-  10: 'LEARN', // HOW TO USE CAPCUT
-  12: 'LEARN', // Saan I-Download ang Nakuhang Content na 1080P
-  29: 'LEARN', // Awareness!!
+  101: 'LEARN', // FACEBOOK FACELESS
+  3:   'LEARN', // Niches That Print Money
+  102: 'LEARN', // NICHE AND STYLE
+  103: 'LEARN', // HOW TO TARGET US AUDIENCE
+  106: 'LEARN', // AI Generated Policies
+  4:   'LEARN', // How to Go Viral on Facebook Page
+  7:   'LEARN', // Organic Growth How to Gain Followers Fast
+  35:  'LEARN', // LET'S TALK ABOUT MONETIZATION
+  38:  'LEARN', // Avoiding Violations (Fix & Prevent)
+  37:  'LEARN', // AI Tools for Faceless Content
+  10:  'LEARN', // HOW TO USE CAPCUT
+  12:  'LEARN', // Saan I-Download ang Nakuhang Content na 1080P
+  30:  'LEARN', // How to Setup Payhip Store
+  108: 'LEARN', // COMMON QUESTION
+  29:  'LEARN', // Awareness!!
   // HACKS
-  33: 'HACKS', // Free 3 MONTHS CHATGPT GO
-  36: 'HACKS', // Free Capcut Pro
-  11: 'HACKS', // PC CapCut Bypass
-  32: 'HACKS', // INTRODUCING STREVIO
-  34: 'HACKS', // RESTRICT A SPECIFIC COUNTRY
+  34:  'HACKS', // RESTRICT A SPECIFIC COUNTRY
+  11:  'HACKS', // PC CapCut Bypass
+  36:  'HACKS', // Free Capcut Pro
+  32:  'HACKS', // INTRODUCING STREVIO
+  19:  'HACKS', // Paano Ako Kumita ng 6 Digits sa Story
+  // FREE WAY
+  14:  'FREE WAY', // Create Content with Free Tools
+  15:  'FREE WAY', // FACELESS FARM CONTENT GUIDE
+  16:  'FREE WAY', // HOW TO AVOID COPYRIGHT STRIKES
+  20:  'FREE WAY', // From Basic to Advanced Image Creation
+  // PAID AI
+  104: 'PAID AI', // 3D Animation Style & General Niche
+  107: 'PAID AI', // SKELETON STYLE
   // CREATE
-  14: 'CREATE', // Create Content with Free Tools
-  15: 'CREATE', // FACELESS FARM CONTENT GUIDE
-  16: 'CREATE', // HOW TO AVOID COPYRIGHT STRIKES
-  17: 'CREATE', // HOW TO REUSE VIDEOS WITHOUT COPYRIGHT
-  18: 'CREATE', // CONTENT CREATION VS DISTRIBUTION
-  19: 'CREATE', // Paano Ako Kumita ng 6 Digits sa Story
-  20: 'CREATE', // From Basic to Advanced Image Creation
-  21: 'CREATE', // Sample Edit About Reaction Video Niche
-  22: 'CREATE', // Skeleton Content Niche
-  23: 'CREATE', // SKELETON WORKFLOW
-  24: 'CREATE', // 3D ANIMATION WORKFLOW
-  25: 'CREATE', // AI REMEDIES WORKFLOW
-  26: 'CREATE', // Animation Niche
-  27: 'CREATE', // AI Remedies Niche
-  28: 'CREATE', // How to Make an AI Object Talk 100% Free | By Darwin
-  30: 'CREATE', // How to Setup Payhip Store for your digital products
-  31: 'CREATE', // SCREENSHOT METHOD
-  8: 'CREATE', // The Do's and Don'ts
-  35: 'CREATE', // LET'S TALK ABOUT MONETIZATION
-  4: 'CREATE', // How to Go Viral on Facebook Page
+  105: 'CREATE',  // FB SET UP AND PAGE SET UP
 };
 
 const getLessonR2VideoUrl = (filename: string, variant: 'lessons' | 'root') => {
@@ -589,7 +439,7 @@ const getLessonCloudinaryVideoUrl = (filename: string) => {
     PUBLIC_ID_OVERRIDES[filename] ??
     filenameWithoutExt
       .replace(/ /g, '_')
-      .replace(/[’']/g, '')
+      .replace(/[Ã¢â‚¬â„¢']/g, '')
       .replace(/\u2019/g, '');
 
   const encodedPublicId = encodeURIComponent(rawPublicId);
@@ -637,57 +487,7 @@ const getLessonVideoUrl = (
   return getLessonCloudinaryVideoUrl(normalizedFilename);
 };
 
-interface BrollVideo {
-  id: number;
-  title: string;
-  filename: string;
-  url: string;
-  category: BrollCategory;
-}
 
-function VideoThumbnail({ src, title }: { src: string; title: string }) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
-  const [loadError, setLoadError] = useState(false);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry?.isIntersecting) {
-          setShouldLoad(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '200px 0px' }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={containerRef} className="absolute inset-0">
-      {shouldLoad && !loadError ? (
-        <video
-          src={src}
-          className="w-full h-full object-cover"
-          preload="metadata"
-          playsInline
-          muted
-          crossOrigin="anonymous"
-          onError={() => setLoadError(true)}
-          aria-label={title}
-        />
-      ) : (
-        <div className="w-full h-full bg-gray-800" />
-      )}
-    </div>
-  );
-}
 
 interface Lesson {
   id: string;
@@ -748,15 +548,8 @@ export default function CourseLearnPage() {
 
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<'lessons' | 'b-rolls' | 'files' | 'bgm' | 'webinar'>('lessons');
+  const [activeTab, setActiveTab] = useState<'lessons' | 'files' | 'bgm' | 'webinar'>('lessons');
   const [searchQuery, setSearchQuery] = useState('');
-  const [brollCategory, setBrollCategory] = useState<'all' | 'anatomy' | 'foods' | 'people' | 'others'>('all');
-  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
-
-  const [brollVideos, setBrollVideos] = useState<BrollVideo[]>([]);
-  const [brollLoading, setBrollLoading] = useState(false);
-  const [brollError, setBrollError] = useState<string | null>(null);
-  const [playingVideoError, setPlayingVideoError] = useState(false);
 
   const [courseFiles, setCourseFiles] = useState<any[]>([]);
   const [filesLoading, setFilesLoading] = useState(false);
@@ -779,7 +572,7 @@ export default function CourseLearnPage() {
   const [lessonVideoFallbackAttempts, setLessonVideoFallbackAttempts] = useState(0);
   const [lessonVideoRetryCount, setLessonVideoRetryCount] = useState(0);
 
-  // ─── Watch History ───────────────────────────────────────────────────────────
+  // ---- Watch History ----
   type WatchEntry = {
     title: string;
     thumbnail: string | null;
@@ -834,7 +627,7 @@ export default function CourseLearnPage() {
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     return 'Just now';
   }
-  // ─────────────────────────────────────────────────────────────────────────────
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
   // Comments state
   const [comments, setComments] = useState<any[]>([]);
@@ -853,7 +646,7 @@ export default function CourseLearnPage() {
   // reactions picker open for which comment
   const [reactPickerFor, setReactPickerFor] = useState<string | null>(null);
 
-  const EMOJIS = ['👍', '❤️', '😂', '😮', '🔥', '🙏'];
+  const EMOJIS = ['Ã°Å¸â€˜Â', 'Ã¢ÂÂ¤Ã¯Â¸Â', 'Ã°Å¸Ëœâ€š', 'Ã°Å¸ËœÂ®', 'Ã°Å¸â€Â¥', 'Ã°Å¸â„¢Â'];
 
   // Fetch comments when lesson changes
   useEffect(() => {
@@ -986,7 +779,7 @@ export default function CourseLearnPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVideoLesson]);
 
-  // ─── Vimeo Player: resume + progress save ────────────────────────────────────
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Vimeo Player: resume + progress save Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   useEffect(() => {
     if (!currentVideoLesson?.vimeoId || !iframeRef.current) return;
 
@@ -1050,7 +843,7 @@ export default function CourseLearnPage() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVideoLesson]);
-  // ─────────────────────────────────────────────────────────────────────────────
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
   // Scroll to top of lesson content whenever the lesson changes
   useEffect(() => {
@@ -1072,8 +865,6 @@ export default function CourseLearnPage() {
   const filteredLessons = useMemo(() => {
     const visible = LESSON_VIDEOS.filter(
       lesson =>
-        ((lesson.thumbnail && lesson.thumbnail.trim() !== '') ||
-          (!!lesson.videoUrlOverride && lesson.videoUrlOverride.startsWith('/'))) &&
         lesson.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     if (lessonCategory === 'HISTORY') {
@@ -1112,7 +903,7 @@ export default function CourseLearnPage() {
     return () => window.removeEventListener('beforeunload', handleUnload);
   }, [currentVideoLesson, user?.id]);
 
-  // Navigate to next lesson — respects filteredLessons so category/search context is honoured
+  // Navigate to next lesson Ã¢â‚¬â€ respects filteredLessons so category/search context is honoured
   const goToNextVideoLesson = () => {
     if (!currentVideoLesson) return;
     const currentIndex = filteredLessons.findIndex(l => l.id === currentVideoLesson.id);
@@ -1124,7 +915,7 @@ export default function CourseLearnPage() {
     }
   };
 
-  // Navigate to previous lesson — respects filteredLessons so category/search context is honoured
+  // Navigate to previous lesson Ã¢â‚¬â€ respects filteredLessons so category/search context is honoured
   const goToPrevVideoLesson = () => {
     if (!currentVideoLesson) return;
     const currentIndex = filteredLessons.findIndex(l => l.id === currentVideoLesson.id);
@@ -1141,41 +932,6 @@ export default function CourseLearnPage() {
   const isFirstLesson = currentVideoIndex === 0;
   const isLastLesson = currentVideoIndex === filteredLessons.length - 1;
 
-  // Fetch b-rolls when tab becomes active
-  useEffect(() => {
-    if (activeTab !== 'b-rolls') return;
-    if (brollVideos.length > 0) return; // Already have data
-
-    let isMounted = true;
-
-    setBrollLoading(true);
-    setBrollError(null);
-    console.log('[B-rolls] Fetching videos...');
-
-    fetch('/data/brolls.json')
-      .then(res => {
-        if (!isMounted) return;
-        console.log('[B-rolls] Response:', res.status);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data: BrollVideo[]) => {
-        if (!isMounted) return;
-        console.log('[B-rolls] Got', data.length, 'videos');
-        setBrollVideos(data);
-        setBrollLoading(false);
-      })
-      .catch(err => {
-        if (!isMounted) return;
-        console.error('[B-rolls] Error:', err);
-        setBrollError(err.message || 'Failed to load');
-        setBrollLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [activeTab, brollVideos.length]);
 
   // Fetch files when tab becomes active
   useEffect(() => {
@@ -1251,20 +1007,6 @@ export default function CourseLearnPage() {
     }
   }, [activeTab]);
 
-  const filteredBrolls = useMemo(() => {
-    const filtered = brollVideos.filter((video) => {
-      const matchesSearch = video.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = brollCategory === 'all' || video.category === brollCategory;
-      return matchesSearch && matchesCategory;
-    });
-    console.log('[B-rolls] Filtering:', {
-      totalVideos: brollVideos.length,
-      searchQuery,
-      brollCategory,
-      filteredCount: filtered.length
-    });
-    return filtered;
-  }, [brollVideos, searchQuery, brollCategory]);
 
   // First, get course ID from slug, then fetch content
   const fetchCourseContent = useCallback(async () => {
@@ -1532,18 +1274,7 @@ export default function CourseLearnPage() {
               >
                 Lessons
               </button>
-              <button
-                onClick={() => {
-                  setActiveTab('b-rolls');
-                  setSearchQuery('');
-                }}
-                className={`w-full px-4 py-3 text-sm font-medium transition-colors text-left border-l-2 ${activeTab === 'b-rolls'
-                    ? 'text-emerald-400 border-emerald-500 bg-emerald-500/10'
-                    : 'text-gray-400 border-transparent hover:text-gray-300 hover:bg-gray-800/50'
-                  }`}
-              >
-                B-rolls
-              </button>
+
               <button
                 onClick={() => {
                   setActiveTab('files');
@@ -1595,7 +1326,7 @@ export default function CourseLearnPage() {
 
                 </div>
                 <ul className="space-y-1">
-                  {LESSON_VIDEOS.filter(lesson => (lesson.thumbnail && lesson.thumbnail.trim() !== '') || (!!lesson.videoUrlOverride && lesson.videoUrlOverride.startsWith('/'))).map((lesson) => {
+                  {LESSON_VIDEOS.map((lesson) => {
                     const isCurrent = currentVideoLesson?.id === lesson.id;
                     const isUnlocked = isLessonUnlocked(lesson.id);
 
@@ -1624,10 +1355,11 @@ export default function CourseLearnPage() {
                           <div className="flex items-center gap-3 flex-1 min-w-0">
                             <div className="w-16 h-10 rounded-md overflow-hidden bg-gray-800 flex-shrink-0">
                               {lesson.thumbnail ? (
-                                // Public assets in `public/thumbnail` are served at `/thumbnail/...`
                                 <img src={lesson.thumbnail} alt={lesson.title} className="w-full h-full object-cover" />
                               ) : (
-                                <div className="w-full h-full bg-gray-800" />
+                                <div className="w-full h-full bg-gray-700 flex items-center justify-center">
+                                  <Play className="w-3 h-3 text-gray-500" />
+                                </div>
                               )}
                             </div>
 
@@ -1643,66 +1375,6 @@ export default function CourseLearnPage() {
               </>
             )}
 
-            {/* B-rolls Tab */}
-            {activeTab === 'b-rolls' && (
-              <div className="space-y-3 overflow-y-auto max-h-[calc(100vh-300px)]">
-                {brollLoading ? (
-                  <div className="text-center py-12">
-                    <p className="text-gray-400 text-sm">Loading b-rolls...</p>
-                  </div>
-                ) : brollError ? (
-                  <div className="text-center py-12">
-                    <p className="text-gray-400 text-sm">{brollError}</p>
-                  </div>
-                ) : filteredBrolls.length === 0 ? (
-                  <div className="text-center py-12">
-                    <p className="text-gray-400 text-sm">No b-rolls found</p>
-                  </div>
-                ) : (
-                  filteredBrolls.map((video) => (
-                    <div
-                      key={`sidebar-${video.id}-${video.url}`}
-                      className="group relative bg-gray-900/50 border border-gray-800 rounded-xl p-4 hover:bg-gray-900 hover:border-emerald-500/50 transition-all"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-24 h-16 bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden">
-                          <video
-                            key={`sidebar-video-${video.id}`}
-                            src={video.url}
-                            className="w-full h-full object-cover"
-                            preload="none"
-                            muted
-                            playsInline
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-white font-medium truncate group-hover:text-emerald-400 transition-colors">
-                            {video.title}
-                          </h4>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs px-2 py-0.5 bg-gray-800 text-gray-400 rounded-full capitalize">
-                              {video.category}
-                            </span>
-                            <span className="text-xs text-gray-500">MP4</span>
-                          </div>
-                        </div>
-                        <a
-                          href={video.url}
-                          download={video.filename}
-                          onClick={(e) => e.stopPropagation()}
-                          className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-                          title="Download video"
-                        >
-                          <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                          </svg>
-                        </a>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
 
             {/* Files Tab */}
             {activeTab === 'files' && (
@@ -1749,7 +1421,7 @@ export default function CourseLearnPage() {
 
           <div className="flex-1 min-w-0">
             <h1 className="font-semibold text-white truncate">
-              {activeTab === 'b-rolls' ? 'B-roll Videos' : activeTab === 'files' ? 'Course Files' : activeTab === 'bgm' ? 'BGM and SFX' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
+              {activeTab === 'files' ? 'Course Files' : activeTab === 'bgm' ? 'BGM and SFX' : activeTab === 'webinar' ? 'Webinar Archive' : currentVideoLesson ? `${currentVideoLesson.title}` : currentLesson?.title || 'Select a lesson'}
             </h1>
           </div>
 
@@ -1795,7 +1467,7 @@ export default function CourseLearnPage() {
                   ref={iframeRef}
                   key={`vimeo-${currentVideoLesson.vimeoId}`}
                   className="w-full h-full"
-                  src={`https://player.vimeo.com/video/${currentVideoLesson.vimeoId}?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479&dnt=1&share=0&pip=0&collections=0`}
+                  src={`https://player.vimeo.com/video/${currentVideoLesson.vimeoId}${currentVideoLesson.vimeoId.includes('?') ? '&' : '?'}title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479&dnt=1&share=0&pip=0&collections=0`}
                   title={currentVideoLesson.title}
                   frameBorder={0}
                   allow="autoplay; fullscreen"
@@ -2149,7 +1821,7 @@ export default function CourseLearnPage() {
 
                 {/* Category tabs */}
                 <div className="flex gap-2 mb-8 flex-wrap">
-                  {(['ALL', 'LEARN', 'HACKS', 'CREATE', 'HISTORY'] as LessonCategory[]).map((cat) => (
+                  {(['ALL', 'LEARN', 'FREE WAY', 'PAID AI', 'HACKS', 'HISTORY'] as LessonCategory[]).map((cat) => (
                     <button
                       key={cat}
                       onClick={() => setLessonCategory(cat)}
@@ -2166,7 +1838,7 @@ export default function CourseLearnPage() {
                           : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white border border-gray-700'
                         }`}
                     >
-                      {cat === 'HISTORY' ? '🕒 HISTORY' : cat}
+                      {cat === 'HISTORY' ? 'HISTORY' : cat}
                     </button>
                   ))}
                 </div>
@@ -2175,7 +1847,7 @@ export default function CourseLearnPage() {
                 {lessonCategory === 'HISTORY' && filteredLessons.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
                     <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center mb-4">
-                      <span className="text-3xl">🕒</span>
+                      <span className="text-3xl">Ã°Å¸â€¢â€™</span>
                     </div>
                     <p className="text-gray-400 font-medium mb-1">No watch history yet</p>
                     <p className="text-gray-600 text-sm">Start watching lessons and they'll appear here.</p>
@@ -2208,25 +1880,18 @@ export default function CourseLearnPage() {
                             {isUnlocked ? (
                               <>
                                 {lesson.thumbnail ? (
-                                  <img
-                                    src={lesson.thumbnail}
-                                    alt={lesson.title}
-                                    className="w-full h-full object-cover"
-                                  />
+                                  <img src={lesson.thumbnail} alt={lesson.title} className="absolute inset-0 w-full h-full object-cover" />
                                 ) : (
-                                  <video
-                                    src={getLessonVideoUrl(lesson.filename)}
-                                    className="w-full h-full object-cover"
-                                    preload="none"
-                                    muted
-                                  />
+                                  <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+                                    <Play className="w-10 h-10 text-gray-600" />
+                                  </div>
                                 )}
                                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                   <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center">
                                     <Play className="w-8 h-8 text-white ml-1" />
                                   </div>
                                 </div>
-                                {/* Red progress bar at bottom of thumbnail */}
+                                {/* Red progress bar at bottom of card */}
                                 {progress > 0 && (
                                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
                                     <div
@@ -2247,9 +1912,13 @@ export default function CourseLearnPage() {
                           {/* Card Content */}
                           <div className="p-4">
                             <div className="flex items-start justify-between gap-2 mb-2">
-                              <span className={`text-xs font-medium px-2 py-1 rounded-full ${catLabel === 'LEARN' ? 'bg-emerald-500/10 text-emerald-400' :
+                              <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                                  catLabel === 'LEARN' ? 'bg-emerald-500/10 text-emerald-400' :
+                                  catLabel === 'FREE WAY' ? 'bg-teal-500/10 text-teal-400' :
+                                  catLabel === 'PAID AI' ? 'bg-violet-500/10 text-violet-400' :
                                   catLabel === 'HACKS' ? 'bg-yellow-500/10 text-yellow-400' :
-                                    'bg-blue-500/10 text-blue-400'
+                                  catLabel === 'CREATE' ? 'bg-blue-500/10 text-blue-400' :
+                                  'bg-gray-500/10 text-gray-400'
                                 }`}>
                                 {catLabel}
                               </span>
@@ -2258,7 +1927,7 @@ export default function CourseLearnPage() {
                               }`}>
                               {lesson.title.replace(/^Lesson\s+\d+:\s*/i, '')}
                             </h3>
-                            {/* Last watched label — visible in ALL tabs if watched, prominent in HISTORY */}
+                            {/* Last watched label - visible in ALL tabs if watched, prominent in HISTORY */}
                             {histEntry && (
                               <p className="text-xs text-gray-500 mt-1">
                                 Last watched {timeAgo(histEntry.lastWatchedAt)}
@@ -2273,70 +1942,6 @@ export default function CourseLearnPage() {
               </div>
             )}
 
-            {activeTab === 'b-rolls' && (
-              <div className="w-full max-w-4xl mb-8">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    <input
-                      type="text"
-                      placeholder="Search b-rolls..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-emerald-500"
-                    />
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setBrollCategory('all')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'all'
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                        }`}
-                    >
-                      All
-                    </button>
-                    <button
-                      onClick={() => setBrollCategory('anatomy')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'anatomy'
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                        }`}
-                    >
-                      Anatomy
-                    </button>
-                    <button
-                      onClick={() => setBrollCategory('foods')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'foods'
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                        }`}
-                    >
-                      Foods
-                    </button>
-                    <button
-                      onClick={() => setBrollCategory('people')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'people'
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                        }`}
-                    >
-                      People
-                    </button>
-                    <button
-                      onClick={() => setBrollCategory('others')}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${brollCategory === 'others'
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                        }`}
-                    >
-                      Others
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {activeTab === 'files' && (
               <div className="w-full max-w-md mb-8">
@@ -2368,89 +1973,6 @@ export default function CourseLearnPage() {
               </div>
             )}
 
-            {/* B-rolls content */}
-            {activeTab === 'b-rolls' && (() => {
-              console.log('[B-rolls] Rendering:', { brollLoading, brollError, filteredBrollsLength: filteredBrolls.length });
-              return (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
-                  {brollLoading ? (
-                    <div className="col-span-full flex flex-col items-center justify-center h-[50vh] gap-4">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
-                      <p className="text-gray-400">Loading b-roll videos...</p>
-                      <p className="text-gray-600 text-sm">This may take a moment</p>
-                    </div>
-                  ) : brollError ? (
-                    <div className="col-span-full flex flex-col items-center justify-center h-[50vh] gap-4">
-                      <div className="text-red-500 text-center">
-                        <p className="font-semibold mb-2">Failed to load b-rolls</p>
-                        <p className="text-sm text-gray-400">{brollError}</p>
-                      </div>
-                      <button
-                        onClick={() => {
-                          setBrollVideos([]);
-                          setBrollError(null);
-                          setBrollLoading(false);
-                        }}
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
-                      >
-                        Retry
-                      </button>
-                    </div>
-                  ) : filteredBrolls.length === 0 ? (
-                    <div className="col-span-full flex items-center justify-center h-[50vh]">
-                      <p className="text-gray-500">
-                        {brollVideos.length === 0 ? 'No b-roll videos available' : 'No matching b-rolls found'}
-                      </p>
-                    </div>
-                  ) : (
-                    filteredBrolls.map((video) => (
-                      <div
-                        key={`broll-${video.id}-${video.url}`}
-                        className="group relative bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden hover:border-emerald-500/50 transition-all"
-                      >
-                        <div className="aspect-video bg-gray-800 flex items-center justify-center overflow-hidden relative">
-                          <VideoThumbnail src={video.url} title={video.title} />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                            <button
-                              onClick={() => {
-                                setPlayingVideoError(false);
-                                setPlayingVideo(video.url);
-                              }}
-                              className="p-3 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
-                              title="Play video"
-                            >
-                              <Play className="w-6 h-6 text-white" />
-                            </button>
-                            <a
-                              href={video.url}
-                              download={video.filename}
-                              onClick={(e) => e.stopPropagation()}
-                              className="p-3 bg-emerald-500 hover:bg-emerald-600 rounded-full transition-colors"
-                              title="Download video"
-                            >
-                              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                              </svg>
-                            </a>
-                          </div>
-                        </div>
-                        <div className="p-4">
-                          <h4 className="text-white font-medium group-hover:text-emerald-400 transition-colors">
-                            {video.title}
-                          </h4>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded-full capitalize">
-                              {video.category}
-                            </span>
-                            <span className="text-xs text-gray-500">MP4</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              );
-            })()}
 
             {/* Files content */}
             {activeTab === 'files' && (
@@ -2662,46 +2184,7 @@ export default function CourseLearnPage() {
           </div>
         )}
       </main>
-
-      {/* Video Player Modal */}
-      {playingVideo && (
-        <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={() => setPlayingVideo(null)}
-        >
-          <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={() => setPlayingVideo(null)}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
-            >
-              <X className="w-8 h-8" />
-            </button>
-            <video
-              src={playingVideo}
-              controls
-              autoPlay
-              playsInline
-              className="w-full rounded-lg"
-              onError={() => setPlayingVideoError(true)}
-            />
-
-            {playingVideoError && (
-              <div className="mt-4 bg-gray-900/60 border border-gray-800 rounded-lg p-4">
-                <p className="text-sm text-gray-300">
-                  This clip can’t be played in the browser (missing file / unsupported format / interrupted load).
-                </p>
-                <a
-                  href={playingVideo}
-                  download
-                  className="inline-flex mt-3 text-sm text-emerald-400 hover:text-emerald-300"
-                >
-                  Download this clip instead
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
+
