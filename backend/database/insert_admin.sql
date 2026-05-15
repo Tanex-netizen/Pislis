@@ -1,20 +1,14 @@
--- Update or insert admin user
--- Password: Pislis@123
+-- Insert admin user
+-- IMPORTANT: Set ADMIN_EMAIL and ADMIN_PASSWORD_HASH as environment variables.
+-- Generate a bcrypt hash for your password using: https://bcrypt-generator.com/
+-- Then run this SQL in Supabase SQL Editor with your real values.
 
--- First, update the old admin if it exists
-UPDATE users 
-SET email = 'pisliskontint@gmail.com',
-    password = '$2a$12$aHnSBkxOHTLiNY0ecKS3s.09r1CV0qtCdKwOeIu00ZX3SrfFFsGBC',
-    role = 'admin',
-    password_set = true
-WHERE email = 'admin@darwin.edu';
-
--- If no admin exists, insert new one
-INSERT INTO users (name, email, password, role, password_set)
-VALUES (
-  'Admin',
-  'pisliskontint@gmail.com',
-  '$2a$12$aHnSBkxOHTLiNY0ecKS3s.09r1CV0qtCdKwOeIu00ZX3SrfFFsGBC',
-  'admin',
-  true
-) ON CONFLICT (email) DO NOTHING;
+-- Example (replace placeholders with your actual values):
+-- INSERT INTO users (name, email, password, role, password_set)
+-- VALUES (
+--   'Admin',
+--   'your-admin-email@example.com',
+--   '$2a$12$YOUR_BCRYPT_HASH_HERE',
+--   'admin',
+--   true
+-- ) ON CONFLICT (email) DO NOTHING;

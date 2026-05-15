@@ -170,15 +170,11 @@ CREATE INDEX IF NOT EXISTS idx_course_access_token ON course_access(access_token
 CREATE INDEX IF NOT EXISTS idx_courses_status ON courses(status);
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
--- Insert default admin user (change password in production!)
-INSERT INTO users (name, email, password, role, password_set)
-VALUES (
-  'Admin',
-  'pisliskontint@gmail.com',
-  '$2a$12$aHnSBkxOHTLiNY0ecKS3s.09r1CV0qtCdKwOeIu00ZX3SrfFFsGBC', -- password: Pislis@123
-  'admin',
-  true
-) ON CONFLICT (email) DO NOTHING;
+-- Insert admin user (run separately with your real credentials - see insert_admin.sql)
+-- DO NOT hardcode real email or password here.
+-- INSERT INTO users (name, email, password, role, password_set)
+-- VALUES ('Admin', 'your-email@example.com', '$2a$12$YOUR_BCRYPT_HASH', 'admin', true)
+-- ON CONFLICT (email) DO NOTHING;
 
 -- Insert sample courses
 INSERT INTO courses (title, description, price, category, level, duration_hours, status)

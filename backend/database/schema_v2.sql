@@ -248,15 +248,11 @@ CREATE TRIGGER update_course_progress_updated_at BEFORE UPDATE ON course_progres
 -- SEED DATA
 -- =============================================================================
 
--- Insert default admin user (password: Pislis@123 - CHANGE IN PRODUCTION!)
-INSERT INTO users (name, email, password, role, password_set)
-VALUES (
-  'Admin',
-  'pisliskontint@gmail.com',
-  '$2a$12$aHnSBkxOHTLiNY0ecKS3s.09r1CV0qtCdKwOeIu00ZX3SrfFFsGBC', -- bcrypt hash for 'Pislis@123'
-  'admin',
-  true
-) ON CONFLICT (email) DO NOTHING;
+-- Insert admin user (run separately with your real credentials - see insert_admin.sql)
+-- DO NOT hardcode real email or password here.
+-- INSERT INTO users (name, email, password, role, password_set)
+-- VALUES ('Admin', 'your-email@example.com', '$2a$12$YOUR_BCRYPT_HASH', 'admin', true)
+-- ON CONFLICT (email) DO NOTHING;
 
 -- Insert sample course
 INSERT INTO courses (slug, title, short_description, description, price, original_price, category, level, duration_hours, status, learning_outcomes, requirements)

@@ -5,7 +5,7 @@
 // Set to `true`  → students see maintenance screen only.
 // Set to `false` → normal site access resumes.
 // ============================================================
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 export default function MaintenanceGate({ children }: { children: React.ReactNode }) {
   if (!MAINTENANCE_MODE) {
