@@ -378,6 +378,16 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnails/awareness.png',
     vimeoId: '1186117734',
   },
+  // 28
+  {
+    id: 109,
+    title: 'FACELESS NICHE',
+    filename: 'FACELESS NICHE.mp4',
+    duration: 12,
+    thumbnail: '/thumbnails/faceless-niche.png',
+    vimeoId: '1192868079?h=5d598cfb29',
+    resources: [{ title: 'Remedies', url: '/files/Remedies.pdf' }],
+  },
 ];
 
 // Maps lesson ID â†’ category
@@ -398,6 +408,7 @@ const LESSON_CATEGORY_MAP: Record<number, LessonCategory> = {
   30:  'LEARN', // How to Setup Payhip Store
   108: 'LEARN', // COMMON QUESTION
   29:  'LEARN', // Awareness!!
+  109: 'LEARN', // FACELESS NICHE
   // HACKS
   34:  'HACKS', // RESTRICT A SPECIFIC COUNTRY
   11:  'HACKS', // PC CapCut Bypass
