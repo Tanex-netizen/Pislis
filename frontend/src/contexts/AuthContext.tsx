@@ -92,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const fetchUser = async (authToken: string, retryCount = 0) => {
+  const fetchUser = async (authToken: string, retryCount = 0): Promise<void> => {
     const maxRetries = 3;
     const retryDelay = 2000; // 2 seconds
 
@@ -106,6 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (response.ok) {
         const data = await response.json();
         setUser(data.user);
+        setIsLoading(false);
       } else {
         // Check if device was changed/reset by admin
         const errorData = await response.json().catch(() => ({}));
@@ -118,6 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem('auth_token');
         setToken(null);
         setUser(null);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('Failed to fetch user:', error);
@@ -129,13 +131,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return fetchUser(authToken, retryCount + 1);
       }
       
+      // All retries exhausted
       localStorage.removeItem('auth_token');
       setToken(null);
       setUser(null);
-    } finally {
-      if (retryCount === 0 || retryCount >= maxRetries) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     }
   };
 

@@ -59,7 +59,7 @@ export default function HistoryPage() {
   });
   const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
   const totalPages = Math.ceil(filtered.length / PER_PAGE);
-  const uniqueActions = [...new Set(logs.map(l => l.action))];
+  const uniqueActions = Array.from(new Set(logs.map(l => l.action)));
 
   return (
     <div className="min-h-screen bg-dark-500 flex">

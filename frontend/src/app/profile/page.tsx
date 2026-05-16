@@ -151,16 +151,15 @@ export default function ProfilePage() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+          <p className="text-gray-400 text-sm">Loading your profile...</p>
+        </div>
       </div>
     );
-  }
-
-  if (!user) {
-    return null;
   }
 
   return (
@@ -327,7 +326,7 @@ export default function ProfilePage() {
                   const courseOverrides: Record<string, { title?: string; thumbnail_url?: string }> = {
                     'fb-automation-mastery': {
                       title: 'Faceless Facebook Mastery',
-                      thumbnail_url: '/thumbnail/FACEBOOK MASTERY.png',
+                      thumbnail_url: '/thumbnails/facebook-mastery.png',
                     },
                   };
                   const overrides = courseOverrides[enrollment.courses.slug] || {};

@@ -207,8 +207,13 @@ export default function AdminDashboard() {
         setStats({
           pendingEnrollments: 0,
           approvedEnrollments: 0,
+          lockedStudents: 0,
+          activeToday: 0,
           totalCourses: 0,
           totalStudents: 0,
+          todayApprovals: 0,
+          weekApprovals: 0,
+          monthApprovals: 0,
         });
         return;
       }
