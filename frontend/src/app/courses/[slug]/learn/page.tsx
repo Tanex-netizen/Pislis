@@ -323,6 +323,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     thumbnail: '/thumbnails/from-basic-to-advanced-image-creation.png',
     vimeoId: '1186116467',
     resources: [{ title: 'Photo prompt', url: '/files/Photo prompt.pdf' }],
+    externalLinks: [{ title: 'Canva Team Invite', url: 'https://www.canva.com/brand/join?token=BoSL0_UUUKhZIp5EuDhIYw&referrer=team-invite' }],
   },
   // 22
   {
@@ -1670,25 +1671,6 @@ export default function CourseLearnPage() {
               </div>
             </div>
 
-            {/* External Links (Multiple) */}
-            {currentVideoLesson.externalLinks && currentVideoLesson.externalLinks.length > 0 && (
-              <div className="mb-6 space-y-2">
-                {currentVideoLesson.externalLinks.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    {link.title}
-                  </a>
-                ))}
-              </div>
-            )}
             {currentVideoLesson.externalLinkUrl && currentVideoLesson.externalLinkTitle ? (
               <div className="mb-6">
                 <a
@@ -1725,6 +1707,26 @@ export default function CourseLearnPage() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {/* External Links (Multiple) — rendered after resources */}
+            {currentVideoLesson.externalLinks && currentVideoLesson.externalLinks.length > 0 && (
+              <div className="mb-6 space-y-2">
+                {currentVideoLesson.externalLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    {link.title}
+                  </a>
+                ))}
               </div>
             )}
 
