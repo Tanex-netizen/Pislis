@@ -109,6 +109,15 @@ type LessonVideoEntry = {
 
 // Lesson videos â€” ordered per course curriculum
 const LESSON_VIDEOS: LessonVideoEntry[] = [
+  // 0
+  {
+    id: 110,
+    title: 'Introduction Video',
+    filename: 'Introduction Video.mp4',
+    duration: 10,
+    thumbnail: '/thumbnails/introduction-video.jpg',
+    vimeoId: '1193122511?h=171c0b7404',
+  },
   // 1
   {
     id: 101,
@@ -393,6 +402,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
 // Maps lesson ID â†’ category
 const LESSON_CATEGORY_MAP: Record<number, LessonCategory> = {
   // LEARN
+  110: 'LEARN', // Introduction Video
   101: 'LEARN', // FACEBOOK FACELESS
   3:   'LEARN', // Niches That Print Money
   102: 'LEARN', // NICHE AND STYLE
@@ -408,7 +418,6 @@ const LESSON_CATEGORY_MAP: Record<number, LessonCategory> = {
   30:  'LEARN', // How to Setup Payhip Store
   108: 'LEARN', // COMMON QUESTION
   29:  'LEARN', // Awareness!!
-  109: 'LEARN', // FACELESS NICHE
   // HACKS
   34:  'HACKS', // RESTRICT A SPECIFIC COUNTRY
   11:  'HACKS', // PC CapCut Bypass
@@ -423,6 +432,7 @@ const LESSON_CATEGORY_MAP: Record<number, LessonCategory> = {
   // PAID AI
   104: 'PAID AI', // 3D Animation Style & General Niche
   107: 'PAID AI', // SKELETON STYLE
+  109: 'PAID AI', // FACELESS NICHE
   // CREATE
   105: 'CREATE',  // FB SET UP AND PAGE SET UP
 };
