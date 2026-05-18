@@ -115,7 +115,7 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     title: 'Introduction Video',
     filename: 'Introduction Video.mp4',
     duration: 10,
-    thumbnail: '/thumbnails/introduction-video.jpg',
+    thumbnail: '/thumbnails/introduction-video.png',
     vimeoId: '1193122511?h=171c0b7404',
   },
   // 1
