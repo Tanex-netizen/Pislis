@@ -398,6 +398,16 @@ const LESSON_VIDEOS: LessonVideoEntry[] = [
     vimeoId: '1192868079?h=5d598cfb29',
     resources: [{ title: 'Remedies', url: '/files/Remedies.pdf' }],
   },
+  // 29
+  {
+    id: 111,
+    title: 'FREE AI IMAGE TO VIDEO TOOLS',
+    filename: 'FREE AI IMAGE TO VIDEO TOOLS.mp4',
+    duration: 12,
+    thumbnail: '/thumbnails/free-ai-image-to-video-tools.png',
+    vimeoId: '1194270854?h=c32fbd7a84',
+    resources: [{ title: 'FREE AI TOOLS FOR IMAGE TO VIDEO', url: '/files/FREE AI TOOLS FOR IMAGE TO VIDEO.pdf' }],
+  },
 ];
 
 // Maps lesson ID â†’ category
@@ -430,6 +440,7 @@ const LESSON_CATEGORY_MAP: Record<number, LessonCategory> = {
   15:  'FREE WAY', // FACELESS FARM CONTENT GUIDE
   16:  'FREE WAY', // HOW TO AVOID COPYRIGHT STRIKES
   20:  'FREE WAY', // From Basic to Advanced Image Creation
+  111: 'FREE WAY', // FREE AI IMAGE TO VIDEO TOOLS
   // PAID AI
   104: 'PAID AI', // 3D Animation Style & General Niche
   107: 'PAID AI', // SKELETON STYLE
