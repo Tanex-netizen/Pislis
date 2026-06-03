@@ -20,6 +20,13 @@ import {
 } from 'lucide-react';
 import VIDEO_SOURCES_RAW from '@/data/video-sources.json';
 
+// ============================================================
+// MIGRATION MODE
+// Set to `true`  → students see the migration announcement only.
+// Set to `false` → full lesson interface is restored.
+// ============================================================
+const MIGRATION_MODE = true;
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dwcxvaswf';
 const R2_ACCOUNT_ID = '6979f6d58b951631b6a5585a10376a27';
@@ -1281,6 +1288,119 @@ export default function CourseLearnPage() {
   const currentLessonVideoUrl = currentLesson
     ? LESSON_CONTENT_OVERRIDES[currentLesson.title] ?? currentLesson.video_url
     : null;
+
+  // ── MIGRATION MODE: show announcement instead of lesson UI ──
+  if (MIGRATION_MODE) {
+    return (
+      <>
+        <Navbar />
+        <main className="min-h-screen bg-gray-950 pt-24 pb-16 flex items-start justify-center">
+          <div className="w-full max-w-xl px-4 mt-4">
+
+            {/* Badge */}
+            <div className="flex justify-center mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-amber-400/10 border border-amber-400/30 text-amber-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block" />
+                Website Migrated
+              </span>
+            </div>
+
+            <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-emerald-950/50 via-gray-900/70 to-gray-900/50 p-6 sm:p-10 shadow-xl shadow-emerald-900/20 relative overflow-hidden">
+              {/* Top glow line */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-px bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
+              {/* Ambient glow */}
+              <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-emerald-500/5 blur-3xl pointer-events-none" />
+
+              {/* Header */}
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
+                  <span className="text-3xl leading-none">🚀</span>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/70 mb-1">Announcement</p>
+                  <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight">New Course Website Available</h1>
+                  <p className="text-sm text-gray-300 mt-1.5 leading-relaxed">
+                    We now have a new website for course access.
+                  </p>
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <a
+                href="https://pesles.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-gray-950 font-bold text-base transition-all duration-200 shadow-lg shadow-emerald-900/40 hover:shadow-emerald-700/50 mb-5 group"
+              >
+                <span>Go to New Website</span>
+                <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+              </a>
+
+              {/* Highlighted link */}
+              <div className="mb-6 flex items-center gap-2 px-3 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
+                <a
+                  href="https://pesles.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-300 font-semibold text-sm sm:text-base hover:text-emerald-200 underline underline-offset-2 break-all"
+                >
+                  https://pesles.vercel.app
+                </a>
+              </div>
+
+              {/* Steps */}
+              <div className="mb-6">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">How to get started</p>
+                <ol className="space-y-3">
+                  <li className="flex items-start gap-3 text-sm text-gray-300">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[11px] font-bold text-emerald-400 mt-0.5">1</span>
+                    <span>
+                      Just log in using your account at{' '}
+                      <a href="https://pilis.onrender.com" className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300 font-medium" target="_blank" rel="noopener noreferrer">pilis.onrender.com</a>
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-gray-300">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[11px] font-bold text-emerald-400 mt-0.5">2</span>
+                    <span>The system will automatically detect your account and log you in.</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-gray-300">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[11px] font-bold text-emerald-400 mt-0.5">3</span>
+                    <span>
+                      After logging in, go to <span className="text-white font-semibold">Profile Settings</span> and connect your Discord account.
+                    </span>
+                  </li>
+                </ol>
+              </div>
+
+              {/* Support */}
+              <div className="pt-4 border-t border-gray-700/60 text-center">
+                <p className="text-sm text-gray-400">
+                  Account denied or experiencing issues? Message Telegram support:
+                </p>
+                <a
+                  href="https://t.me/centssupport"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 mt-2 text-sky-400 hover:text-sky-300 font-bold text-base"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.247-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.12 14.026l-2.96-.924c-.643-.204-.657-.643.136-.953l11.547-4.453c.537-.194 1.006.131.72.551z"/></svg>
+                  @centssupport
+                </a>
+              </div>
+            </div>
+
+            {/* Back to profile link */}
+            <div className="mt-6 text-center">
+              <a href="/profile" className="text-sm text-gray-500 hover:text-gray-400 underline underline-offset-2">
+                ← Back to Profile
+              </a>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <div className="h-screen bg-gray-950 flex overflow-hidden">

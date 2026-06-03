@@ -55,8 +55,82 @@ function LoginForm() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-950 pt-24 pb-16 flex items-center justify-center">
-        <div className="w-full max-w-md px-4">
+      <main className="min-h-screen bg-gray-950 pt-24 pb-16 flex items-start justify-center">
+        <div className="w-full max-w-md px-4 mt-4">
+
+          {/* ── Migration Announcement ── */}
+          <div className="mb-5 relative">
+            {/* Badge */}
+            <div className="flex justify-center mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-amber-400/10 border border-amber-400/30 text-amber-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block" />
+                Website Migrated
+              </span>
+            </div>
+
+            <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-emerald-950/60 via-gray-900/80 to-gray-900/60 p-6 shadow-lg shadow-emerald-900/20 backdrop-blur-sm">
+              {/* Glow accent */}
+              <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
+
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl leading-none">🚀</span>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/70 mb-0.5">Announcement</p>
+                  <h2 className="text-base font-bold text-white leading-tight">New Course Website Available</h2>
+                </div>
+              </div>
+
+              <p className="text-sm text-gray-300 mb-4 leading-relaxed">
+                We now have a new website for course access.
+              </p>
+
+              {/* CTA Button */}
+              <a
+                href="https://pesles.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-bold text-sm transition-all duration-200 shadow-md shadow-emerald-900/40 hover:shadow-emerald-700/50 mb-4 group"
+              >
+                <span>Go to New Website</span>
+                <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+              </a>
+
+              {/* Steps */}
+              <ol className="space-y-2 text-xs text-gray-400">
+                <li className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold text-emerald-400">1</span>
+                  Log in using your account at{' '}
+                  <a href="https://pilis.onrender.com" className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300" target="_blank" rel="noopener noreferrer">pilis.onrender.com</a>
+                </li>
+                <li className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold text-emerald-400">2</span>
+                  The system will automatically detect and log you in.
+                </li>
+                <li className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold text-emerald-400">3</span>
+                  Go to <span className="text-white font-medium">Profile Settings</span> and connect your Discord account.
+                </li>
+              </ol>
+
+              {/* Support */}
+              <div className="mt-4 pt-3 border-t border-gray-700/60">
+                <p className="text-xs text-gray-500 text-center">
+                  Issues or denied access?{' '}
+                  <a
+                    href="https://t.me/centssupport"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sky-400 hover:text-sky-300 font-medium"
+                  >
+                    @centssupport
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8">
             {/* Header */}
             <div className="text-center mb-8">

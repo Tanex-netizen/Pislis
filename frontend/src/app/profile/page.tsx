@@ -167,6 +167,95 @@ export default function ProfilePage() {
       <Navbar />
       <main className="min-h-screen bg-gray-950 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* ── Migration Announcement ── */}
+          <div className="mb-8 relative">
+            {/* Badge */}
+            <div className="flex justify-center mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-amber-400/10 border border-amber-400/30 text-amber-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block" />
+                Website Migrated
+              </span>
+            </div>
+
+            <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-emerald-950/50 via-gray-900/70 to-gray-900/50 p-6 sm:p-8 shadow-xl shadow-emerald-900/20 relative overflow-hidden">
+              {/* Top glow line */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
+              {/* Background shimmer */}
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-emerald-500/5 blur-2xl pointer-events-none" />
+
+              {/* Header row */}
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl leading-none">🚀</span>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/70 mb-0.5">Announcement</p>
+                  <h2 className="text-lg sm:text-xl font-bold text-white leading-tight">New Course Website Available</h2>
+                  <p className="text-sm text-gray-300 mt-1 leading-relaxed">
+                    We now have a new website for course access.
+                  </p>
+                </div>
+              </div>
+
+              {/* Main CTA Button */}
+              <a
+                href="https://pesles.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-bold text-sm sm:text-base transition-all duration-200 shadow-lg shadow-emerald-900/40 hover:shadow-emerald-700/50 mb-5 group"
+              >
+                <span>Go to New Website</span>
+                <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+              </a>
+
+              {/* New site link highlight */}
+              <div className="mb-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                <svg className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
+                <a
+                  href="https://pesles.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-300 font-semibold text-sm hover:text-emerald-200 underline underline-offset-2"
+                >
+                  https://pesles.vercel.app
+                </a>
+              </div>
+
+              {/* Steps */}
+              <ol className="space-y-2.5 text-xs text-gray-400 mb-4">
+                <li className="flex items-start gap-2.5">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold text-emerald-400 mt-0.5">1</span>
+                  <span>Log in using your account at{' '}
+                    <a href="https://pilis.onrender.com" className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300" target="_blank" rel="noopener noreferrer">pilis.onrender.com</a>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold text-emerald-400 mt-0.5">2</span>
+                  <span>The system will automatically detect your account and log you in.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold text-emerald-400 mt-0.5">3</span>
+                  <span>Go to <span className="text-white font-medium">Profile Settings</span> and connect your Discord account.</span>
+                </li>
+              </ol>
+
+              {/* Support */}
+              <div className="pt-3 border-t border-gray-700/60">
+                <p className="text-xs text-gray-500 text-center">
+                  Account denied or experiencing issues?{' '}
+                  <a
+                    href="https://t.me/centssupport"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sky-400 hover:text-sky-300 font-semibold"
+                  >
+                    @centssupport
+                  </a>{' '}on Telegram
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Profile Header */}
           <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8 mb-8">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
